@@ -1,0 +1,22 @@
+# --- data & artifacts kept OUT of the repo -------------------------------
+# ContractNLI (CC BY 4.0) is fetched locally, not redistributed here.
+data/official/
+vendor/
+# Frozen manifests embed contract-clause text -> regenerate from the seed instead.
+data/manifests/*.json
+data/micro_contracts.json
+# Run outputs, caches (model I/O), logs.
+outputs/
+*.log
+
+# --- python ---------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.env.*
+
+# --- os -------------------------------------------------------------------
+.DS_Store

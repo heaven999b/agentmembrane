@@ -1,0 +1,10 @@
+[project]
+name = "agentmembrane-pilot"
+version = "0.1.0"
+description = "Minimal AgentMembrane authority and semantic-boundary pilot"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+

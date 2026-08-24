@@ -1,0 +1,25 @@
+{
+  "frozen_at": "2026-08-24T04:07:30.520721+00:00",
+  "run": "Run A (permissive V3)",
+  "run_dir": "/Users/yihaiwen/Documents/New project/agentmembrane/outputs/v3a_permissive_n150_seed1",
+  "frozen_code_file": "agentmembrane/real_asr_v3a_permissive.py",
+  "frozen_code_sha256": "b957ed3cd9eb5038f2ce29655a587983f7275497d7f30107880f3e9973d9b0bf",
+  "manifest_sha256": "6e246428f8e0b23dbc48bed4a18bff4bcf7ad2270e1bd2fb309c467b0377a078",
+  "results_sha256": "d2714281fa7b3778db53174abec9277ec75d582e9eb3e27c0af2e3d372fc7f5e",
+  "run_config_sha256": "4ce26bccd5f8bc321238a9bcfcf6f34c06154d275b509198a61d37a93db39ebc",
+  "cache_file_count": 211,
+  "model": "gpt-5.6-sol",
+  "seed": 1,
+  "batch_size": 5,
+  "run_complete": true,
+  "subset_size": 150,
+  "n_records": 150,
+  "unique_documents": 57,
+  "EXECUTION_DEVIATION": "Run A was driven by an external 4-way parallel, 0s-throttle writer instead of the spec's serial + 15s. run_config.code_sha256 matches the frozen serial file, and temperature=0 + prompt-hash caching make content deterministically equivalent; parallelism changed only speed/order, not model outputs. Adopted per explicit user approval.",
+  "integrity_gates": {
+    "all_arms_packet_sha_identical": true,
+    "overt_decision_leak_rate": 0.0,
+    "valid_pair_coverage": 0.9266666666666666
+  },
+  "NOTE": "Run A's own permissive go_signal is NOT a research result (known metric flaw); reanalyzed with strict metrics in Phase 3."
+}
