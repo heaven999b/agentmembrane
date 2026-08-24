@@ -52,19 +52,32 @@ future agent's decision. The harness is built so this cannot be faked:
    deducted) as the GO driver, a semantic answer-leak auditor, raw-schema violations
    that are not silently cleaned, and default request throttling.
 
-## Layout
+## Repository structure
+
+Code, prose, result data, and dataset are kept in separate top-level areas so each can
+be read, cited, or replaced on its own:
 
 ```
-agentmembrane/real_asr_v3.py            strict V3B harness (four arms, net-effect GO)
+agentmembrane/     CODE — source package (harnesses, comparison tool, runtime)
+tests/             CODE — 36 offline tests (no model calls)
+tools/             CODE — dev utilities (live monitor dashboard)
+docs/              REPORTS — PROPOSAL.md (research plan) + RESULTS.md (write-up + caveats)
+results/           RESULT DATA — aggregate metrics only, no contract text (JSON)
+data/              DATASET — how to obtain ContractNLI (raw data is NOT redistributed)
+README.md          this file · pyproject.toml · .gitignore
+```
+
+Key modules:
+
+```
+agentmembrane/real_asr_v3.py              strict V3B harness (four arms, net-effect GO)
 agentmembrane/real_asr_v3a_permissive.py  frozen permissive harness (Run A)
 agentmembrane/compare_real_asr_v3_ab.py   strict reanalysis of Run A + A/B comparison
 agentmembrane/{kernel,memory,proxy,...}.py  minimal capability/quarantine runtime
-tests/                                   36 offline tests (no model calls)
-docs/PROPOSAL.md                         research plan (chosen direction)
-results/                                 aggregate metrics only (no contract text)
-RESULTS.md                               human-readable results + caveats
-data/README.md                          how to obtain ContractNLI (not redistributed)
 ```
+
+See [`docs/RESULTS.md`](docs/RESULTS.md) for the current (preliminary) results and
+[`docs/PROPOSAL.md`](docs/PROPOSAL.md) for the plan.
 
 ## Reproduce
 

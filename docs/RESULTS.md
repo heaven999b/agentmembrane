@@ -54,10 +54,10 @@ only as raw permissive data to be **reanalyzed** with the strict rules once Run 
 Run A was executed with a 4-way parallel, 0-throttle runner instead of the intended
 serial + 15s throttle. Because generation is deterministic (`temperature = 0`) and the
 cache is keyed by prompt hash, parallelism changed only speed/order, not model outputs;
-`results/FREEZE_runA.json` records the code SHA, manifest SHA, and result SHA.
+`../results/FREEZE_runA.json` records the code SHA, manifest SHA, and result SHA.
 
 ## Provenance files
 
-- `results/FREEZE_runA.json` — frozen SHAs, counts, integrity gates (no contract text).
-- `results/runA_permissive_analysis.json` — the full aggregate analysis block (numbers
+- [`../results/FREEZE_runA.json`](../results/FREEZE_runA.json) — frozen SHAs, counts, integrity gates (no contract text).
+- [`../results/runA_permissive_analysis.json`](../results/runA_permissive_analysis.json) — the full aggregate analysis block (numbers
   and ids only; records/narratives, which quote contract text, are **not** included).

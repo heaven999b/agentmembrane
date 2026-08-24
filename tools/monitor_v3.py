@@ -1,6 +1,6 @@
 """Live dashboard for the v3 A/B experiment. Stdlib only, no deps.
 
-Run:  python3 monitor_v3.py [port]   (default 8792)
+Run from the repo root:  python3 tools/monitor_v3.py [port]   (default 8792)
 """
 from __future__ import annotations
 
@@ -10,7 +10,8 @@ import sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
+# tools/monitor_v3.py -> repo root is one level up.
+ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "outputs"
 RUNS = [
     ("Run A · permissive V3", "v3a_permissive_n150_seed1", "A 的 go_signal 已知有漏洞，仅原始数据"),
