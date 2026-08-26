@@ -9,6 +9,10 @@ This repo is a **lightweight reference runtime + a falsifiable measurement harne
 not a claim that a particular defense wins. See [`docs/PROPOSAL.md`](docs/PROPOSAL.md)
 for the research plan (boundary-first design with a pre-registered outcome tree).
 
+The curated [`references/`](references/README.md) library lists the closest papers,
+with one page per paper containing bibliographic metadata, a Chinese abstract
+paraphrase, a short AI-generated summary, and its exact relationship to the RQs.
+
 ## Proposal tracks
 
 - **PRIMARY — current research plan:** [`docs/PROPOSAL.md`](docs/PROPOSAL.md),
@@ -74,6 +78,7 @@ agentmembrane/     CODE — source package (harnesses, comparison tool, runtime)
 tests/             CODE — 36 offline tests (no model calls)
 tools/             CODE — dev utilities (live monitor dashboard)
 docs/              REPORTS — PROPOSAL.md (research plan) + RESULTS.md (write-up + caveats)
+references/        RELATED WORK — clickable index + one reviewed page per paper
 results/           RESULT DATA — aggregate metrics only, no contract text (JSON)
 data/              DATASET — how to obtain ContractNLI (raw data is NOT redistributed)
 README.md          this file · pyproject.toml · .gitignore
