@@ -9,6 +9,18 @@ This repo is a **lightweight reference runtime + a falsifiable measurement harne
 not a claim that a particular defense wins. See [`docs/PROPOSAL.md`](docs/PROPOSAL.md)
 for the research plan (boundary-first design with a pre-registered outcome tree).
 
+## Proposal tracks
+
+- **PRIMARY — current research plan:** [`docs/PROPOSAL.md`](docs/PROPOSAL.md),
+  centered on authority, receptor expressiveness, memory promotion, and the
+  evidence-preserving semantic-infection study implemented in this repository.
+- **ALTERNATIVE / SECONDARY — bio-inspired admission and containment direction:**
+  [`docs/APPENDIX_BIO_INSPIRED_ALTERNATIVE.md`](docs/APPENDIX_BIO_INSPIRED_ALTERNATIVE.md),
+  which reframes the broader project around an external agent entering a host,
+  exploiting host-mediated capabilities, establishing persistence, and propagating
+  across agents. It is retained as an appendix/alternative and does **not** replace
+  the primary proposal.
+
 > **Status: work in progress. The results here are a preliminary pilot and are NOT
 > paper-ready.** A single seed, a single model, one shared backbone across roles, and
 > the strict run (Run B) has not completed yet. Do not cite any number here as a

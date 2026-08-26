@@ -2,6 +2,12 @@
 
 ## Characterizing Security Boundaries for Untrusted Agents in Persistent Multi-Agent Systems
 
+> **Repository role: PRIMARY / current proposal.** This remains the active research
+> plan for the repository. A broader bio-inspired admission, host-capability,
+> persistence, and propagation direction is preserved separately as an
+> **ALTERNATIVE / SECONDARY appendix** in
+> [`APPENDIX_BIO_INSPIRED_ALTERNATIVE.md`](APPENDIX_BIO_INSPIRED_ALTERNATIVE.md).
+
 ---
 
 # 0. 项目定位
