@@ -169,6 +169,23 @@ class RunnerTests(unittest.TestCase):
             self.assertEqual(cache["raw_response"], '{"ok":true}')
             self.assertEqual(cache["parsed_payload"], {"ok": True})
             self.assertEqual(cache["usage"]["total_tokens"], 5)
+            usage = model.usage()
+            self.assertEqual(usage["persisted_completed_calls"], 1)
+            self.assertEqual(usage["persisted_failed_calls"], 0)
+            self.assertEqual(usage["persisted_total_tokens"], 5)
+
+            resumed = AuditedCachedJsonModel(
+                client, "fake-model", Path(directory), transport_retries=1
+            )
+            self.assertEqual(
+                resumed.ask(key="step", system="system", user="user", max_tokens=20),
+                {"ok": True},
+            )
+            resumed_usage = resumed.usage()
+            self.assertEqual(resumed_usage["new_calls"], 0)
+            self.assertEqual(resumed_usage["cache_hits"], 1)
+            self.assertEqual(resumed_usage["persisted_completed_calls"], 1)
+            self.assertEqual(resumed_usage["persisted_total_tokens"], 5)
 
     def test_record_matrix_gate_detects_missing_arm(self) -> None:
         cases = [{"case_id": "case-1"}]

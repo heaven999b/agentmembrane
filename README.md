@@ -23,11 +23,12 @@ paraphrase, a short AI-generated summary, and its exact relationship to the RQs.
   retained as an appendix and not a replacement for the primary proposal.
 
 > **Status: work in progress; no result here is paper-ready.** The canonical RQ2
-> baseline, strict 50-case engineering run, staged audit checks, and neutral-P0
-> calibration are complete. The strongest current result is a post-pilot engineering
-> signal on 25 document clusters, not a claim-bearing estimate: it still needs a
-> frozen held-out replication, human-calibrated auditing, more independent clusters,
-> additional seeds, and a second model family.
+> baseline, staged calibration, and a cluster-disjoint held-out 50-case engineering
+> confirmation are complete. The held-out round reproduces strong R2/R4 effects but
+> not a monotone ladder, and its one-line ceiling fails. It remains
+> `claim_bearing=false` pending a repaired response-range control, nested-content
+> panel, human audit calibration, more independent clusters, additional seeds, and
+> a second model family.
 
 ## The question, made precise
 

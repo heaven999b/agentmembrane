@@ -128,6 +128,25 @@ class AuditedCachedJsonModel:
         return payload
 
     def usage(self) -> dict[str, int]:
+        persisted_calls = 0
+        persisted_failed_calls = 0
+        persisted_input_tokens = 0
+        persisted_output_tokens = 0
+        persisted_total_tokens = 0
+        persisted_latency_ms = 0
+        for path in self.cache_dir.glob("*.json"):
+            cached = json.loads(path.read_text(encoding="utf-8"))
+            if cached.get("model") != self.model:
+                continue
+            if cached.get("parse_status") == "completed":
+                persisted_calls += 1
+            else:
+                persisted_failed_calls += 1
+            persisted_usage = cached.get("usage", {})
+            persisted_input_tokens += int(persisted_usage.get("input_tokens") or 0)
+            persisted_output_tokens += int(persisted_usage.get("output_tokens") or 0)
+            persisted_total_tokens += int(persisted_usage.get("total_tokens") or 0)
+            persisted_latency_ms += int(persisted_usage.get("latency_ms") or 0)
         with self._counter_lock:
             return {
                 "new_calls": self.calls,
@@ -136,6 +155,12 @@ class AuditedCachedJsonModel:
                 "output_tokens": self.output_tokens,
                 "total_tokens": self.total_tokens,
                 "latency_ms": self.latency_ms,
+                "persisted_completed_calls": persisted_calls,
+                "persisted_failed_calls": persisted_failed_calls,
+                "persisted_input_tokens": persisted_input_tokens,
+                "persisted_output_tokens": persisted_output_tokens,
+                "persisted_total_tokens": persisted_total_tokens,
+                "persisted_latency_ms": persisted_latency_ms,
             }
 
 

@@ -19,6 +19,8 @@ uses 25 document clusters with zero overlap with calibration, seed `20260901`,
 the preregistered source-fidelity audit, and neutral P0 as the primary downstream
 view. This held-out round remains `claim_bearing=false` because it is one seed,
 one model family, and only 25 independent clusters.
+The completed result and the next-round design are in
+[`results/semantic_rq2_heldout_20260901/`](../../results/semantic_rq2_heldout_20260901/HELDOUT_CONFIRMATORY_REPORT.md).
 
 ## Zero-token setup and checks
 

@@ -220,6 +220,13 @@ Keep the selected P0 and audit settings fixed, and add the R4-shaped maximal
 semantic ceiling beside the original weak ceiling. Do not change receptor
 artifacts in this stage.
 
+The cluster-disjoint held-out 50-case confirmation has now triggered this
+contingency. Under neutral P0, the unchanged one-line ceiling moved 0 of 50 pairs
+even though R2 and R4 moved 9 and 11 pairs toward the target. Stage 3 must therefore
+be run as a separate post-confirmation control calibration. The failed old control
+is retained; `C_max_semantic` is added beside it and cannot replace or relabel the
+held-out result.
+
 Each stage must retain zero private-field leakage and a complete paired record
 matrix. Advancement is based on diagnosing the measurement component, not on
 whether the observed receptor effect supports the hypothesis. Only after these
