@@ -20,15 +20,14 @@ paraphrase, a short AI-generated summary, and its exact relationship to the RQs.
   evidence-preserving semantic-infection study implemented in this repository.
 - **ALTERNATIVE / SECONDARY — bio-inspired admission and containment direction:**
   [`docs/APPENDIX_BIO_INSPIRED_ALTERNATIVE.md`](docs/APPENDIX_BIO_INSPIRED_ALTERNATIVE.md),
-  which reframes the broader project around an external agent entering a host,
-  exploiting host-mediated capabilities, establishing persistence, and propagating
-  across agents. It is retained as an appendix/alternative and does **not** replace
-  the primary proposal.
+  retained as an appendix and not a replacement for the primary proposal.
 
-> **Status: work in progress. The results here are a preliminary pilot and are NOT
-> paper-ready.** A single seed, a single model, one shared backbone across roles, and
-> the strict run (Run B) has not completed yet. Do not cite any number here as a
-> validated finding.
+> **Status: work in progress; no result here is paper-ready.** The canonical RQ2
+> baseline, strict 50-case engineering run, staged audit checks, and neutral-P0
+> calibration are complete. The strongest current result is a post-pilot engineering
+> signal on 25 document clusters, not a claim-bearing estimate: it still needs a
+> frozen held-out replication, human-calibrated auditing, more independent clusters,
+> additional seeds, and a second model family.
 
 ## The question, made precise
 
@@ -68,45 +67,35 @@ future agent's decision. The harness is built so this cannot be faked:
    deducted) as the GO driver, a semantic answer-leak auditor, raw-schema violations
    that are not silently cleaned, and default request throttling.
 
-## Repository structure
-
-Code, prose, result data, and dataset are kept in separate top-level areas so each can
-be read, cited, or replaced on its own:
+## Layout
 
 ```
-agentmembrane/     CODE — source package (harnesses, comparison tool, runtime)
-tests/             CODE — 36 offline tests (no model calls)
-tools/             CODE — dev utilities (live monitor dashboard)
-docs/              REPORTS — PROPOSAL.md (research plan) + RESULTS.md (write-up + caveats)
-references/        RELATED WORK — clickable index + one reviewed page per paper
-results/           RESULT DATA — aggregate metrics only, no contract text (JSON)
-data/              DATASET — how to obtain ContractNLI (raw data is NOT redistributed)
-README.md          this file · pyproject.toml · .gitignore
-```
-
-Key modules:
-
-```
-agentmembrane/real_asr_v3.py              strict V3B harness (four arms, net-effect GO)
+agentmembrane/real_asr_v3.py            strict V3B harness (four arms, net-effect GO)
 agentmembrane/real_asr_v3a_permissive.py  frozen permissive harness (Run A)
 agentmembrane/compare_real_asr_v3_ab.py   strict reanalysis of Run A + A/B comparison
 agentmembrane/{kernel,memory,proxy,...}.py  minimal capability/quarantine runtime
+agentmembrane/semantic_rq2/              canonical RQ2 R0--R4 baseline harness
+experiments/semantic_receptor_rq2/       frozen RQ2 protocol, contract and profiles
+tests/                                   36 offline tests (no model calls)
+docs/PROPOSAL.md                         research plan (chosen direction)
+results/                                 aggregate metrics only (no contract text)
+RESULTS.md                               human-readable results + caveats
+data/README.md                          how to obtain ContractNLI (not redistributed)
 ```
-
-See [`docs/RESULTS.md`](docs/RESULTS.md) for the current (preliminary) results and
-[`docs/PROPOSAL.md`](docs/PROPOSAL.md) for the plan.
 
 ## Reproduce
 
 ```bash
 python3 -m compileall -q agentmembrane tests
-python3 -m unittest discover -s tests -v          # no model calls; the manifest-
-                                                  # dependent tests need the built
-                                                  # manifest (see data/README.md)
-# obtain ContractNLI (data/README.md), build the frozen manifest, then run:
+python3 -m unittest discover -s tests -v          # 36 offline tests, no model
+# then obtain ContractNLI (see data/README.md), build the frozen manifest, and run:
 python3 -m agentmembrane.real_asr_v3 validate --manifest <manifest>
 python3 -m agentmembrane.real_asr_v3 run --manifest <manifest> --run-dir outputs/v3b_strict --model <model>
 ```
+
+The legacy V3 command reproduces the historical framing pilot. For the complete
+canonical proposal RQ2 (`semantic_receptor_expressiveness`), use
+[`experiments/semantic_receptor_rq2/README.md`](experiments/semantic_receptor_rq2/README.md).
 
 ## Attribution
 

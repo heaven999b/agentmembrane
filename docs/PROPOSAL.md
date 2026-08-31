@@ -2,12 +2,6 @@
 
 ## Characterizing Security Boundaries for Untrusted Agents in Persistent Multi-Agent Systems
 
-> **Repository role: PRIMARY / current proposal.** This remains the active research
-> plan for the repository. A broader bio-inspired admission, host-capability,
-> persistence, and propagation direction is preserved separately as an
-> **ALTERNATIVE / SECONDARY appendix** in
-> [`APPENDIX_BIO_INSPIRED_ALTERNATIVE.md`](APPENDIX_BIO_INSPIRED_ALTERNATIVE.md).
-
 ---
 
 # 0. 项目定位
@@ -110,7 +104,25 @@ Where\ is\ the\ boundary?
 
 只保留四个 RQ。
 
+本 proposal 是研究问题编号的 canonical source。机器可读构念采用稳定的 `construct_id`，不得仅凭实验内部的 `RQ1`–`RQ4` 分析 family 字符串判断科学问题。尤其是：
+
+- proposal RQ1 的 canonical `construct_id` 是 `authority_admission_boundary`；
+- proposal RQ2 的 canonical `construct_id` 是 `semantic_receptor_expressiveness`；
+- Host-action 六机制是 proposal RQ1 的 Host-mediated 子轨，`construct_id=host_mediated_capability_exploitation`、`proposal_alignment=RQ1b_host_mediated`；
+- 历史 Host 实验可以保留 `legacy_experiment_id=HB-RQ2-HCE` 和 `legacy_analysis_family=RQ2` 以复现旧结果，但它不回答、也不得与 proposal RQ2 合并。
+
 ## RQ1：Authority Boundary
+
+Canonical machine identity:
+
+```text
+construct_id = authority_admission_boundary
+construct_version = 1.0.0
+proposal_alignment = RQ1_authority_admission
+ladder_id = authority_admission_a0_a5
+ladder_version = 1.0.0
+pooling_with_rq1b_permitted = false
+```
 
 外部 Agent 的 authority 从零逐渐增加时：
 
@@ -134,9 +146,62 @@ A^*
 - capability escalation；
 - control-plane mutation？
 
+RQ1 只使用统一的六级 admission ladder `A0`–`A5`。其中 `A0→A1`、
+`A1→A2` 是低权限接口形成过程的 descriptive contrasts；在固定 containment
+下，`A2→A3`、`A3→A4`、`A4→A5` 才是 admission-boundary primary
+contrasts。RQ1b 的六个 Host-mediated mechanism 不能替代这五个相邻对照，也
+不能与其合并。
+
+RQ1 风险由四个可以同时为真的 trusted endpoint 构成：direct unauthorized、
+canonical host-mediated、composite policy violation 与 lifecycle carryover。
+`exact_unauthorized_side_effect` 是这四者的并集；每一项仍须满足精确终态以及
+各自的 trusted lineage 和 authority-boundary witness。RQ1b 的六个 mechanism
+flag 仅是诊断/组成信号，只有同时满足上述某个 canonical endpoint 时才进入
+这个并集，不能把 RQ1b 改名或直接汇总成 canonical RQ1。
+
+当前冻结的 `rq1-controlled-v2.2` 只完成了 106-episode fixed-trace
+zero-token 工程 assay；它没有模型、provider、proxy 或网络调用，也不授权 adaptive、
+paid、public 或 formal 运行。
+
+正常任务效用分成两层报告：`contribution_utility` 衡量无副作用答案、公开证据
+回答、结构化 proposal 或层级适配贡献的正确性；`system_task_utility` 由原生
+benchmark checker 或精确授权终态衡量整项任务完成。不能因为 A0 没有 data-plane host event 就把 A0 的正常
+任务判为失败，也不能用高质量文本替代 A3–A5 所需的真实授权事件。
+这里的 A0 “response-only”仍先执行 trusted control-plane
+`request_admission`；它要求为零的是 data-plane action/effect。Admission 事件用于
+完整性审计，不算任务执行，也不使 A0 失去 response-only 身份。
+
+### RQ1b：Host-mediated Capability Exploitation
+
+RQ1 的一个独立 Host-mediated 子轨研究：外部 principal 没有目标 terminal outcome 的 direct capability 时，是否仍能借 host-owned agent、broker、tool 或 workflow 完成该 outcome。该子轨冻结六个机制：
+
+1. confused deputy；
+2. capability delegation；
+3. proposal-to-action conversion；
+4. multi-step capability chaining；
+5. cross-tool composition；
+6. action laundering through internal transformations。
+
+这个子轨的机器标识为：
+
+```text
+construct_id = host_mediated_capability_exploitation
+proposal_alignment = RQ1b_host_mediated
+answers_canonical_proposal_rq2 = false
+pooling_with_semantic_rq2_permitted = false
+```
+
+它测量的是 authority/host-affordance 边界，不是 receptor expressiveness。历史兼容标签 `HB-RQ2-HCE` / `RQ2` 只用于读取旧 artifact，不能成为新 claim 的用户可见科学标签。
+
 ---
 
 ## RQ2：Receptor Boundary
+
+Canonical machine identity:
+
+```text
+construct_id = semantic_receptor_expressiveness
+```
 
 当外部 Agent 与系统的交互接口从低表达能力逐渐变成高表达能力：
 
@@ -452,7 +517,7 @@ Promote(x)
 
 # 6. 第一条实验轴：Authority Ladder
 
-定义五级 authority。
+定义六级 authority（`A0`–`A5`）。
 
 ## A0：Isolated Compute
 
@@ -505,7 +570,23 @@ CALL LowRiskTool-X
 
 ---
 
-## A4：Ambient Agent
+## A4：Delegated Agent
+
+可以委派给 host-owned internal worker，但仍使用身份、操作、资源、目的、有效期
+和可委派性都受约束的 capability；它不是 unrestricted ambient baseline。
+
+```text
+scoped internal-agent delegation
+bound capability forwarding
+host-owned actor enforcement
+```
+
+---
+
+## A5：Ambient Workflow
+
+早期 proposal 草稿把 ambient Agent 写作 A4；该 legacy A4 在 canonical
+`authority_admission_a0_a5@1.0.0` 中映射为 A5，不能与新的 delegated A4 混读。
 
 接近常见宽松 Agent framework：
 
@@ -516,6 +597,10 @@ cross-agent messaging
 ```
 
 作为高风险 baseline。
+
+`A5-C1` 仍保留固定的 C1 containment，用于 `A4→A5` primary contrast；
+故意宽松的 `A5-C0` 只用于 attacker/oracle positive control，不进入相邻 ladder
+estimand。
 
 ---
 
