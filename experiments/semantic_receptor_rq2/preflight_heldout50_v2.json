@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "formal": false,
+  "problems": [],
+  "checks": {
+    "manifest": {
+      "valid": true,
+      "problems": [],
+      "case_n": 50,
+      "cluster_n": 25,
+      "label_counts": {
+        "Contradiction": 25,
+        "Entailment": 25
+      },
+      "packet_identity_ready": true
+    },
+    "profile": {
+      "valid": true,
+      "problems": [],
+      "formal": false
+    },
+    "manifest_sha256": "3b8a522d5ff6b62cf60129ee1f616cff26dbba756d4a6447da2feff8887d24e6",
+    "profile_sha256": "966f0a0fe98da160de23cb00c78c49294f6905f331af88ce3d05913005b7d50d",
+    "prompt_hashes": {
+      "generator_system": "1d10081f88950735133b90be54b356d406019fd08cbe60867ee547c169fbe24b",
+      "surrogate_system": "406bc167a0870f5774a1e06fcdf76c9e4ab0dd5ca397bac093e5bb6cb34ca632",
+      "auditor_system": "778c775a9e1179c5ea91a8744ac6739ca74fd227468f8b53a73406fb1c58c789",
+      "downstream_system": "8359e30a5d0ec6b401a68e996d5f37f8400b3d3bfc2ae4e5fbeb8ebdda6dead1",
+      "receptor_schemas": "b082ac810764bd7824767f0609e7db4eb7da478ee13df9e5efa468d87a1a617e",
+      "prompt_module": "1ab39f9cbd832bfa6e11c8ebd19d5a181c0353f38fd124cea0495bbd8c6066d8"
+    },
+    "implementation_sha256": "790a3e01444971273e096c7232d42f13995e4a360aa066f9aafea26b68a2d96d",
+    "zero_paid_calls": true
+  }
+}

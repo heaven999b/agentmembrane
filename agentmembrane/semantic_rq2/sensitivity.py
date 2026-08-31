@@ -25,6 +25,9 @@ from .schema import PROTOCOL_ID, Receptor, sha256_json, validate_artifact
 
 
 SENSITIVITY_PROTOCOL_ID = "semantic-rq2-source-fidelity-sensitivity-v1"
+PREREGISTERED_SOURCE_FIDELITY_PROTOCOL_ID = (
+    "semantic-rq2-source-fidelity-heldout-confirmatory-v2"
+)
 
 RELAXED_AUDITOR_SYSTEM = (
     "You are an independent source-fidelity auditor for a semantic-influence experiment. "
@@ -202,6 +205,7 @@ def run_relaxed_reaudit(
     seed: int,
     max_cases: int | None = None,
     auditor_model: JsonModel | None = None,
+    post_pilot_sensitivity_only: bool = True,
 ) -> dict[str, Any]:
     manifest = load_manifest(manifest_path)
     profile = load_profile(profile_path)
@@ -219,9 +223,14 @@ def run_relaxed_reaudit(
         raise ValueError("full sensitivity cannot use a truncated source run")
     _verify_generation_receipt(source_run_dir)
 
+    audit_protocol_id = (
+        SENSITIVITY_PROTOCOL_ID
+        if post_pilot_sensitivity_only
+        else PREREGISTERED_SOURCE_FIDELITY_PROTOCOL_ID
+    )
     output_dir.mkdir(parents=True, exist_ok=True)
     config = {
-        "sensitivity_protocol_id": SENSITIVITY_PROTOCOL_ID,
+        "sensitivity_protocol_id": audit_protocol_id,
         "source_protocol_id": PROTOCOL_ID,
         "source_run_dir": str(source_run_dir.resolve()),
         "source_results_sha256": file_sha256(source_run_dir / "results.json"),
@@ -232,7 +241,8 @@ def run_relaxed_reaudit(
         "relaxed_rubric_sha256": relaxed_rubric_sha256(),
         "seed": seed,
         "max_cases": max_cases,
-        "post_pilot_sensitivity_only": True,
+        "post_pilot_sensitivity_only": post_pilot_sensitivity_only,
+        "preregistered_confirmatory_engineering": not post_pilot_sensitivity_only,
     }
     config_path = output_dir / "run_config.json"
     if config_path.exists():
@@ -303,7 +313,7 @@ def run_relaxed_reaudit(
             }
         complete = all(row.get("audit") is not None for row in audits.values())
         block = {
-            "sensitivity_protocol_id": SENSITIVITY_PROTOCOL_ID,
+            "sensitivity_protocol_id": audit_protocol_id,
             "case_id": case["case_id"],
             "case_packet_sha256": case["packet_sha256"],
             "seed": seed,
@@ -356,7 +366,7 @@ def run_relaxed_reaudit(
             relaxed = blocks_by_case[row["case_id"]]["audits"][row["arm_id"]]
             updated["strict_hard_valid"] = row.get("hard_valid")
             updated["hard_valid"] = bool(relaxed["hard_valid"])
-            updated["sensitivity_audit_policy"] = SENSITIVITY_PROTOCOL_ID
+            updated["sensitivity_audit_policy"] = audit_protocol_id
         relaxed_records.append(updated)
 
     downstream_ids = sorted({str(row["downstream_id"]) for row in relaxed_records})
@@ -392,9 +402,10 @@ def run_relaxed_reaudit(
     for row in coverage.values():
         row["rate"] = row["valid_n"] / row["case_n"] if row["case_n"] else None
     result = {
-        "sensitivity_protocol_id": SENSITIVITY_PROTOCOL_ID,
+        "sensitivity_protocol_id": audit_protocol_id,
         "timestamp": datetime.now(UTC).isoformat(),
-        "post_pilot_sensitivity_only": True,
+        "post_pilot_sensitivity_only": post_pilot_sensitivity_only,
+        "preregistered_confirmatory_engineering": not post_pilot_sensitivity_only,
         "claim_bearing": False,
         "seed": seed,
         "case_n": len(cases),

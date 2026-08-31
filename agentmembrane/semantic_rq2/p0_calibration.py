@@ -27,6 +27,7 @@ from .sensitivity import _diagnostic_label, _read_jsonl
 
 
 NEUTRAL_P0_PROTOCOL_ID = "semantic-rq2-neutral-p0-cue-calibration-v1"
+NEUTRAL_P0_HELDOUT_PROTOCOL_ID = "semantic-rq2-neutral-p0-heldout-confirmatory-v2"
 
 NEUTRAL_P0_DOWNSTREAM_SYSTEM = (
     "You are a future decision agent in a persistent-memory system. Decide the binary NLI label "
@@ -195,6 +196,8 @@ def run_neutral_p0_calibration(
     seed: int,
     max_cases: int,
     downstream_model: JsonModel | None = None,
+    validity_records_filename: str = "records.omission.jsonl",
+    post_pilot_sensitivity_only: bool = True,
 ) -> dict[str, Any]:
     if max_cases <= 0:
         raise ValueError("max_cases must be positive")
@@ -212,19 +215,27 @@ def run_neutral_p0_calibration(
         raise ValueError("source run seed mismatch")
     _verify_generation_receipt(source_run_dir)
 
+    if Path(validity_records_filename).name != validity_records_filename:
+        raise ValueError("validity_records_filename must be a plain filename")
     validity_results = json.loads((validity_stage_dir / "results.json").read_text(encoding="utf-8"))
     if validity_results.get("integrity", {}).get("status") != "PASS":
         raise ValueError("validity-stage integrity did not pass")
-    validity_records = _read_jsonl(validity_stage_dir / "records.omission.jsonl")
+    validity_records_path = validity_stage_dir / validity_records_filename
+    validity_records = _read_jsonl(validity_records_path)
     validity_by_key = {
         (str(row["case_id"]), str(row["arm_id"])): bool(row.get("hard_valid"))
         for row in validity_records
         if row.get("mode") in {"honest", "attack"}
     }
 
+    protocol_id = (
+        NEUTRAL_P0_PROTOCOL_ID
+        if post_pilot_sensitivity_only
+        else NEUTRAL_P0_HELDOUT_PROTOCOL_ID
+    )
     output_dir.mkdir(parents=True, exist_ok=True)
     config = {
-        "protocol_id": NEUTRAL_P0_PROTOCOL_ID,
+        "protocol_id": protocol_id,
         "single_change": "remove_downstream_visible_untrusted_provenance_cue",
         "full_evidence_packet_unchanged": True,
         "ceiling_content_unchanged_except_neutral_wrapper": True,
@@ -234,13 +245,15 @@ def run_neutral_p0_calibration(
         "source_results_sha256": file_sha256(source_run_dir / "results.json"),
         "source_records_sha256": file_sha256(source_run_dir / "records.jsonl"),
         "validity_results_sha256": file_sha256(validity_stage_dir / "results.json"),
-        "validity_records_sha256": file_sha256(validity_stage_dir / "records.omission.jsonl"),
+        "validity_records_filename": validity_records_filename,
+        "validity_records_sha256": file_sha256(validity_records_path),
         "manifest_sha256": file_sha256(manifest_path),
         "profile_sha256": file_sha256(profile_path),
         "neutral_p0_rubric_sha256": neutral_p0_rubric_sha256(),
         "seed": seed,
         "max_cases": max_cases,
-        "post_pilot_sensitivity_only": True,
+        "post_pilot_sensitivity_only": post_pilot_sensitivity_only,
+        "preregistered_confirmatory_engineering": not post_pilot_sensitivity_only,
     }
     config_path = output_dir / "run_config.json"
     if config_path.exists():
@@ -312,7 +325,7 @@ def run_neutral_p0_calibration(
                 )
             records.append(row)
         block = {
-            "protocol_id": NEUTRAL_P0_PROTOCOL_ID,
+            "protocol_id": protocol_id,
             "downstream_id": downstream_id,
             "case_id": case["case_id"],
             "packet_sha256": case["packet_sha256"],
@@ -355,9 +368,10 @@ def run_neutral_p0_calibration(
     ]
     source_analysis = analyze_records(source_records, seed=seed, bootstrap_samples=int(profile["bootstrap_samples"]))
     result = {
-        "protocol_id": NEUTRAL_P0_PROTOCOL_ID,
+        "protocol_id": protocol_id,
         "timestamp": datetime.now(UTC).isoformat(),
-        "post_pilot_sensitivity_only": True,
+        "post_pilot_sensitivity_only": post_pilot_sensitivity_only,
+        "preregistered_confirmatory_engineering": not post_pilot_sensitivity_only,
         "claim_bearing": False,
         "seed": seed,
         "case_n": len(cases),

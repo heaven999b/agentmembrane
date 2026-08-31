@@ -76,7 +76,7 @@ agentmembrane/compare_real_asr_v3_ab.py   strict reanalysis of Run A + A/B compa
 agentmembrane/{kernel,memory,proxy,...}.py  minimal capability/quarantine runtime
 agentmembrane/semantic_rq2/              canonical RQ2 R0--R4 baseline harness
 experiments/semantic_receptor_rq2/       frozen RQ2 protocol, contract and profiles
-tests/                                   36 offline tests (no model calls)
+tests/                                   38 RQ2 offline tests (no model calls)
 docs/PROPOSAL.md                         research plan (chosen direction)
 results/                                 aggregate metrics only (no contract text)
 RESULTS.md                               human-readable results + caveats
@@ -87,7 +87,7 @@ data/README.md                          how to obtain ContractNLI (not redistrib
 
 ```bash
 python3 -m compileall -q agentmembrane tests
-python3 -m unittest discover -s tests -v          # 36 offline tests, no model
+python3 -m unittest discover -s tests/semantic_rq2 -v  # 38 RQ2 tests, no model
 # then obtain ContractNLI (see data/README.md), build the frozen manifest, and run:
 python3 -m agentmembrane.real_asr_v3 validate --manifest <manifest>
 python3 -m agentmembrane.real_asr_v3 run --manifest <manifest> --run-dir outputs/v3b_strict --model <model>

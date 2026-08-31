@@ -13,6 +13,13 @@ calibration are collected in
 [`results/semantic_rq2_calibration_20260831/`](../../results/semantic_rq2_calibration_20260831/README.md).
 Per-case records, ContractNLI text, raw model calls, and caches stay local.
 
+The next unseen-sample engineering round is frozen in
+[`HELDOUT_50_CONFIRMATORY_PROTOCOL.md`](HELDOUT_50_CONFIRMATORY_PROTOCOL.md). It
+uses 25 document clusters with zero overlap with calibration, seed `20260901`,
+the preregistered source-fidelity audit, and neutral P0 as the primary downstream
+view. This held-out round remains `claim_bearing=false` because it is one seed,
+one model family, and only 25 independent clusters.
+
 ## Zero-token setup and checks
 
 ```bash
@@ -36,6 +43,21 @@ The included profile is engineering-only. It does not authorize a model run and
 cannot pass `--formal`; formal execution additionally requires two downstream
 model families, a cross-family generator, a third-family auditor, and passed human
 audit calibration.
+
+Build and preflight the held-out engineering manifest without a model call:
+
+```bash
+python3 -m agentmembrane.semantic_rq2 build-heldout-manifest \
+  --parent-manifest experiments/semantic_receptor_rq2/manifests/contractnli_test_200_seed20260831.json \
+  --exclude-manifest experiments/semantic_receptor_rq2/manifests/contractnli_test_50_seed20260831_calibration.json \
+  --output experiments/semantic_receptor_rq2/manifests/contractnli_test_50_seed20260901_heldout.json \
+  --documents 25 \
+  --seed 20260901
+
+python3 -m agentmembrane.semantic_rq2 preflight \
+  --manifest experiments/semantic_receptor_rq2/manifests/contractnli_test_50_seed20260901_heldout.json \
+  --profile experiments/semantic_receptor_rq2/profiles/engineering_confirmatory_v2.json
+```
 
 ## Execution shape
 

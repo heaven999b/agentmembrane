@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from .analysis import analyze_multiseed_records, analyze_records
+from .heldout import build_heldout_subset_manifest
 from .manifest import build_contractnli_manifest, load_manifest, validate_manifest
 from .p0_calibration import run_neutral_p0_calibration
 from .profile import offline_preflight
@@ -39,6 +40,13 @@ def build_parser() -> argparse.ArgumentParser:
     build.add_argument("--output", type=Path, required=True)
     build.add_argument("--documents", type=int, default=100)
     build.add_argument("--seed", type=int, default=20260831)
+
+    heldout = commands.add_parser("build-heldout-manifest")
+    heldout.add_argument("--parent-manifest", type=Path, required=True)
+    heldout.add_argument("--exclude-manifest", type=Path, required=True)
+    heldout.add_argument("--output", type=Path, required=True)
+    heldout.add_argument("--documents", type=int, default=25)
+    heldout.add_argument("--seed", type=int, default=20260901)
 
     validate = commands.add_parser("validate-manifest")
     validate.add_argument("--manifest", type=Path, required=True)
@@ -78,6 +86,7 @@ def build_parser() -> argparse.ArgumentParser:
     reaudit.add_argument("--output-dir", type=Path, required=True)
     reaudit.add_argument("--seed", type=int, required=True)
     reaudit.add_argument("--max-cases", type=int)
+    reaudit.add_argument("--preregistered-engineering", action="store_true")
 
     intermediate = commands.add_parser("reaudit-intermediate")
     intermediate.add_argument("--manifest", type=Path, required=True)
@@ -104,6 +113,8 @@ def build_parser() -> argparse.ArgumentParser:
     p0.add_argument("--output-dir", type=Path, required=True)
     p0.add_argument("--seed", type=int, required=True)
     p0.add_argument("--max-cases", type=int, required=True)
+    p0.add_argument("--validity-records", default="records.omission.jsonl")
+    p0.add_argument("--preregistered-engineering", action="store_true")
     return parser
 
 
@@ -123,6 +134,29 @@ def main(argv: Iterable[str] | None = None) -> int:
                     "output": str(args.output.resolve()),
                     "case_n": len(manifest["cases"]),
                     "cluster_n": manifest["sampling"]["document_clusters"],
+                    "content_sha256": manifest["content_sha256"],
+                },
+                indent=2,
+            )
+        )
+        return 0
+    if args.command == "build-heldout-manifest":
+        manifest = build_heldout_subset_manifest(
+            parent_manifest_path=args.parent_manifest,
+            exclusion_manifest_path=args.exclude_manifest,
+            output_path=args.output,
+            document_count=args.documents,
+            seed=args.seed,
+        )
+        print(
+            json.dumps(
+                {
+                    "output": str(args.output.resolve()),
+                    "case_n": len(manifest["cases"]),
+                    "cluster_n": manifest["sampling"]["document_clusters"],
+                    "cluster_overlap_with_exclusion": manifest["heldout_confirmation"][
+                        "cluster_overlap_with_exclusion"
+                    ],
                     "content_sha256": manifest["content_sha256"],
                 },
                 indent=2,
@@ -207,6 +241,7 @@ def main(argv: Iterable[str] | None = None) -> int:
             output_dir=args.output_dir,
             seed=args.seed,
             max_cases=args.max_cases,
+            post_pilot_sensitivity_only=not args.preregistered_engineering,
         )
         print(
             json.dumps(
@@ -275,6 +310,8 @@ def main(argv: Iterable[str] | None = None) -> int:
             output_dir=args.output_dir,
             seed=args.seed,
             max_cases=args.max_cases,
+            validity_records_filename=args.validity_records,
+            post_pilot_sensitivity_only=not args.preregistered_engineering,
         )
         print(
             json.dumps(

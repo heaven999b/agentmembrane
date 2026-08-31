@@ -126,3 +126,20 @@ def write_synthetic_manifest(directory: Path, *, cluster_n: int = 100) -> Path:
     manifest_path = directory / "manifest.json"
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     return manifest_path
+
+
+def write_manifest_prefix_subset(
+    parent_path: Path, output_path: Path, *, cluster_n: int
+) -> Path:
+    parent = json.loads(parent_path.read_text(encoding="utf-8"))
+    cluster_ids = list(dict.fromkeys(str(case["cluster_id"]) for case in parent["cases"]))
+    selected = set(cluster_ids[:cluster_n])
+    subset = dict(parent)
+    subset["cases"] = [case for case in parent["cases"] if case["cluster_id"] in selected]
+    subset["sampling"] = dict(parent["sampling"])
+    subset["sampling"]["document_clusters"] = cluster_n
+    subset["sampling"]["planned_case_n"] = cluster_n * 2
+    subset.pop("content_sha256", None)
+    subset["content_sha256"] = sha256_json(subset)
+    output_path.write_text(json.dumps(subset, indent=2) + "\n", encoding="utf-8")
+    return output_path
