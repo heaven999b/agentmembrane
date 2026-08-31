@@ -1,53 +1,61 @@
-# RQ2 next-round modification plan
+# RQ2 next-round plan after the two 50-case diagnostics
 
-The held-out round is informative enough to reject an immediate scale-up, but it
-does not justify changing the main effect after the fact. The next work should be
-split into two explicit engineering panels before a new formal sample is touched.
+## What has now been resolved
 
-## Panel A: repair the response-range control
+Both proposed engineering checks have been completed on the already used held-out
+cases, without changing the frozen primary result.
 
-Keep the current one-line ceiling as `C_untrusted_recommendation` and add
-`C_max_semantic`. The new control should use the same neutral P0 wrapper and a
-length comparable to R4. It must quote or cite exact packet evidence, preserve
-conditions and exceptions, give a source-faithful interpretation, and end with an
-explicit wrong-target recommendation. It is a response-range diagnostic only and
-does not enter the R0--R4 estimand.
+- A full oracle-grounded semantic ceiling moved only 2/50 cases, for a +4-point
+  shift. It failed the frozen +10-point/five-case responsiveness gate.
+- A nested panel made R0--R4 deterministic views of one R3 semantic backbone. Its
+  curve was `-4, -2, 8, 2, 8` points, so the R3 dip remained after independent
+  content sampling was removed.
 
-Run this panel first on the already used held-out cases, so it consumes no new
-scientific clusters. The pass rule remains at least +10 percentage points and five
-toward-target discordant pairs. If it fails, the downstream is not reliably
-responsive to even a full-strength semantic control and a larger run is not useful.
+The next round should therefore not further loosen the audit or keep rewriting the
+same ceiling in search of a larger result. The current bottleneck is the combination
+of complete-evidence dominance and downstream format sensitivity.
 
-## Panel B: separate expressiveness from independently sampled content
+## Next panel: cross-model and cross-domain confirmation
 
-The current capacity panel independently generates each receptor artifact. That
-answers “what can an optimized artifact at each interface achieve,” but it does
-not make R3 a literal extension of R2. The held-out R2-to-R3 dip can therefore mix
-an interface effect with content/search variation.
+### 1. Freeze the scientific estimands before running
 
-Add a separate nested-projection panel:
+Report two distinct quantities rather than selecting whichever is larger:
 
-1. generate one source-grounded semantic plan per case and mode;
-2. deterministically project that plan into R0 selection, R1 annotation, R2
-   inference, R3 conclusion/recommendation, and R4 free-form views;
-3. require every higher structured level to preserve all lower-level fields
-   byte-for-byte before adding its new field;
-4. keep candidate counts, audit, downstream wrapper, and evidence packet fixed;
-5. report this causal nested panel separately from the existing optimized-capacity
-   panel rather than pooling them.
+- **optimized interface capacity:** independent best-effort artifacts at each
+  receptor, matching the original baseline;
+- **nested incremental expressiveness:** deterministic R0--R4 projections of one
+  semantic backbone, matching the new mechanism panel.
 
-Calibrate the nested builder on already used cases. Freeze it before evaluating
-any new document cluster.
+Non-monotone outcomes remain admissible, as required by the proposal.
 
-## Formal-run prerequisites
+### 2. Add a genuinely different downstream family
 
-- Human-label at least 100 audit artifacts and pass the frozen agreement/F1 gates.
-- Add a second downstream model family and a third-family auditor; do not label
-  multiple GPT model variants as independent families.
-- Source at least 100 new independent document clusters. ContractNLI alone has 107
-  documents meeting the current balanced-pair rule; after the two 25-cluster rounds,
-  only 57 remain unseen. Use a second contract-reasoning dataset or preregister a
-  new sampling/analysis design before viewing its outcomes.
-- Predeclare whether the scientific claim concerns optimized interface capacity,
-  nested incremental expressiveness, or both. Do not use whichever panel produces
-  the larger result as the primary one after execution.
+Run the frozen ContractNLI cases with a non-GPT downstream family while retaining
+the generator, packet, audit policy, target assignment, and both estimands. This is
+the minimum test of whether the R3/R4 representation effect is specific to
+`gpt-5.6-terra`. Different GPT variants do not count as independent families.
+
+### 3. Add fresh SciFact clusters
+
+Materialize and freeze a 50-case SciFact calibration sample before viewing any
+outcomes. SciFact is already named in the proposal and provides a different balance
+between raw evidence and remembered analysis. Use it to decide whether the weak
+ceiling is a ContractNLI/full-packet property rather than a general absence of
+semantic influence.
+
+### 4. Complete measurement prerequisites
+
+- Human-label at least 100 artifacts and pass the frozen audit agreement/F1 gates.
+- Retain source-fidelity as the primary broad policy; do not relax fact or qualifier
+  integrity further.
+- Keep exact request/response caches, packet hashes, blinded fields, and paired
+  document-cluster analysis.
+- Require a responsive ceiling before any bounded-null or formal boundary claim.
+
+## Scale decision
+
+Do not run a formal 100-cluster version of the present Terra-only ContractNLI panel.
+Proceed first with a small cross-family route probe and a frozen 50-case SciFact
+calibration. A later formal run is justified only if at least one preregistered
+downstream/domain configuration passes the response-range gate and the human-audit
+prerequisites are complete.

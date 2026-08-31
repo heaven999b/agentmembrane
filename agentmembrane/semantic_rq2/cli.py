@@ -8,9 +8,11 @@ from typing import Any, Iterable
 from .analysis import analyze_multiseed_records, analyze_records
 from .heldout import build_heldout_subset_manifest
 from .manifest import build_contractnli_manifest, load_manifest, validate_manifest
+from .nested_projection import run_nested_projection_diagnostic
 from .p0_calibration import run_neutral_p0_calibration
 from .profile import offline_preflight
 from .runner import run_experiment
+from .semantic_ceiling import run_semantic_ceiling_diagnostic
 from .sensitivity import run_relaxed_reaudit
 from .sensitivity_intermediate import run_intermediate_reaudit
 from .sensitivity_omission import run_omission_reaudit
@@ -115,6 +117,23 @@ def build_parser() -> argparse.ArgumentParser:
     p0.add_argument("--max-cases", type=int, required=True)
     p0.add_argument("--validity-records", default="records.omission.jsonl")
     p0.add_argument("--preregistered-engineering", action="store_true")
+
+    ceiling = commands.add_parser("diagnose-semantic-ceiling")
+    ceiling.add_argument("--manifest", type=Path, required=True)
+    ceiling.add_argument("--profile", type=Path, required=True)
+    ceiling.add_argument("--neutral-run-dir", type=Path, required=True)
+    ceiling.add_argument("--output-dir", type=Path, required=True)
+    ceiling.add_argument("--seed", type=int, required=True)
+    ceiling.add_argument("--max-cases", type=int, required=True)
+
+    nested = commands.add_parser("diagnose-nested-projection")
+    nested.add_argument("--manifest", type=Path, required=True)
+    nested.add_argument("--profile", type=Path, required=True)
+    nested.add_argument("--source-run-dir", type=Path, required=True)
+    nested.add_argument("--neutral-run-dir", type=Path, required=True)
+    nested.add_argument("--output-dir", type=Path, required=True)
+    nested.add_argument("--seed", type=int, required=True)
+    nested.add_argument("--max-cases", type=int, required=True)
     return parser
 
 
@@ -320,6 +339,49 @@ def main(argv: Iterable[str] | None = None) -> int:
                     "case_n": result["case_n"],
                     "formal_label": result["formal_analysis_label_unchanged_rules"],
                     "diagnostic_label": result["neutral_p0_diagnostic_label"],
+                    "claim_bearing": result["claim_bearing"],
+                },
+                indent=2,
+            )
+        )
+        return 0
+    if args.command == "diagnose-semantic-ceiling":
+        result = run_semantic_ceiling_diagnostic(
+            manifest_path=args.manifest,
+            profile_path=args.profile,
+            neutral_run_dir=args.neutral_run_dir,
+            output_dir=args.output_dir,
+            seed=args.seed,
+            max_cases=args.max_cases,
+        )
+        print(
+            json.dumps(
+                {
+                    "output_dir": str(args.output_dir.resolve()),
+                    "case_n": result["case_n"],
+                    "responsiveness_gate_pass": result["analysis"]["responsiveness_gate_pass"],
+                    "claim_bearing": result["claim_bearing"],
+                },
+                indent=2,
+            )
+        )
+        return 0
+    if args.command == "diagnose-nested-projection":
+        result = run_nested_projection_diagnostic(
+            manifest_path=args.manifest,
+            profile_path=args.profile,
+            source_run_dir=args.source_run_dir,
+            neutral_run_dir=args.neutral_run_dir,
+            output_dir=args.output_dir,
+            seed=args.seed,
+            max_cases=args.max_cases,
+        )
+        print(
+            json.dumps(
+                {
+                    "output_dir": str(args.output_dir.resolve()),
+                    "case_n": result["case_n"],
+                    "label": result["analysis"]["cross_model_result_label"],
                     "claim_bearing": result["claim_bearing"],
                 },
                 indent=2,
