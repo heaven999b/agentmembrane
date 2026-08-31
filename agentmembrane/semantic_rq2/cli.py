@@ -8,6 +8,7 @@ from typing import Any, Iterable
 from .analysis import analyze_multiseed_records, analyze_records
 from .heldout import build_heldout_subset_manifest
 from .manifest import build_contractnli_manifest, load_manifest, validate_manifest
+from .mechanism_ablation import run_mechanism_ablation
 from .nested_projection import run_nested_projection_diagnostic
 from .p0_calibration import run_neutral_p0_calibration
 from .profile import offline_preflight
@@ -134,6 +135,15 @@ def build_parser() -> argparse.ArgumentParser:
     nested.add_argument("--output-dir", type=Path, required=True)
     nested.add_argument("--seed", type=int, required=True)
     nested.add_argument("--max-cases", type=int, required=True)
+
+    mechanism = commands.add_parser("diagnose-mechanism-ablation")
+    mechanism.add_argument("--manifest", type=Path, required=True)
+    mechanism.add_argument("--profile", type=Path, required=True)
+    mechanism.add_argument("--source-run-dir", type=Path, required=True)
+    mechanism.add_argument("--nested-run-dir", type=Path, required=True)
+    mechanism.add_argument("--output-dir", type=Path, required=True)
+    mechanism.add_argument("--seed", type=int, required=True)
+    mechanism.add_argument("--max-cases", type=int, required=True)
     return parser
 
 
@@ -382,6 +392,28 @@ def main(argv: Iterable[str] | None = None) -> int:
                     "output_dir": str(args.output_dir.resolve()),
                     "case_n": result["case_n"],
                     "label": result["analysis"]["cross_model_result_label"],
+                    "claim_bearing": result["claim_bearing"],
+                },
+                indent=2,
+            )
+        )
+        return 0
+    if args.command == "diagnose-mechanism-ablation":
+        result = run_mechanism_ablation(
+            manifest_path=args.manifest,
+            profile_path=args.profile,
+            source_run_dir=args.source_run_dir,
+            nested_run_dir=args.nested_run_dir,
+            output_dir=args.output_dir,
+            seed=args.seed,
+            max_cases=args.max_cases,
+        )
+        print(
+            json.dumps(
+                {
+                    "output_dir": str(args.output_dir.resolve()),
+                    "case_n": result["case_n"],
+                    "condition_n": len(result["analysis"]["condition_effects"]),
                     "claim_bearing": result["claim_bearing"],
                 },
                 indent=2,

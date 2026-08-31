@@ -10,10 +10,17 @@ cases, without changing the frozen primary result.
 - A nested panel made R0--R4 deterministic views of one R3 semantic backbone. Its
   curve was `-4, -2, 8, 2, 8` points, so the R3 dip remained after independent
   content sampling was removed.
+- A seven-condition mechanism ablation then separated representation, conclusion,
+  recommendation, reasoning context, and repetition. Adding the answer layer moved
+  the structured effect down 6 points but the text effect up 6 points, producing a
+  descriptive +12-point interaction. Repeating identical full text reduced rather
+  than increased the effect. None of the nine contrasts survived Holm correction,
+  so these remain exploratory mechanism findings.
 
-The next round should therefore not further loosen the audit or keep rewriting the
-same ceiling in search of a larger result. The current bottleneck is the combination
-of complete-evidence dominance and downstream format sensitivity.
+The next round should therefore not further loosen the audit, keep rewriting the
+same ceiling, or add more post-hoc conditions on these same cases. The current
+bottleneck is the combination of complete-evidence dominance and downstream format
+sensitivity; the most informative next action is independent replication.
 
 ## Next panel: cross-model and cross-domain confirmation
 
