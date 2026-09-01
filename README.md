@@ -23,12 +23,13 @@ paraphrase, a short AI-generated summary, and its exact relationship to the RQs.
   retained as an appendix and not a replacement for the primary proposal.
 
 > **Status: work in progress; no result here is paper-ready.** The canonical RQ2
-> baseline, staged calibration, and a cluster-disjoint held-out 50-case engineering
-> confirmation are complete. The held-out round reproduces strong R2/R4 effects but
-> not a monotone ladder, and its one-line ceiling fails. It remains
-> `claim_bearing=false` pending a repaired response-range control, nested-content
-> panel, human audit calibration, more independent clusters, additional seeds, and
-> a second model family.
+> 200-case engineering confirmation is complete. Its frozen R2-over-R1 contrast is
+> +14.7 points with a cluster 95% CI of [8.6, 20.8], while the full R0--R4 curve is
+> non-monotone. The original one-line response-range gate still fails and the
+> focused 200-case mechanism ablation does not reproduce the earlier 50-case
+> interaction, so the run remains `claim_bearing=false`. See the
+> [`reports/` index](reports/README.md) and
+> [full RQ2 report](reports/rq2/RQ2_FULL_REPORT_20260901.md).
 
 ## The question, made precise
 
@@ -79,8 +80,9 @@ agentmembrane/semantic_rq2/              canonical RQ2 R0--R4 baseline harness
 experiments/semantic_receptor_rq2/       frozen RQ2 protocol, contract and profiles
 tests/                                   38 RQ2 offline tests (no model calls)
 docs/PROPOSAL.md                         research plan (chosen direction)
-results/                                 aggregate metrics only (no contract text)
-RESULTS.md                               human-readable results + caveats
+results/                                 frozen aggregate artifacts (no contract text)
+reports/                                 human-readable design, results, ablations, and caveats
+docs/RESULTS.md                          current result entry point
 data/README.md                          how to obtain ContractNLI (not redistributed)
 ```
 
