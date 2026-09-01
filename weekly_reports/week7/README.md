@@ -5,7 +5,7 @@
 
 | 文件 | 内容 |
 | --- | --- |
-| [week7_report_20260831_zh.md](./week7_report_20260831_zh.md) | RQ2 校准与零重叠 50题独立复验、当前判断、下一步，以及精简的 RQ1B 辅助结果 |
+| [week7_report_20260831_zh.md](./week7_report_20260831_zh.md) | RQ2 的200题全量确认设计、分项检验、主结果、响应范围与机制消融，以及精简的RQ1B辅助结果 |
 
 命名规则：canonical RQ2 使用
 `semantic_receptor_expressiveness`；Host-mediated capability 子轨使用
