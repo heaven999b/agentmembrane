@@ -4,6 +4,19 @@ This directory is the stable, human-readable entry point for experiment reports.
 Reports contain aggregate measurements and interpretation boundaries; they do not
 redistribute ContractNLI text.
 
+## RQ1
+
+- [`rq1/RQ1_CURRENT_RESULTS_20260902.md`](rq1/RQ1_CURRENT_RESULTS_20260902.md) —
+  current consolidated report for the canonical authority-admission question. It
+  separates the positive seven-workflow conditional-protection result from the
+  failed 50-session natural-attack activation gate.
+- [`../results/rq1_conditional_protection_v1/RESULTS_20260901_v1_002.md`](../results/rq1_conditional_protection_v1/RESULTS_20260901_v1_002.md)
+  — exact matched-arm mechanism replay.
+- [`../results/rq1_activation_calibration_v1/RESULTS_20260902_v1_001.md`](../results/rq1_activation_calibration_v1/RESULTS_20260902_v1_001.md)
+  — real CLIProxy/GPT-5.6 Luna 50-session activation calibration.
+- [`../results/rq1_public_agentdojo_multi_v5/RESULTS_20260901_v5_001.md`](../results/rq1_public_agentdojo_multi_v5/RESULTS_20260901_v5_001.md)
+  — earlier 28-cell weak-model exploratory run.
+
 ## RQ2
 
 - [`rq2/RQ2_FULL_REPORT_20260901.md`](rq2/RQ2_FULL_REPORT_20260901.md) — current

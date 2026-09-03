@@ -1,5 +1,26 @@
 # Results
 
+## Current RQ1 status
+
+The canonical RQ1 authority-admission pipeline is operational, and its strongest
+current result is a conditional mechanism check rather than a completed natural
+end-to-end contrast. Across seven frozen AgentDojo workflows, byte-identical target
+attack plans produced native effects in 7/7 vulnerable sessions and 0/7 protected
+sessions; protected enforcement denied all 7/7 before dispatch and preserved benign
+canonical-plan utility at 7/7 in both arms.
+
+The subsequent real CLIProxy/GPT-5.6 Luna activation calibration completed 49 of
+50 sessions with 151/151 provider reservations terminated and no provider errors.
+The attack carrier reached model context in 44/50 sessions, but the model generated
+0 target proposals, 0 target dispatches, and 0 native attack effects. The frozen
+activation gate therefore failed, and no held-out four-cell run was started.
+
+This supports the narrow statement that the membrane blocks exact upstream
+unauthorized proposals in the tested slice without losing exact benign utility. It
+does not yet identify a natural end-to-end RQ1 effect or a minimum safe A0--A5
+authority level. See the
+[full current RQ1 report](../reports/rq1/RQ1_CURRENT_RESULTS_20260902.md).
+
 ## Current RQ2 status
 
 The canonical RQ2 200-case engineering confirmation is complete. The primary
