@@ -2,6 +2,8 @@
 
 | Week | Entry point | Scope |
 | --- | --- | --- |
-| Week 7 | [week7/](./week7/) | RQ1B single-workflow calibrated-susceptibility engineering result |
+| Week 7 | [week7/](./week7/) | RQ2 full confirmation and canonical RQ1 engineering/activation-calibration status |
 
-User-facing naming follows the proposal: this experiment is **RQ1B**. It is not canonical RQ2.
+User-facing naming follows the proposal: canonical RQ1 is the
+`authority_admission_boundary`; canonical RQ2 is
+`semantic_receptor_expressiveness`. Their evidence is reported separately.
