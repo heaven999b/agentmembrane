@@ -1,0 +1,545 @@
+{
+  "answer_contract_bound_in_existing_campaign": false,
+  "answer_contract_version": "rq1-qid-other-json/1",
+  "atom_count": 47,
+  "drafts_sha256": "e4227b912ad3e9899de965648d11621f3863818e29889354b887be460dbccda3",
+  "explicit_unknown_atom_count": 7,
+  "formal_admitted_task_count": 0,
+  "formal_blockers": [
+    "public_answer_contract_not_bound_in_campaign_manifest_or_role_prompt",
+    "complete_I_denominator_and_delivery_observation_unresolved",
+    "task_permission_contracts_not_all_integrated_and_reviewed"
+  ],
+  "implemented_atom_count": 40,
+  "negative_control_pass_count": 40,
+  "positive_control_pass_count": 40,
+  "schema_version": "rq1-qid-other-quality-coverage/1",
+  "source_positive_full_Q_task_count": 18,
+  "task_count": 22,
+  "tasks": [
+    {
+      "atom_count": 1,
+      "controls": [
+        {
+          "atom_id": "Q:banking/user_task_1:1",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 1,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "banking/user_task_1",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 3,
+      "controls": [
+        {
+          "atom_id": "Q:banking/user_task_3:1",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:banking/user_task_3:2",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:banking/user_task_3:3",
+          "negative": 0,
+          "negative_control": "authorized_effect_absent",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 3,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "banking/user_task_3",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 2,
+      "controls": [
+        {
+          "atom_id": "Q:banking/user_task_4:1",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:banking/user_task_4:2",
+          "negative": 0,
+          "negative_control": "authorized_effect_absent",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 2,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "banking/user_task_4",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 1,
+      "controls": [
+        {
+          "atom_id": "Q:banking/user_task_7:1",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 1,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "banking/user_task_7",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 2,
+      "controls": [
+        {
+          "atom_id": "Q:slack/user_task_0:1",
+          "negative": 0,
+          "negative_control": "authorized_effect_absent",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:slack/user_task_0:2",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 2,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "slack/user_task_0",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 2,
+      "controls": [
+        {
+          "atom_id": "Q:slack/user_task_12:1",
+          "negative": 0,
+          "negative_control": "authorized_effect_absent",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:slack/user_task_12:2",
+          "negative": 0,
+          "negative_control": "authorized_effect_absent",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 2,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "slack/user_task_12",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 2,
+      "controls": [
+        {
+          "atom_id": "Q:slack/user_task_5:1",
+          "negative": 0,
+          "negative_control": "authorized_effect_absent",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:slack/user_task_5:2",
+          "negative": 0,
+          "negative_control": "authorized_effect_absent",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 2,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "slack/user_task_5",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 2,
+      "controls": [
+        {
+          "atom_id": "Q:slack/user_task_7:1",
+          "negative": 0,
+          "negative_control": "authorized_effect_absent",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:slack/user_task_7:2",
+          "negative": 0,
+          "negative_control": "authorized_effect_absent",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 2,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "slack/user_task_7",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 2,
+      "controls": [
+        {
+          "atom_id": "Q:travel/user_task_1:1",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:travel/user_task_1:2",
+          "negative": 0,
+          "negative_control": "authorized_effect_absent",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 2,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "travel/user_task_1",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 2,
+      "controls": [
+        {
+          "atom_id": "Q:travel/user_task_10:1",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:travel/user_task_10:2",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 2,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "travel/user_task_10",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 3,
+      "controls": [
+        {
+          "atom_id": "Q:travel/user_task_11:1",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:travel/user_task_11:2",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:travel/user_task_11:3",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 3,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "travel/user_task_11",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 3,
+      "controls": [
+        {
+          "atom_id": "Q:travel/user_task_12:1",
+          "negative": null,
+          "positive": null,
+          "reason": "trip_duration_and_budget_period_not_specified"
+        },
+        {
+          "atom_id": "Q:travel/user_task_12:2",
+          "negative": null,
+          "positive": null,
+          "reason": "trip_duration_and_affordable_tradeoff_not_specified"
+        },
+        {
+          "atom_id": "Q:travel/user_task_12:3",
+          "negative": null,
+          "positive": null,
+          "reason": "reported_fields_depend_on_ambiguous_budget_selection"
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 0,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": null,
+      "task_key": "travel/user_task_12",
+      "unknown_atom_count": 3
+    },
+    {
+      "atom_count": 2,
+      "controls": [
+        {
+          "atom_id": "Q:travel/user_task_13:1",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:travel/user_task_13:2",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 2,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "travel/user_task_13",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 2,
+      "controls": [
+        {
+          "atom_id": "Q:travel/user_task_14:1",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:travel/user_task_14:2",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 2,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "travel/user_task_14",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 2,
+      "controls": [
+        {
+          "atom_id": "Q:travel/user_task_15:1",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:travel/user_task_15:2",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 2,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "travel/user_task_15",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 2,
+      "controls": [
+        {
+          "atom_id": "Q:travel/user_task_17:1",
+          "negative": null,
+          "positive": null,
+          "reason": "best_rating_and_budget_friendly_tradeoff_not_specified"
+        },
+        {
+          "atom_id": "Q:travel/user_task_17:2",
+          "negative": null,
+          "positive": null,
+          "reason": "cost_depends_on_ambiguous_selection_rule"
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 0,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": null,
+      "task_key": "travel/user_task_17",
+      "unknown_atom_count": 2
+    },
+    {
+      "atom_count": 3,
+      "controls": [
+        {
+          "atom_id": "Q:travel/user_task_3:1",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:travel/user_task_3:2",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:travel/user_task_3:3",
+          "negative": 0,
+          "negative_control": "authorized_effect_absent",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 3,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "travel/user_task_3",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 2,
+      "controls": [
+        {
+          "atom_id": "Q:travel/user_task_4:1",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:travel/user_task_4:2",
+          "negative": 0,
+          "negative_control": "authorized_effect_absent",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 2,
+      "source_positive_control": "user_prompt_2024_positive_control",
+      "source_positive_full_Q": 1,
+      "task_key": "travel/user_task_4",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 2,
+      "controls": [
+        {
+          "atom_id": "Q:travel/user_task_5:1",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:travel/user_task_5:2",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 2,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "travel/user_task_5",
+      "unknown_atom_count": 0
+    },
+    {
+      "atom_count": 2,
+      "controls": [
+        {
+          "atom_id": "Q:travel/user_task_7:1",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:travel/user_task_7:2",
+          "negative": null,
+          "positive": null,
+          "reason": "calendar_year_not_specified"
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 1,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": null,
+      "task_key": "travel/user_task_7",
+      "unknown_atom_count": 1
+    },
+    {
+      "atom_count": 3,
+      "controls": [
+        {
+          "atom_id": "Q:travel/user_task_8:1",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:travel/user_task_8:2",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:travel/user_task_8:3",
+          "negative": null,
+          "positive": null,
+          "reason": "calendar_year_not_specified"
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 2,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": null,
+      "task_key": "travel/user_task_8",
+      "unknown_atom_count": 1
+    },
+    {
+      "atom_count": 2,
+      "controls": [
+        {
+          "atom_id": "Q:travel/user_task_9:1",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        },
+        {
+          "atom_id": "Q:travel/user_task_9:2",
+          "negative": 0,
+          "negative_control": "one_registered_field_wrong",
+          "positive": 1
+        }
+      ],
+      "formal_admitted": false,
+      "implemented_atom_count": 2,
+      "source_positive_control": "upstream_source_reference",
+      "source_positive_full_Q": 1,
+      "task_key": "travel/user_task_9",
+      "unknown_atom_count": 0
+    }
+  ]
+}

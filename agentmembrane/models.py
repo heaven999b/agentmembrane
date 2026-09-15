@@ -15,6 +15,7 @@ class Operation(StrEnum):
 
 class Receptor(StrEnum):
     R0 = "R0_evidence_selection"
+    R1 = "R1_evidence_annotation"
     R2 = "R2_structured_inference"
     R3 = "R3_recommendation"
     R4 = "R4_free_form"
@@ -50,4 +51,3 @@ class Artifact:
         value["evidence_ids"] = list(self.evidence_ids)
         value["dependencies"] = list(self.dependencies)
         return value
-

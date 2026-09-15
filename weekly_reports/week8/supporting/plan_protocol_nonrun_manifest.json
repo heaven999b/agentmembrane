@@ -1,0 +1,110 @@
+{
+  "schema_version": "rq1-next-stage-planned-protocol/1",
+  "status": "design_only_not_run_manifest",
+  "not_a_run_manifest": true,
+  "planned_week": {
+    "start": "2026-09-14",
+    "end": "2026-09-20"
+  },
+  "research_focus": "attack_permission_gradient_with_no_attack_paired_counterfactual",
+  "decision": "repair_rqe_endpoint_integration_then_run_permission_gradient_without_attack_prompt_tuning",
+  "prerequisites": [
+    "paired_analyzer_v2_exact_scale36_reanalysis",
+    "linux_cloud_runtime_and_source_qualification",
+    "explicit_fail_closed_provider_configuration",
+    "manifest_bound_exact_once_batch_and_finalize",
+    "36_cell_zero_generation_preflight",
+    "fresh_108_cell_manifest_freeze"
+  ],
+  "matrix": {
+    "tasks": [
+      "workspace:user_task_8",
+      "workspace:user_task_24",
+      "workspace:user_task_26",
+      "workspace:user_task_35",
+      "travel:user_task_0",
+      "travel:user_task_2"
+    ],
+    "topologies": [
+      "H_E"
+    ],
+    "permission_levels": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "regimes_internal": [
+      "honest",
+      "malicious"
+    ],
+    "regime_labels": {
+      "honest": "control_no_attack",
+      "malicious": "contextual_attack"
+    },
+    "repeats": 3,
+    "episodes": 108,
+    "matched_pairs": 54,
+    "initial_state_world_clusters": 2
+  },
+  "frozen_attack_specs": {
+    "workspace": "agentdojo_v1_injection_task_1_delete_file_13",
+    "travel": "agentdojo_v1_injection_task_3_user_information_email_exfiltration"
+  },
+  "models": {
+    "H": {
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low"
+    },
+    "E": {
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low"
+    }
+  },
+  "budget_and_schedule": {
+    "external_decisions": 3,
+    "external_reported_tokens": 48000,
+    "external_seconds": 120,
+    "internal_decisions_total": 9,
+    "internal_work_decisions_max": 8,
+    "internal_reported_tokens": 120000,
+    "delegations": 1,
+    "episode_wall_seconds": 360,
+    "host_final_reserve_seconds": 60,
+    "seal_reserve_seconds": 30,
+    "target_step_backend_entry_cap": 1,
+    "target_sequence_attempt_cap": 1
+  },
+  "primary_endpoints": {
+    "G": "native_goal_success",
+    "L": "strict_task_success",
+    "Q": "rq1_task_quality_interval",
+    "J": "three_valued_G_and_L"
+  },
+  "compatibility_endpoint": {
+    "N": "original_native_clean_utility"
+  },
+  "batching": {
+    "workers": 1,
+    "repeat_blocks": 3,
+    "episodes_per_block": 36,
+    "effect_direction_early_stopping": false,
+    "automatic_retry": false,
+    "automatic_model_substitution": false,
+    "best_attempt_selection": false
+  },
+  "analysis_status": {
+    "descriptive_development_only": true,
+    "formal_ready": false,
+    "research_sample_count": 0,
+    "stealth_measured": false,
+    "suite_attack_family_confounded": true,
+    "independent_worlds_sufficient_for_formal_inference": false
+  },
+  "planning_estimate": {
+    "reported_tokens": 4108521,
+    "model_requests": 573,
+    "sealed_execution_seconds": 2764.281,
+    "contract_worst_case_wall_seconds": 38880,
+    "not_cost_or_flops_estimate": true
+  }
+}

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 import random
 import re
@@ -10,11 +11,92 @@ import urllib.parse
 import urllib.request
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
+
+
+RETRYABLE_HTTP_STATUS = frozenset({408, 409, 429, 500, 502, 503, 504})
+ReasoningEffort = Literal[
+    "none",
+    "minimal",
+    "low",
+    "medium",
+    "high",
+    "xhigh",
+    "max",
+]
+REASONING_EFFORTS: frozenset[str] = frozenset(
+    {"none", "minimal", "low", "medium", "high", "xhigh", "max"}
+)
 
 
 class ProxyError(RuntimeError):
-    pass
+    """Stable proxy failure with non-secret audit metadata."""
+
+    def __init__(
+        self,
+        code: str,
+        *,
+        http_status: int | None = None,
+        upstream_code: str | None = None,
+        response_body_sha256: str | None = None,
+    ) -> None:
+        super().__init__(code)
+        self.code = code
+        self.http_status = http_status
+        self.upstream_code = upstream_code
+        self.response_body_sha256 = response_body_sha256
+
+    def audit_metadata(self) -> dict[str, Any]:
+        return {
+            "code": self.code,
+            "http_status": self.http_status,
+            "upstream_code": self.upstream_code,
+            "response_body_sha256": self.response_body_sha256,
+        }
+
+
+def is_retryable_proxy_error(error: Any) -> bool:
+    code = error.code if isinstance(error, ProxyError) else error
+    if not isinstance(code, str):
+        return False
+    if code in {"proxy_connection_failed", "proxy_auth_unavailable"}:
+        return True
+    if not code.startswith("proxy_http_"):
+        return False
+    try:
+        return int(code.rsplit("_", 1)[1]) in RETRYABLE_HTTP_STATUS
+    except ValueError:
+        return False
+
+
+def _proxy_error_metadata(status_code: int, response_body: str) -> dict[str, Any]:
+    upstream_code = None
+    try:
+        payload = json.loads(response_body)
+        if isinstance(payload, dict):
+            error = payload.get("error")
+            if isinstance(error, dict) and isinstance(error.get("code"), str):
+                upstream_code = error["code"]
+            elif isinstance(payload.get("code"), str):
+                upstream_code = payload["code"]
+    except json.JSONDecodeError:
+        pass
+    return {
+        "http_status": status_code,
+        "upstream_code": upstream_code,
+        "response_body_sha256": hashlib.sha256(response_body.encode("utf-8")).hexdigest(),
+    }
+
+
+def classify_proxy_http_error(status_code: int, response_body: str) -> str:
+    """Recover stable upstream failure classes hidden by the local proxy status."""
+
+    normalized = response_body.lower()
+    if "cyber_policy" in normalized:
+        return "proxy_policy_cyber"
+    if "auth_unavailable" in normalized or "no auth available" in normalized:
+        return "proxy_auth_unavailable"
+    return f"proxy_http_{status_code}"
 
 
 @dataclass(frozen=True)
@@ -40,34 +122,80 @@ def _parse_env_file(path: Path) -> dict[str, str]:
     return values
 
 
-def load_local_proxy_settings() -> tuple[str, str, str | None]:
-    """Load the local-only proxy settings without logging the credential."""
+def _parse_local_proxy_api_keys(path: Path) -> tuple[str, ...]:
+    """Read only the top-level ``api-keys`` sequence from CLIProxy's YAML.
 
-    workspace = Path(__file__).resolve().parents[2]
-    local_env = _parse_env_file(workspace / "family-ai-chat" / ".env.local")
-    base_url = (
+    CLIProxyAPI's local config is intentionally not copied into the repository.
+    A small purpose-built parser is sufficient here and avoids adding a YAML
+    dependency merely to recover the client credential for the loopback-only
+    endpoint.
+    """
+
+    if not path.is_file():
+        return ()
+    keys: list[str] = []
+    in_api_keys = False
+    for line in path.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if not in_api_keys:
+            if line == "api-keys:" or stripped == "api-keys:":
+                in_api_keys = True
+            continue
+        if line and not line[0].isspace():
+            break
+        if not stripped or stripped.startswith("#"):
+            continue
+        if not stripped.startswith("-"):
+            break
+        value = stripped[1:].strip().strip('"').strip("'")
+        if value:
+            keys.append(value)
+    return tuple(keys)
+
+
+def load_local_proxy_settings() -> tuple[str, str, str | None]:
+    """Load an explicitly configured loopback route without logging its key."""
+
+    base_url_value = (
         os.getenv("AGENTMEMBRANE_PROXY_BASE_URL")
         or os.getenv("AI_BASE_URL")
-        or local_env.get("AI_BASE_URL")
-        or "http://127.0.0.1:8317/v1"
-    ).rstrip("/")
+    )
+    base_url = base_url_value.rstrip("/") if base_url_value else ""
     api_key = (
         os.getenv("AGENTMEMBRANE_PROXY_API_KEY")
         or os.getenv("AI_API_KEY")
-        or local_env.get("AI_API_KEY")
     )
+    if not api_key:
+        configured_path = os.getenv("AGENTMEMBRANE_PROXY_CONFIG")
+        if configured_path:
+            configured_keys = _parse_local_proxy_api_keys(Path(configured_path).expanduser())
+            api_key = next(
+                (
+                    value
+                    for value in configured_keys
+                    if re.fullmatch(r"sk-[A-Za-z0-9._-]{8,}", value)
+                ),
+                None,
+            )
     preferred_model = (
         os.getenv("AGENTMEMBRANE_MODEL")
         or os.getenv("AI_MODEL")
-        or local_env.get("AI_MODEL")
     )
 
     parsed = urllib.parse.urlparse(base_url)
+    try:
+        port = parsed.port
+    except ValueError:
+        raise ProxyError("non_local_proxy_rejected") from None
     if (
         parsed.scheme != "http"
-        or parsed.hostname not in {"127.0.0.1", "localhost"}
-        or parsed.port != 8317
+        or parsed.hostname not in {"127.0.0.1", "localhost", "::1"}
+        or port is None
         or parsed.path.rstrip("/") != "/v1"
+        or parsed.query
+        or parsed.fragment
+        or parsed.username is not None
+        or parsed.password is not None
     ):
         raise ProxyError("non_local_proxy_rejected")
     if not api_key or not re.fullmatch(r"sk-[A-Za-z0-9._-]{8,}", api_key):
@@ -135,8 +263,13 @@ class LocalProxyClient:
         user: str,
         max_completion_tokens: int = 900,
         retries: int = 4,
+        reasoning_effort: ReasoningEffort | None = None,
     ) -> Completion:
-        payload = {
+        if reasoning_effort is not None and reasoning_effort not in REASONING_EFFORTS:
+            allowed = ", ".join(sorted(REASONING_EFFORTS))
+            raise ValueError(f"reasoning_effort must be one of: {allowed}")
+
+        payload: dict[str, Any] = {
             "model": model,
             "messages": [
                 {"role": "system", "content": system},
@@ -146,6 +279,8 @@ class LocalProxyClient:
             "max_completion_tokens": max_completion_tokens,
             "stream": False,
         }
+        if reasoning_effort is not None:
+            payload["reasoning_effort"] = reasoning_effort
         last_error: Exception | None = None
         for attempt in range(retries + 1):
             started = time.monotonic()
@@ -171,8 +306,17 @@ class LocalProxyClient:
                     total_tokens=total_tokens if isinstance(total_tokens, int) else None,
                 )
             except urllib.error.HTTPError as exc:
-                last_error = ProxyError(f"proxy_http_{exc.code}")
-                if exc.code not in {408, 409, 429, 500, 502, 503, 504} or attempt >= retries:
+                try:
+                    response_body = exc.read().decode("utf-8", errors="replace")
+                except Exception:
+                    response_body = ""
+                error_class = classify_proxy_http_error(exc.code, response_body)
+                last_error = ProxyError(
+                    error_class,
+                    **_proxy_error_metadata(exc.code, response_body),
+                )
+                retryable = is_retryable_proxy_error(last_error)
+                if not retryable or attempt >= retries:
                     raise last_error from None
             except (TimeoutError, urllib.error.URLError) as exc:
                 last_error = ProxyError("proxy_connection_failed")
@@ -206,4 +350,3 @@ def parse_json_object(text: str) -> dict[str, Any]:
         if isinstance(value, dict):
             return value
     raise ProxyError("completion_not_json")
-

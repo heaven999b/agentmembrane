@@ -25,10 +25,20 @@ The experimental subset is deterministic given the selection seed `20260824`, so
 regenerated rather than committed (the manifest embeds contract-clause text):
 
 ```bash
-python3 -m agentmembrane.contractnli   # or the build-manifest entry point:
-python3 -m agentmembrane.real_asr_v3 build-manifest \
+.venv/bin/python -m agentmembrane.real_asr build \
+  --size 150 \
+  --seed 20260824 \
+  --max-candidates 12 \
+  --split data/official/contract-nli/dev.json \
+  --source-zip vendor/contract-nli/resources/contract-nli.zip \
+  --output data/manifests/contractnli_dev_semantic_risk_n150_seed20260824.json
+
+.venv/bin/python -m agentmembrane.real_asr_v3 build-manifest \
   --parent data/manifests/contractnli_dev_semantic_risk_n150_seed20260824.json \
   --output data/manifests/contractnli_dev_semantic_risk_n150_v3_seed20260824.json
+
+.venv/bin/python -m agentmembrane.real_asr_v3 validate \
+  --manifest data/manifests/contractnli_dev_semantic_risk_n150_v3_seed20260824.json
 ```
 
 The n=150 subset covers 57 unique contracts, balanced 75 Entailment / 75 Contradiction,

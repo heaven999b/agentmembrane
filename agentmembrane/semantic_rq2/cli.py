@@ -6,8 +6,18 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from .analysis import analyze_multiseed_records, analyze_records
+from .confirmation_controller import (
+    build_checkpoint_manifest,
+    run_confirmation_controller,
+)
+from .focused_ablation import run_focused_interaction_confirmation
 from .heldout import build_heldout_subset_manifest
-from .manifest import build_contractnli_manifest, load_manifest, validate_manifest
+from .manifest import (
+    build_contractnli_confirmation_manifest,
+    build_contractnli_manifest,
+    load_manifest,
+    validate_manifest,
+)
 from .mechanism_ablation import run_mechanism_ablation
 from .nested_projection import run_nested_projection_diagnostic
 from .p0_calibration import run_neutral_p0_calibration
@@ -44,12 +54,26 @@ def build_parser() -> argparse.ArgumentParser:
     build.add_argument("--documents", type=int, default=100)
     build.add_argument("--seed", type=int, default=20260831)
 
+    confirm = commands.add_parser("build-confirmation-manifest")
+    confirm.add_argument("--split", type=Path, required=True)
+    confirm.add_argument("--license", type=Path, required=True)
+    confirm.add_argument("--exclude-manifest", type=Path, action="append", required=True)
+    confirm.add_argument("--output", type=Path, required=True)
+    confirm.add_argument("--documents", type=int, default=100)
+    confirm.add_argument("--seed", type=int, default=20260901)
+
     heldout = commands.add_parser("build-heldout-manifest")
     heldout.add_argument("--parent-manifest", type=Path, required=True)
     heldout.add_argument("--exclude-manifest", type=Path, required=True)
     heldout.add_argument("--output", type=Path, required=True)
     heldout.add_argument("--documents", type=int, default=25)
     heldout.add_argument("--seed", type=int, default=20260901)
+
+    checkpoint = commands.add_parser("build-confirmation-checkpoint")
+    checkpoint.add_argument("--full-manifest", type=Path, required=True)
+    checkpoint.add_argument("--output", type=Path, required=True)
+    checkpoint.add_argument("--documents", type=int, default=25)
+    checkpoint.add_argument("--seed", type=int, default=20260901)
 
     validate = commands.add_parser("validate-manifest")
     validate.add_argument("--manifest", type=Path, required=True)
@@ -144,6 +168,22 @@ def build_parser() -> argparse.ArgumentParser:
     mechanism.add_argument("--output-dir", type=Path, required=True)
     mechanism.add_argument("--seed", type=int, required=True)
     mechanism.add_argument("--max-cases", type=int, required=True)
+
+    focused = commands.add_parser("run-focused-confirmation")
+    focused.add_argument("--manifest", type=Path, required=True)
+    focused.add_argument("--profile", type=Path, required=True)
+    focused.add_argument("--source-run-dir", type=Path, required=True)
+    focused.add_argument("--neutral-run-dir", type=Path, required=True)
+    focused.add_argument("--output-dir", type=Path, required=True)
+    focused.add_argument("--seed", type=int, required=True)
+    focused.add_argument("--max-cases", type=int, required=True)
+
+    controller = commands.add_parser("run-confirmation-controller")
+    controller.add_argument("--full-manifest", type=Path, required=True)
+    controller.add_argument("--checkpoint-manifest", type=Path, required=True)
+    controller.add_argument("--profile", type=Path, required=True)
+    controller.add_argument("--root-dir", type=Path, required=True)
+    controller.add_argument("--seed", type=int, required=True)
     return parser
 
 
@@ -169,6 +209,30 @@ def main(argv: Iterable[str] | None = None) -> int:
             )
         )
         return 0
+    if args.command == "build-confirmation-manifest":
+        manifest = build_contractnli_confirmation_manifest(
+            split_path=args.split,
+            license_path=args.license,
+            exclusion_manifest_paths=args.exclude_manifest,
+            output_path=args.output,
+            document_count=args.documents,
+            seed=args.seed,
+        )
+        print(
+            json.dumps(
+                {
+                    "output": str(args.output.resolve()),
+                    "case_n": len(manifest["cases"]),
+                    "cluster_n": manifest["sampling"]["document_clusters"],
+                    "prior_source_overlap": manifest["independent_confirmation"][
+                        "prior_source_overlap"
+                    ],
+                    "content_sha256": manifest["content_sha256"],
+                },
+                indent=2,
+            )
+        )
+        return 0
     if args.command == "build-heldout-manifest":
         manifest = build_heldout_subset_manifest(
             parent_manifest_path=args.parent_manifest,
@@ -186,6 +250,25 @@ def main(argv: Iterable[str] | None = None) -> int:
                     "cluster_overlap_with_exclusion": manifest["heldout_confirmation"][
                         "cluster_overlap_with_exclusion"
                     ],
+                    "content_sha256": manifest["content_sha256"],
+                },
+                indent=2,
+            )
+        )
+        return 0
+    if args.command == "build-confirmation-checkpoint":
+        manifest = build_checkpoint_manifest(
+            full_manifest_path=args.full_manifest,
+            output_path=args.output,
+            document_clusters=args.documents,
+            seed=args.seed,
+        )
+        print(
+            json.dumps(
+                {
+                    "output": str(args.output.resolve()),
+                    "case_n": len(manifest["cases"]),
+                    "cluster_n": manifest["sampling"]["document_clusters"],
                     "content_sha256": manifest["content_sha256"],
                 },
                 indent=2,
@@ -419,6 +502,38 @@ def main(argv: Iterable[str] | None = None) -> int:
                 indent=2,
             )
         )
+        return 0
+    if args.command == "run-focused-confirmation":
+        result = run_focused_interaction_confirmation(
+            manifest_path=args.manifest,
+            profile_path=args.profile,
+            source_run_dir=args.source_run_dir,
+            neutral_run_dir=args.neutral_run_dir,
+            output_dir=args.output_dir,
+            seed=args.seed,
+            max_cases=args.max_cases,
+        )
+        print(
+            json.dumps(
+                {
+                    "output_dir": str(args.output_dir.resolve()),
+                    "case_n": result["case_n"],
+                    "cluster_n": result["document_cluster_n"],
+                    "integrity": result["integrity"]["status"],
+                },
+                indent=2,
+            )
+        )
+        return 0
+    if args.command == "run-confirmation-controller":
+        result = run_confirmation_controller(
+            full_manifest_path=args.full_manifest,
+            checkpoint_manifest_path=args.checkpoint_manifest,
+            profile_path=args.profile,
+            root_dir=args.root_dir,
+            seed=args.seed,
+        )
+        print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
     raise AssertionError(args.command)
 

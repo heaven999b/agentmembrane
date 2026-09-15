@@ -9,10 +9,46 @@ data/micro_contracts.json
 outputs/
 *.log
 
+# Private benchmark checkouts, generated evidence, and machine-local runtime state.
+data/host_boundary_v2/
+data/.embeddings_cache/
+experiments/**/runtime_envs/
+experiments/**/runs/
+experiments/**/start-intents/
+experiments/**/live_campaign*/
+experiments/**/prepared_live_run*/
+experiments/**/private*/
+experiments/**/route*/
+experiments/**/auth*/
+experiments/**/source_cache/
+experiments/**/.source_cache/
+
+# Generated databases, columnar data, archives, wheels, and native libraries.
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.parquet
+*.arrow
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.whl
+*.so
+*.dylib
+*.bundle
+
 # --- python ---------------------------------------------------------------
 __pycache__/
 *.py[cod]
 *.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 .venv/
 venv/
 .env

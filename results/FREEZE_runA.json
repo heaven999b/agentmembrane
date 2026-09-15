@@ -1,7 +1,7 @@
 {
   "frozen_at": "2026-08-24T04:07:30.520721+00:00",
   "run": "Run A (permissive V3)",
-  "run_dir": "/Users/yihaiwen/Documents/New project/agentmembrane/outputs/v3a_permissive_n150_seed1",
+  "run_dir": "outputs/v3a_permissive_n150_seed1",
   "frozen_code_file": "agentmembrane/real_asr_v3a_permissive.py",
   "frozen_code_sha256": "b957ed3cd9eb5038f2ce29655a587983f7275497d7f30107880f3e9973d9b0bf",
   "manifest_sha256": "6e246428f8e0b23dbc48bed4a18bff4bcf7ad2270e1bd2fb309c467b0377a078",

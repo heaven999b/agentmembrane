@@ -2,18 +2,42 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
+import urllib.parse
 import urllib.request
 from pathlib import Path
 from typing import Any
 
 
-BASE_URL = "http://127.0.0.1:8317/v0/management"
-INSTRUCTIONS = Path.home() / "Desktop" / "桌面 - 衣海文的MacBook Air" / "CLIProxyAPI-使用说明.md"
+BASE_URL_ENV = "AGENTMEMBRANE_PROXY_ADMIN_BASE_URL"
+INSTRUCTIONS_ENV = "AGENTMEMBRANE_PROXY_ADMIN_INSTRUCTIONS"
 
 
-def _management_key() -> str:
-    contents = INSTRUCTIONS.read_text(encoding="utf-8")
+def _settings() -> tuple[str, Path]:
+    base_url = os.environ.get(BASE_URL_ENV)
+    instructions = os.environ.get(INSTRUCTIONS_ENV)
+    if not base_url or not instructions:
+        raise RuntimeError("explicit_proxy_admin_configuration_required")
+    parsed = urllib.parse.urlsplit(base_url)
+    try:
+        port = parsed.port
+    except ValueError:
+        raise RuntimeError("proxy_admin_base_url_must_be_explicit_loopback_management_route") from None
+    if (parsed.scheme != "http"
+            or parsed.hostname not in {"127.0.0.1", "localhost", "::1"}
+            or port is None
+            or parsed.path.rstrip("/") != "/v0/management"
+            or parsed.query
+            or parsed.fragment
+            or parsed.username is not None
+            or parsed.password is not None):
+        raise RuntimeError("proxy_admin_base_url_must_be_explicit_loopback_management_route")
+    return base_url.rstrip("/"), Path(instructions).expanduser()
+
+
+def _management_key(instructions: Path) -> str:
+    contents = instructions.read_text(encoding="utf-8")
     match = re.search(r"管理面板密码（secret）：`([^`\r\n]+)`", contents)
     if not match:
         raise RuntimeError("management_key_not_found")
@@ -21,13 +45,14 @@ def _management_key() -> str:
 
 
 def _request(path: str, *, method: str = "GET", payload: dict[str, Any] | None = None) -> Any:
+    base_url, instructions = _settings()
     body = None if payload is None else json.dumps(payload).encode("utf-8")
     request = urllib.request.Request(
-        f"{BASE_URL}/{path.lstrip('/')}",
+        f"{base_url}/{path.lstrip('/')}",
         method=method,
         data=body,
         headers={
-            "Authorization": f"Bearer {_management_key()}",
+            "Authorization": f"Bearer {_management_key(instructions)}",
             "Content-Type": "application/json",
         },
     )
@@ -35,10 +60,16 @@ def _request(path: str, *, method: str = "GET", payload: dict[str, Any] | None =
         return json.loads(response.read().decode("utf-8"))
 
 
-def auth_status() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def auth_status(
+    provider: str | None = "codex",
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     payload = _request("auth-files")
     files = payload.get("files", []) if isinstance(payload, dict) else []
-    codex = [row for row in files if isinstance(row, dict) and row.get("provider") == "codex"]
+    selected = [
+        row
+        for row in files
+        if isinstance(row, dict) and (provider is None or row.get("provider") == provider)
+    ]
     safe = [
         {
             "provider": row.get("provider"),
@@ -51,9 +82,9 @@ def auth_status() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
             "success": row.get("success"),
             "failed": row.get("failed"),
         }
-        for row in codex
+        for row in selected
     ]
-    return codex, safe
+    return selected, safe
 
 
 def reset_codex_quota() -> dict[str, Any]:
@@ -76,10 +107,12 @@ def reset_codex_quota() -> dict[str, Any]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Safe local CLIProxyAPI quota diagnostics")
-    parser.add_argument("command", choices=("status", "reset-codex-quota"))
+    parser.add_argument("command", choices=("status", "status-all", "reset-codex-quota"))
     args = parser.parse_args()
     if args.command == "status":
         _, result = auth_status()
+    elif args.command == "status-all":
+        _, result = auth_status(provider=None)
     else:
         result = reset_codex_quota()
     print(json.dumps(result, ensure_ascii=False, indent=2))
@@ -88,4 +121,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

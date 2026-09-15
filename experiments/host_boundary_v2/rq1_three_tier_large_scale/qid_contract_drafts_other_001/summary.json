@@ -1,0 +1,14 @@
+{
+  "all_D_observers_unresolved": 22,
+  "all_I_denominators_unresolved": 22,
+  "by_suite": {
+    "banking": 4,
+    "slack": 4,
+    "travel": 14
+  },
+  "drafts_sha256": "e4227b912ad3e9899de965648d11621f3863818e29889354b887be460dbccda3",
+  "formal_admissions": 0,
+  "q_draft_obligations": 47,
+  "source_file_sha256_verified": 22,
+  "tasks": 22
+}

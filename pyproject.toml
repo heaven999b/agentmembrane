@@ -1,10 +1,47 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "agentmembrane-pilot"
 version = "0.1.0"
-description = "Minimal AgentMembrane authority and semantic-boundary pilot"
-requires-python = ">=3.11"
+description = "AgentMembrane authority-boundary research runtime and evaluation harness"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "PyYAML>=6.0.1",
+]
+
+[project.optional-dependencies]
+analysis = [
+  "pyarrow>=14",
+]
+agentdojo = [
+  "agentdojo @ git+https://github.com/ethz-spylab/agentdojo.git@089ed468cf3ed0322acc66b0211f26d9d90dbf60",
+]
+tau2 = [
+  "tau2 @ git+https://github.com/sierra-research/tau2-bench.git@a2c024725189473d2d7cea3a5cfdbcc67478e41f",
+]
+test = [
+  "pytest>=8",
+]
+research = [
+  "agentdojo @ git+https://github.com/ethz-spylab/agentdojo.git@089ed468cf3ed0322acc66b0211f26d9d90dbf60",
+  "tau2 @ git+https://github.com/sierra-research/tau2-bench.git@a2c024725189473d2d7cea3a5cfdbcc67478e41f",
+  "pyarrow>=14",
+  "pytest>=8",
+]
+
+[tool.setuptools.packages.find]
+include = ["agentmembrane*"]
+exclude = ["tests*", "experiments*"]
+
+[tool.setuptools.package-data]
+"agentmembrane.host_v2.rq1_collab_v1" = ["prompts/*.txt"]
+"agentmembrane.host_v2.rq1_measurement_v1" = [
+  "policy_data/*.json",
+  "semantic_data/*.json",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
-

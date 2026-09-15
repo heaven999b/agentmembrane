@@ -1,0 +1,9 @@
+paper,baseline,evidence_class,paper_or_released_result,local_result,n,actual_route,comparison_verdict
+Lethe,deterministic,reproduction_exact,"244/385=63.4%","244/385=63.38%",385,local/offline,"exact numerator and denominator match"
+Engram,lean_vs_full,released_output_recomputation,"83.6% vs 73.2%","83.6% vs 73.2%",500,local/offline aggregation,"released artifacts match; original model stack not rerun"
+TokenPilot,continuous_vanilla_vs_tokenpilot,released_aggregate_recomputation,"quality 79.2%->81.3%; cost $7.24->$2.79","quality 79.2%->81.3%; cost $7.242375->$2.788575",NA,released aggregate,"aggregate matches; live paired 0/5 NO-GO; full TCO unknown"
+Supersede,full_vs_bounded300,non_exact_substitute,"92% vs 77% (n=78)","76% vs 40% (n=25)",25,gpt-5.4-mini-2026-03-17,"same direction; numeric comparison invalid"
+Engram,live_lean_vs_full,non_exact_substitute,"lean +10.4pp","lean -13.33pp",30,gpt-5.4,"direction reversal is provisional; model/embedder differ"
+LongMemEval-V2,released_slice,non_exact_substitute,"no directly corresponding paper headline","3/30=10%",30,gpt-5.4-mini reader + gpt-5.4 judge,"not comparable; retriever/input/reader substituted"
+Agent-Native,bm25_memory_vs_no_memory,non_exact_diagnostic,"no corresponding 10-case paper headline","EM 100% vs 90%; F1 1.0 vs .9556",10,gpt-5.4,"not comparable; paper backbone and dataset matrix unavailable"
+Pi-CWL,filterContext_equal_budget,mechanism_test,"end-to-end paper headline not reproduced","clean +2.17pp; noise=.75 -2.84pp",1200,local/offline official filterContext,"official-function mechanism test only"

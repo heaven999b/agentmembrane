@@ -1,13 +1,14 @@
 # AgentMembrane
 
-Characterizing security boundaries for **untrusted external agents in persistent
-multi-agent memory**: when an agent is fully authorized and never lies, can its
-*framing* of true evidence still push a downstream agent's persistent belief toward
-an attacker-chosen conclusion?
+AgentMembrane studies security boundaries for **untrusted external agents**.
+Canonical RQ1 measures how an external agent's real business-tool authority changes
+task utility and attack reachability. Canonical RQ2 measures how semantic receptor
+expressiveness changes persistent-memory risk.
 
-This repo is a **lightweight reference runtime + a falsifiable measurement harness**,
-not a claim that a particular defense wins. See [`docs/PROPOSAL.md`](docs/PROPOSAL.md)
-for the research plan (boundary-first design with a pre-registered outcome tree).
+This repository is the canonical public source for the runtime, measurement
+harness, tests, protocols, aggregate results, and weekly reports. Raw benchmark
+copies, model I/O, credentials, and machine-local run artifacts stay in the private
+research workspace. See the [repository workflow](docs/REPOSITORY_WORKFLOW.md).
 
 The curated [`references/`](references/README.md) library lists the closest papers,
 with one page per paper containing bibliographic metadata, a Chinese abstract
@@ -22,8 +23,12 @@ paraphrase, a short AI-generated summary, and its exact relationship to the RQs.
   [`docs/APPENDIX_BIO_INSPIRED_ALTERNATIVE.md`](docs/APPENDIX_BIO_INSPIRED_ALTERNATIVE.md),
   retained as an appendix and not a replacement for the primary proposal.
 
-> **Status: work in progress; no result here is paper-ready.** For canonical RQ1,
-> an exact seven-workflow conditional replay produced native attack effects in 7/7
+> **Status: work in progress; no result here is paper-ready.** The current RQ1
+> three-tier baseline is 46 eligible AgentDojo tasks × low/medium/high external
+> authority × honest/malicious. A paused mixed-code diagnostic attempted 136 of
+> 276 cells; it is not formal evidence and will not be resumed or pooled. See the
+> [Week 9 report](weekly_reports/week9/week9_report_20260916_zh.md). In earlier canonical
+> RQ1 work, an exact seven-workflow conditional replay produced native attack effects in 7/7
 > vulnerable sessions and 0/7 protected sessions while preserving benign utility
 > at 7/7, but a real 50-session natural-activation calibration produced 0 target
 > proposals despite 44/50 carrier exposures. RQ1 therefore has a positive
@@ -75,14 +80,16 @@ future agent's decision. The harness is built so this cannot be faked:
 ## Layout
 
 ```
-agentmembrane/real_asr_v3.py            strict V3B harness (four arms, net-effect GO)
-agentmembrane/real_asr_v3a_permissive.py  frozen permissive harness (Run A)
-agentmembrane/compare_real_asr_v3_ab.py   strict reanalysis of Run A + A/B comparison
-agentmembrane/{kernel,memory,proxy,...}.py  minimal capability/quarantine runtime
+agentmembrane/host_v2/                 RQ1 benchmark, authority, and evidence runtimes
+agentmembrane/host_v2/rq1_three_tier_formal_v1/  fail-closed three-tier formal runtime
 agentmembrane/semantic_rq2/              canonical RQ2 R0--R4 baseline harness
+tests/                                   offline, synthetic, and integration checks
+tools/                                   reproducible builders and repository audits
+weekly_reports/                          canonical Week 1 onward public report sequence
+experiments/host_boundary_v2/            small public protocol metadata only
 experiments/semantic_receptor_rq2/       frozen RQ2 protocol, contract and profiles
-tests/                                   38 RQ2 offline tests (no model calls)
 docs/PROPOSAL.md                         research plan (chosen direction)
+docs/AGENTMEMBRANE_ORIGINAL_PROPOSAL.md  hash-bound original RQ1 proposal
 results/                                 frozen aggregate RQ1/RQ2 artifacts (no contract text)
 reports/                                 human-readable design, results, ablations, and caveats
 docs/RESULTS.md                          current result entry point
@@ -92,11 +99,14 @@ data/README.md                          how to obtain ContractNLI (not redistrib
 ## Reproduce
 
 ```bash
-python3 -m compileall -q agentmembrane tests
-python3 -m unittest discover -s tests/semantic_rq2 -v  # 38 RQ2 tests, no model
+./tools/bootstrap_research_workspace.sh  # one-time exact benchmark checkouts + venv
+.venv/bin/python -m compileall -q agentmembrane tests tools
+.venv/bin/python -m pytest -q tests/rq1_three_tier
+.venv/bin/python -m unittest discover -s tests/semantic_rq2 -v
+.venv/bin/python tools/audit_public_repo.py
 # then obtain ContractNLI (see data/README.md), build the frozen manifest, and run:
-python3 -m agentmembrane.real_asr_v3 validate --manifest <manifest>
-python3 -m agentmembrane.real_asr_v3 run --manifest <manifest> --run-dir outputs/v3b_strict --model <model>
+.venv/bin/python -m agentmembrane.real_asr_v3 validate --manifest <manifest>
+.venv/bin/python -m agentmembrane.real_asr_v3 run --manifest <manifest> --run-dir outputs/v3b_strict --model <model>
 ```
 
 The legacy V3 command reproduces the historical framing pilot. For the complete

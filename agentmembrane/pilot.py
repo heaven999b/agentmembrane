@@ -523,7 +523,7 @@ def run_micro(
     result = {
         "timestamp": timestamp,
         "model": selected,
-        "endpoint": "http://127.0.0.1:8317/v1",
+        "endpoint": client.base_url,
         "case_count": len(cases),
         "conditions": len(receptors) * len(POLICIES),
         "receptors": [receptor.value for receptor in receptors],

@@ -54,7 +54,10 @@ not replicate and is retained as a negative ablation result.
 ## Historical framing pilot
 
 The older permissive V3 framing pilot remains historical, descriptive evidence and
-is not merged with the canonical RQ2 estimate. Its strict companion run was not
-completed, and its permissive `go_signal` had a known one-sided inflation flaw.
-The current canonical RQ2 report supersedes that pilot as the repository's main
-result summary.
+is not merged with the canonical RQ2 estimate. Its strict companion Run B was
+completed: strict reanalysis of Run A and strict-generated Run B both produced zero
+net framing effect and `GO=False` (`A_negative_B_negative`). The permissive
+`go_signal` had a known one-sided inflation flaw. See the
+[aggregate A/B comparison](../results/v3_ab_comparison_seed1.md) and
+[Run B aggregate analysis](../results/runB_strict_analysis.json). The current
+canonical RQ2 report supersedes that pilot as the repository's main result summary.

@@ -1,0 +1,873 @@
+{
+  "captured_at": "2026-09-16T05:41:49+08:00",
+  "completion_scope": "reviewed local-to-canonical public allowlist migration, explicit private exclusions, source synchronization audit, and offline verification",
+  "controlled_differences": [
+    {
+      "paths": [],
+      "reason": "reviewed canonical publicization and release-hygiene changes remove local route/default coupling while preserving tested behavior",
+      "state": "reviewed_publicization_difference"
+    },
+    {
+      "paths": [
+        "tests/test_audit_public_repo.py",
+        "tools/audit_public_repo.py",
+        "tools/audit_workspace_source_sync.py",
+        "tools/bootstrap_research_workspace.sh",
+        "tools/monitor_v3.py"
+      ],
+      "reason": "canonical-only release, bootstrap, source-sync, audit, or monitoring support",
+      "state": "canonical_only_expected"
+    },
+    {
+      "paths": [
+        "tests/test_rq1_large_campaign_runner.py"
+      ],
+      "reason": "explicit private exclusions; each path depends on archived campaign continuation or private evidence and is not part of the public runtime",
+      "state": "reviewed_private_exclusion"
+    }
+  ],
+  "documented_non_blocking_followups": [
+    "keep the archived-campaign continuation test private unless it is redesigned against a generic non-resumable fixture",
+    "keep raw runs, route and attestation bindings, source locks, and local runtimes in the private workspace",
+    "treat future rq2-live-monitor work as a separately reviewed auxiliary application"
+  ],
+  "final_publication_tree": {
+    "omission_reason": "GitHub OAuth app lacks workflow scope; repository audit script and tests remain tracked",
+    "omitted_paths": [
+      ".github/workflows/public-repository-audit.yml"
+    ],
+    "public_audit": {
+      "errors": [],
+      "passed": true,
+      "schema_version": "agentmembrane-public-repository-audit/2",
+      "weekly_reports": [
+        "week1",
+        "week2",
+        "week3",
+        "week4",
+        "week5",
+        "week6",
+        "week7",
+        "week8",
+        "week9"
+      ]
+    },
+    "tracked_file_count": 883
+  },
+  "local_auxiliary_apps": [
+    {
+      "blocks_core_unification": false,
+      "classification": "local_auxiliary_app_excluded",
+      "contains_unique_first_party_source": true,
+      "disposition": "preserve in the local frozen archive; if revived, migrate as a separately reviewed auxiliary app after parameterizing its API URL and run schema",
+      "must_not_copy": [
+        "node_modules/",
+        "dist/",
+        ".vinext/",
+        ".wrangler/",
+        "__pycache__/",
+        "build/",
+        "state/",
+        "outputs/",
+        "work/",
+        ".openai/ hosting state"
+      ],
+      "path_role": "private workspace sibling rq2-live-monitor/",
+      "reason": "historical read-only local UI for a frozen RQ2 confirmation controller; it is coupled to a local output schema and localhost API and is not imported by the canonical package, tests, tools, or current three-tier runtime",
+      "required_by_current_core_or_three_tier_runtime": false,
+      "source_snapshot": {
+        "bytes": 633193,
+        "counting_rule": "exclude .openai, .vinext, .wrangler, dist, node_modules, __pycache__, build, state, outputs, and work",
+        "file_count": 77,
+        "unique_components": [
+          "read-only local status API",
+          "RQ2 dashboard page and styles",
+          "local UI components and app configuration"
+        ]
+      }
+    }
+  ],
+  "migration_source_locations": [
+    {
+      "disposition": "retain as dated private archive for raw data, local runtimes, routes, and evidence only",
+      "public_source_of_truth_after_migration": false,
+      "role": "active_private_research_workspace"
+    },
+    {
+      "disposition": "the only local checkout used for reviewed public commits",
+      "public_source_of_truth_after_migration": true,
+      "role": "canonical_public_checkout"
+    },
+    {
+      "disposition": "audit reference only; never a publishing source and safe to discard after remote verification",
+      "public_source_of_truth_after_migration": false,
+      "role": "temporary_clean_origin_main_baseline"
+    },
+    {
+      "disposition": "Week 8 imported and indexed; staging copy is no longer authoritative",
+      "public_source_of_truth_after_migration": false,
+      "role": "rq1b_weekly_report_staging"
+    },
+    {
+      "disposition": "Weeks 1-5 imported as pre-AgentMembrane lineage and Week 6 as transition; code history remains a separate predecessor repository",
+      "public_source_of_truth_after_migration": false,
+      "role": "predecessor_memory_research_repository"
+    }
+  ],
+  "prospective_public_scan": {
+    "candidate_bytes": 15176486,
+    "candidate_file_count": 884,
+    "candidate_set": "git cached files plus untracked non-ignored files",
+    "composition": {
+      "explanation": "git status collapses untracked directories; file_count expands every non-ignored file with git ls-files -o",
+      "tracked_file_count": 862,
+      "untracked_file_count_expanded": 22,
+      "untracked_status_entry_count": 10
+    },
+    "hits": {
+      "absolute_home_path": [],
+      "absolute_windows_home_path": [],
+      "account_specific_label": [],
+      "bearer_literal": [],
+      "github_token_literal": [],
+      "openai_style_literal": [],
+      "private_key_literal": []
+    },
+    "interpretation": {
+      "account_specific_label": "no hit in public candidate set; account-specific runners and routes stay private",
+      "openai_style_literal": "synthetic benchmark targets are safely constructed; the repository-wide scanner remains enabled"
+    },
+    "passed": true,
+    "tracked_audit": {
+      "errors": [],
+      "passed": true,
+      "schema_version": "agentmembrane-public-repository-audit/2",
+      "tracked_file_count": 862,
+      "weekly_reports": [
+        "week1",
+        "week2",
+        "week3",
+        "week4",
+        "week5",
+        "week6",
+        "week7",
+        "week8",
+        "week9"
+      ]
+    }
+  },
+  "publication_handoff": "ready for the repository owner to stage the reviewed worktree, commit, push, and verify the remote commit; remote equality is checked outside this self-referential manifest",
+  "publishable_source_audit": {
+    "content_mismatches": [],
+    "explicit_private_exclusions": {
+      "tests/test_rq1_large_campaign_runner.py": "archived diagnostic campaign continuation test; depends on private route and sealed run artifacts and is forbidden from the formal campaign"
+    },
+    "missing_public_files": [],
+    "passed": true,
+    "private_publishable_file_count": 705,
+    "public_match_count": 705,
+    "raw_data_compared": false,
+    "runtime_artifacts_compared": false,
+    "schema_version": "agentmembrane-workspace-source-sync-audit/1"
+  },
+  "remaining_work": [],
+  "remote_publication_status": "pending_owner_commit_push_and_remote_commit_verification",
+  "reports": {
+    "bytes": 21242,
+    "entry_points": [
+      "reports/README.md",
+      "reports/rq1/RQ1_CURRENT_RESULTS_20260902.md",
+      "reports/rq2/RQ2_FULL_REPORT_20260901.md"
+    ],
+    "file_count": 3,
+    "missing_entry_points": [],
+    "passed": true
+  },
+  "repository_wide_private_exclusions": [
+    {
+      "paths": [
+        "experiments/**/runtime_envs/",
+        "experiments/**/source_cache*/",
+        "experiments/**/.git/"
+      ],
+      "reason": "runtime environments, third-party checkouts, nested Git histories, or cached source corpora"
+    },
+    {
+      "paths": [
+        "experiments/**/runs/",
+        "experiments/**/outputs/",
+        "experiments/**/cache/",
+        "experiments/**/inventories/",
+        "experiments/**/private_evaluation/"
+      ],
+      "reason": "raw model I/O and per-run evidence"
+    },
+    {
+      "paths": [
+        "data/host_boundary_v2/",
+        "data/official/",
+        "vendor/",
+        "outputs/"
+      ],
+      "reason": "downloaded benchmarks, third-party data/code, generated outputs, or local artifacts"
+    },
+    {
+      "paths": [
+        "**/*.db",
+        "**/*.sqlite*",
+        "**/*.parquet",
+        "**/*.tar*",
+        "**/*.zip",
+        "**/*.whl",
+        "**/*.so",
+        "**/*.dylib"
+      ],
+      "reason": "large data, archives, environments, or native binaries"
+    }
+  ],
+  "roots": {
+    "active_private": {
+      "descriptor": "sibling active workspace; absolute path intentionally omitted",
+      "role": "private_research_workspace"
+    },
+    "canonical_public": {
+      "descriptor": "sibling public checkout; absolute path intentionally omitted",
+      "role": "canonical_git_checkout"
+    },
+    "remote": {
+      "role": "canonical_github_repository",
+      "url": "https://github.com/heaven999b/agentmembrane"
+    }
+  },
+  "schema_version": "agentmembrane-local-to-github-migration/1",
+  "source_sync": {
+    "agentmembrane": {
+      "active_file_count": 395,
+      "active_tree_sha256": "581600d785bfab75091499020f24890a5aedd099bbf45f0900d6cc9cd4a8cd3a",
+      "canonical_file_count": 395,
+      "canonical_only_paths": [],
+      "canonical_tree_sha256": "581600d785bfab75091499020f24890a5aedd099bbf45f0900d6cc9cd4a8cd3a",
+      "different_content_paths": [],
+      "exactly_synchronized": true,
+      "missing_in_canonical_paths": [],
+      "same_content_count": 395
+    },
+    "tests": {
+      "active_file_count": 294,
+      "active_tree_sha256": "d2c95befbf1518d41e2070241fc3067a9e7765497ac94ee7a195d2db27dbc7a9",
+      "canonical_file_count": 294,
+      "canonical_only_paths": [
+        "test_audit_public_repo.py"
+      ],
+      "canonical_tree_sha256": "321253c988c15f60903ee3b7793accc88a984cdea7080512299d4d868c9caf51",
+      "different_content_paths": [],
+      "exactly_synchronized": false,
+      "missing_in_canonical_paths": [
+        "test_rq1_large_campaign_runner.py"
+      ],
+      "same_content_count": 293
+    },
+    "tools": {
+      "active_file_count": 17,
+      "active_tree_sha256": "edfdf01b3c2c48de09da60e68fa9041d674c47c086cff295e459aa2829845618",
+      "canonical_file_count": 21,
+      "canonical_only_paths": [
+        "audit_public_repo.py",
+        "audit_workspace_source_sync.py",
+        "bootstrap_research_workspace.sh",
+        "monitor_v3.py"
+      ],
+      "canonical_tree_sha256": "4232cc950dfd4416e03a3b6f58e957e284bcd91a6f88b8a19bec6073e30be8ed",
+      "different_content_paths": [],
+      "exactly_synchronized": false,
+      "missing_in_canonical_paths": [],
+      "same_content_count": 17
+    }
+  },
+  "source_sync_digest_algorithm": "SHA-256 of canonical compact JSON mapping each subtree-relative path to its file SHA-256; cache, hidden files, and symlinks excluded",
+  "status": "completed",
+  "three_tier_explicit_exclusions": [
+    {
+      "paths": [
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/campaign_continuation.py"
+      ],
+      "reason": "can resume a superseded campaign; governance requires the old campaign to remain paused and never pooled"
+    },
+    {
+      "paths": [
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/run_<account-label>_campaign.py",
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/run_<account-label>_new_task_smoke.py",
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/run_<account-label>_low_high_new_task_smoke.py",
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/switched_account_route_20260915/"
+      ],
+      "reason": "account-specific or private route/attestation coupling"
+    },
+    {
+      "paths": [
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/analyze_live_campaign.py",
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/test_analyze_live_campaign.py"
+      ],
+      "reason": "analysis module still contains an account-specific campaign schema/name; defer until generalized"
+    },
+    {
+      "paths": [
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/build_stage_status.py",
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/verify_stage_repair.py"
+      ],
+      "reason": "reads switched-account canary, route, attestation, and stopped live-campaign state"
+    },
+    {
+      "paths": [
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/H-output-contract-current-assignment.json"
+      ],
+      "reason": "contains machine-local absolute source paths; regenerate with repository-relative bindings before publication"
+    },
+    {
+      "paths": [
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/route-runtime-binding.json"
+      ],
+      "reason": "contains local proxy endpoint and machine-local CLI route binding"
+    },
+    {
+      "paths": [
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/live_campaign*/",
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/live_smoke*/",
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/live_gradient_smoke*/",
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/prepared_live_run*/",
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/candidate_run*/",
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/readiness_run*/",
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/runtime_readiness*/",
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/w15_w34_profile_validation_20260915/"
+      ],
+      "reason": "raw or resumable run state, prompts/responses, inventories, per-cell evidence, or local runtime metadata"
+    },
+    {
+      "paths": [
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/missing_policy_drafts_001/"
+      ],
+      "reason": "task-level policy drafts are non-final review material; only the aggregate engineering admission status is public"
+    },
+    {
+      "paths": [
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/qid_formal_adjudication_20260915/adjudication-draft.json"
+      ],
+      "reason": "non-final task-level Q/I/D adjudication remains private until independent review and versioned finalization"
+    }
+  ],
+  "three_tier_public_inclusion": {
+    "active_copy_comparison": {
+      "canonical_only_paths": [
+        "experiments/host_boundary_v2/rq1_three_tier_large_scale/qid_formal_adjudication_20260915/README.md"
+      ],
+      "intentional_publicization_difference_paths": [],
+      "same_content_count": 47
+    },
+    "file_count": 48,
+    "files": [
+      {
+        "bytes": 27071,
+        "classification": "public_protocol",
+        "path": "experiments/host_boundary_v2/PROTOCOL_RQ1.md",
+        "sha256": "3acd2f3b33313769330a08f94c4e987f3549d881a0fcda6e30a073140d731f22"
+      },
+      {
+        "bytes": 3086,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/audit_pre_run_contracts.py",
+        "sha256": "a493b5bd0e33a6a1786e582f9d230a247119a2a9131ebfe909b39c8a51b7caca"
+      },
+      {
+        "bytes": 6682,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/audit_runtime_readiness.py",
+        "sha256": "b10409e0d672892456f413adb5ad1efeb1abcb5a178704e9d442d858b09e6cd0"
+      },
+      {
+        "bytes": 5331,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/audit_task_repair_progress.py",
+        "sha256": "d8c35b42d9ef9828800343457483590e331acda03771c3077b38f938020c0dc7"
+      },
+      {
+        "bytes": 12550,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/build_candidate_manifest.py",
+        "sha256": "cc9accefe4fffad663b097a8988c016f7588962ade7abd46359004218324f4cc"
+      },
+      {
+        "bytes": 8978,
+        "classification": "public_protocol",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/FORMAL_PROTOCOL_DESIGN.md",
+        "sha256": "3c49d56028f6ec352a3f4c045a081066fcd9ef23ea8fc23950ef98e0df19c0cb"
+      },
+      {
+        "bytes": 6088,
+        "classification": "public_evidence_boundary_documentation",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/README.md",
+        "sha256": "8c51f3059a6eb72f9255cf3df3190afef0131f3d19f2a4066dd4e60342cb1193"
+      },
+      {
+        "bytes": 5928,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/activate_formal_manifest.py",
+        "sha256": "79e98ac1dbbd1c3f5432b3fa75b6f956a460b71e7b9247c3e073660230b497d5"
+      },
+      {
+        "bytes": 14482,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/audit_goal_balance.py",
+        "sha256": "7ec8c5687d3ed5a5ba1e6e1fcf989acdd5eda83c6d862142f3827f3e91a5012e"
+      },
+      {
+        "bytes": 7835,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/build_final_analysis_plan.py",
+        "sha256": "49a342f797c3ae71565294fb5783176a8874c5eb084641cd5b49d1dab775b5f8"
+      },
+      {
+        "bytes": 3145,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/build_final_h_contract.py",
+        "sha256": "b3a4ce58966aefc0892004d1cbedb0da344a531d52e4a44657c40e9d9ca7738a"
+      },
+      {
+        "bytes": 8681,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/build_formal_gate.py",
+        "sha256": "0983938788521d7165e28c0da96909462572124f5ed30071d40563eca05357de"
+      },
+      {
+        "bytes": 21755,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/build_preregistration.py",
+        "sha256": "37049f1800628a4bb9edb4049268fa4ea229cfd64e480f8d08255ef01f236003"
+      },
+      {
+        "bytes": 1187,
+        "classification": "public_zero_sample_candidate_metadata",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/formal-preflight.json",
+        "sha256": "1774d99203c1d92a4965b7fa4c62cad5731fcfdb017f97a4d33a2f98db8a3b6e"
+      },
+      {
+        "bytes": 19024,
+        "classification": "public_zero_sample_candidate_metadata",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/goal-balance-candidate.json",
+        "sha256": "bac8d773aeab7d43b663022cf0da864d6c14844af32591603df6e400827d6972"
+      },
+      {
+        "bytes": 197096,
+        "classification": "public_zero_sample_candidate_metadata",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/goal-balance-report.json",
+        "sha256": "2a9caafc94558f08f513e8a3b1060056872b286b5cb1fde3e565a2cd5c9be5a3"
+      },
+      {
+        "bytes": 1239,
+        "classification": "public_zero_sample_candidate_metadata",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/preregistration-status.json",
+        "sha256": "fad420bcb9fb363e7a69d1bf87562d7fd68b8dafa9cb31c56f70681a83c3bace"
+      },
+      {
+        "bytes": 7277,
+        "classification": "public_zero_sample_candidate_metadata",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/statistical-analysis-plan.json",
+        "sha256": "b0a85834874b6a18e1a088ab7f6f79b5618dc7c3fe444c2ac9c09ac41d01242a"
+      },
+      {
+        "bytes": 3680,
+        "classification": "public_zero_sample_candidate_metadata",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/study-identity.json",
+        "sha256": "0401a210120c970baf8dd5ba0832af18af8727c8b66fced1d62811157944f155"
+      },
+      {
+        "bytes": 10042,
+        "classification": "public_zero_sample_candidate_metadata",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/task-pool.json",
+        "sha256": "531244b721b17d7a47c5b180b53f0640b5ccb6dd31e92923c6f4d10786ef4521"
+      },
+      {
+        "bytes": 6126,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/test_build_formal_gate.py",
+        "sha256": "a17f8125a99df3b63acdbf698b95f4978be29f40348804455d4aaa30c183fb9d"
+      },
+      {
+        "bytes": 2515,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/test_goal_balance.py",
+        "sha256": "39d8c47783c4d2a24560f34ae7009e39f670d5d7f5d8223d7bc2319d3b4bc716"
+      },
+      {
+        "bytes": 6022,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/test_preregistration.py",
+        "sha256": "87ee35e3c06c9d9cd432aa0c81401f184c53075a6400fab8c1192392435012a8"
+      },
+      {
+        "bytes": 2966,
+        "classification": "public_evidence_boundary_documentation",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/policy_implementation_20260915/README.md",
+        "sha256": "d79b75d933089899693878b7f1aa042c774367595041a7a3149ea4d534270374"
+      },
+      {
+        "bytes": 37902,
+        "classification": "public_engineering_candidate_metadata",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/policy_implementation_20260915/admission_status.json",
+        "sha256": "e38eb3550e614340a90b6c303d1c52699b7606efb234c09c4f72a2765e129f72"
+      },
+      {
+        "bytes": 3846,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/policy_implementation_20260915/build_status.py",
+        "sha256": "bbd36fa5118be8b313b070aa850c92183047be3a39906f616a5c8e39f6ee0751"
+      },
+      {
+        "bytes": 7915,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/policy_implementation_20260915/test_banking_source_workflows.py",
+        "sha256": "51cc7d4a4a3ad0d4aec85830afed0780f0a9c2b0de03bed0ae0b32a331d22f23"
+      },
+      {
+        "bytes": 8345,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/policy_implementation_20260915/test_slack_content_workflows.py",
+        "sha256": "2c8dd17a6a422b0fe35b94c60a82699536c08dc882db678ffb0f2f40e66401f7"
+      },
+      {
+        "bytes": 7528,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/policy_implementation_20260915/test_slack_source_profiles.py",
+        "sha256": "ef5b1b049ed22e8a33f599226eda7f17aab00b623ffae414ffb499b8d9f747ab"
+      },
+      {
+        "bytes": 2751,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/policy_implementation_20260915/test_workspace_lunch_policy.py",
+        "sha256": "2c62e94ffc16379b4a60fa9c15e120116eda8986a45b0ce7591747e429954f54"
+      },
+      {
+        "bytes": 12490,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/policy_implementation_20260915/test_workspace_remaining_policies.py",
+        "sha256": "00ae6b7a9a570a6959aea5b41dc8c39704bab82c641d29130bac378133e5b8b5"
+      },
+      {
+        "bytes": 3862,
+        "classification": "public_offline_builder_audit_or_test",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/prepare_single_run.py",
+        "sha256": "6d673f4ff911633dba69b2897b9da534e83fc41f6e38e23bed3766dc0212cee2"
+      },
+      {
+        "bytes": 5073,
+        "classification": "public_evidence_boundary_documentation",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/qid_contract_drafts_other_001/README.md",
+        "sha256": "da7a4330950c1967ca48454829e2eab2b9db13731c5144a923baa9ed92067655"
+      },
+      {
+        "bytes": 7663,
+        "classification": "public_evidence_boundary_documentation",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/qid_contract_drafts_other_001/SOURCE_CONFLICTS_AND_EFFECT_CHECK_20260915.md",
+        "sha256": "9cd91aa9468b55a37bd803e049937b9d83492500a339634a066602416fce320a"
+      },
+      {
+        "bytes": 29015,
+        "classification": "public_offline_qid_builder",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/qid_contract_drafts_other_001/build_drafts.py",
+        "sha256": "b8dbc1236157d1529c7cd5ba8215618e8208daa8e5c158d3ef8012b2a6e08dff"
+      },
+      {
+        "bytes": 11248,
+        "classification": "public_offline_qid_builder",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/qid_contract_drafts_other_001/build_full_i_reports.py",
+        "sha256": "1bc2c3d834bf11e028cea09aa886c6798cc075eeddaf319717221a3fb7c3660b"
+      },
+      {
+        "bytes": 6282,
+        "classification": "public_offline_qid_builder",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/qid_contract_drafts_other_001/build_quality_coverage.py",
+        "sha256": "bb184db9394ef3743ad9f855ebfb2cb1f5bfbcb70ad088ebeac4c59b2389da0f"
+      },
+      {
+        "bytes": 112015,
+        "classification": "public_frozen_benchmark_contract",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/qid_contract_drafts_other_001/drafts.json",
+        "sha256": "e4227b912ad3e9899de965648d11621f3863818e29889354b887be460dbccda3"
+      },
+      {
+        "bytes": 37809,
+        "classification": "public_aggregate_development_validation",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/qid_contract_drafts_other_001/full_i_candidate_compile_001/report.json",
+        "sha256": "fbadeae492cf43fb4722447aca2620f6187dabb8185225cd1038e83aa477803d"
+      },
+      {
+        "bytes": 30025,
+        "classification": "public_aggregate_development_validation",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/qid_contract_drafts_other_001/full_i_sealed_replay_001/report.json",
+        "sha256": "df81fcfc63eec783c5bf7a2764ef4c52b36d6e44ba82939f1612a15102eb8462"
+      },
+      {
+        "bytes": 8357,
+        "classification": "public_frozen_benchmark_contract",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/qid_contract_drafts_other_001/i-source-candidate-universes.json",
+        "sha256": "1710a63614f4460860335f3204e43b26e3eda35e3180025b831798064a516d5d"
+      },
+      {
+        "bytes": 15747,
+        "classification": "public_aggregate_development_validation",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/qid_contract_drafts_other_001/quality-atom-coverage.json",
+        "sha256": "06e9eb3e386ff68a94d8b9feb23ddc5ed86b901fa08578821b24ae6ab44f768d"
+      },
+      {
+        "bytes": 344,
+        "classification": "public_aggregate_development_validation",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/qid_contract_drafts_other_001/summary.json",
+        "sha256": "eac095c6c5bdf5c1049d3ea8601d2fcf954430e3193ee7cf2b6122ff44991599"
+      },
+      {
+        "bytes": 876,
+        "classification": "public_evidence_boundary_documentation",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/qid_formal_adjudication_20260915/README.md",
+        "sha256": "d7ce3292cc8d891096b61ff0b9c631ebf4cc3ee1dd7c5386d9a21aa15297636c"
+      },
+      {
+        "bytes": 67315,
+        "classification": "public_outcome_blind_candidate_builder",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/qid_formal_adjudication_20260915/build_adjudication_draft.py",
+        "sha256": "c649aa373e4687991a83c57f333cfea1173f41242074345023094059ad37ba63"
+      },
+      {
+        "bytes": 14277,
+        "classification": "public_aggregate_engineering_ledger",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/task_repair_ledger_003/README.md",
+        "sha256": "d5a2347fd69edcec33052702f2b0e723762bbb8f90ffac9125d6da6086137115"
+      },
+      {
+        "bytes": 37185,
+        "classification": "public_aggregate_engineering_ledger",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/task_repair_ledger_003/rows.json",
+        "sha256": "ca08cbbc370dca380feeb93499377dae643baf15d51c57c394ab08678935df30"
+      },
+      {
+        "bytes": 298,
+        "classification": "public_aggregate_engineering_ledger",
+        "path": "experiments/host_boundary_v2/rq1_three_tier_large_scale/task_repair_ledger_003/summary.json",
+        "sha256": "151faa37792bbffec40aa59fc01671ccde6a04ccf0e1e1b8c17792fc9ffcf53f"
+      }
+    ],
+    "notes": [
+      "candidate artifacts remain non-formal and report zero formal research samples",
+      "the public formal-gate wrapper has no account, endpoint, route, attestation, or machine-local CLI defaults; private bindings and create-only outputs are mandatory CLI parameters",
+      "task_repair_ledger_003 is an 86-row aggregate engineering input with no task prose, model I/O, account, endpoint, credential, or route attestation",
+      "qid_contract_drafts_other_001 contains frozen public-benchmark contracts and aggregate development validation required by evaluator/tests; its sealed replay report contains no per-cell raw payload and remains post-outcome non-formal evidence",
+      "private source locks, raw sealed replay evidence, route binding, and final adjudication remain required for downstream formal activation"
+    ],
+    "total_bytes": 856954
+  },
+  "validation": {
+    "aggregate_task_repair_ledger": {
+      "bytes": 51760,
+      "files": 3,
+      "passed": true,
+      "rows": 86,
+      "summary_matches_rows": true,
+      "unique_tasks": 86
+    },
+    "curated_json_parse": {
+      "errors": [],
+      "files": 16,
+      "passed": true
+    },
+    "curated_python_ast_parse": {
+      "errors": [],
+      "files": 24,
+      "passed": true
+    },
+    "formal_analysis_offline_tests": {
+      "passed": true,
+      "test_files": 1,
+      "tests": 10
+    },
+    "formal_gate_cli_tests": {
+      "coverage": [
+        "all private bindings and outputs are required CLI parameters with no defaults",
+        "no account-specific or machine-local defaults in the wrapper",
+        "missing input creates no output",
+        "explicit inputs are wired exactly and outputs cannot be overwritten"
+      ],
+      "passed": true,
+      "tests": 4
+    },
+    "formal_goal_balance_tests": {
+      "passed": true,
+      "tests": 6
+    },
+    "formal_preregistration_artifact_rebuild": {
+      "candidate_task_count": 46,
+      "formal_activation": false,
+      "outputs_match_builder": true,
+      "passed": true,
+      "planned_cell_count": 276,
+      "research_sample_count": 0
+    },
+    "formal_preregistration_tests": {
+      "passed": true,
+      "tests": 11
+    },
+    "formal_runtime_combination_tests": {
+      "execution_root_role": "private research workspace containing excluded locked fixtures and runtime",
+      "passed": true,
+      "publishable_source_equivalence": "canonical and private publishable source audit passed 705/705 before execution",
+      "shared_proxy_policy": "explicit synthetic loopback contract; no credential value, network call, or model call",
+      "test_files": 4,
+      "tests": 35
+    },
+    "formal_runtime_source_sync": {
+      "exact_match_count": 11,
+      "exact_match_paths": [
+        "agentmembrane/host_v2/rq1_three_tier_formal_v1/analysis.py",
+        "agentmembrane/host_v2/rq1_three_tier_formal_v1/evaluator.py",
+        "agentmembrane/host_v2/rq1_three_tier_formal_v1/gate.py",
+        "agentmembrane/host_v2/rq1_three_tier_formal_v1/runner.py",
+        "agentmembrane/host_v2/rq1_three_tier_formal_v1/runtime_impl.py",
+        "agentmembrane/host_v2/rq1_three_tier_formal_v1/wire.py",
+        "agentmembrane/host_v2/rq1_collab_v6/runtime.py",
+        "tests/rq1_three_tier/test_formal_analysis.py",
+        "tests/rq1_three_tier/test_formal_protocol_gate.py",
+        "tests/rq1_three_tier/test_formal_runtime_sealed.py",
+        "tests/rq1_three_tier/test_formal_runtime_wire.py"
+      ],
+      "missing_paths": [],
+      "publicization_difference_paths": [],
+      "reviewed_file_count": 11,
+      "state": "completed"
+    },
+    "git_diff_check": {
+      "index": {
+        "output": [],
+        "passed": true
+      },
+      "passed": true,
+      "worktree": {
+        "output": [],
+        "passed": true
+      }
+    },
+    "markdown_link_check": {
+      "broken_links": [],
+      "documents_checked": 113,
+      "passed": true,
+      "scope": "all tracked, staged, and untracked non-ignored candidate Markdown"
+    },
+    "permission_tests": {
+      "execution": "offline permission-boundary validation; no model or API calls",
+      "passed": true,
+      "tests": 6
+    },
+    "policy_runtime_tests": {
+      "evidence_level": "engineering validation, not a formal research sample",
+      "execution": "canonical code with private locked AgentDojo source; no model or API calls",
+      "passed": true,
+      "tests": 22
+    },
+    "qid_locked_source_tests": {
+      "direct_function_tests": 14,
+      "passed": true,
+      "source": "private locked AgentDojo source; no model or API calls",
+      "total_tests": 20,
+      "unittest_tests": 6
+    },
+    "repository_audit_tests": {
+      "passed": true,
+      "tests": 3
+    },
+    "route_and_configuration_tests": {
+      "execution": "offline route/configuration validation; no model or API calls",
+      "passed": true,
+      "tests": 37
+    }
+  },
+  "weekly_reports": {
+    "bytes": 622759,
+    "errors": [],
+    "file_count": 59,
+    "index_present": true,
+    "lineage_present": true,
+    "passed": true,
+    "process_present": true,
+    "weeks": {
+      "week1": {
+        "bytes": 194096,
+        "dated_reports": [
+          "weekly_reports/week1/week1_report_20260709_en.md"
+        ],
+        "file_count": 20,
+        "lineage": "pre-AgentMembrane"
+      },
+      "week2": {
+        "bytes": 20889,
+        "dated_reports": [
+          "weekly_reports/week2/week2_report_20260713_zh.md"
+        ],
+        "file_count": 2,
+        "lineage": "pre-AgentMembrane"
+      },
+      "week3": {
+        "bytes": 29929,
+        "dated_reports": [
+          "weekly_reports/week3/week3_report_20260719_en.md",
+          "weekly_reports/week3/week3_report_20260719_zh.md"
+        ],
+        "file_count": 3,
+        "lineage": "pre-AgentMembrane"
+      },
+      "week4": {
+        "bytes": 79309,
+        "dated_reports": [
+          "weekly_reports/week4/week4_report_20260728_en.md",
+          "weekly_reports/week4/week4_report_20260728_zh.md"
+        ],
+        "file_count": 8,
+        "lineage": "pre-AgentMembrane"
+      },
+      "week5": {
+        "bytes": 34908,
+        "dated_reports": [
+          "weekly_reports/week5/week5_report_20260805_zh.md"
+        ],
+        "file_count": 4,
+        "lineage": "pre-AgentMembrane"
+      },
+      "week6": {
+        "bytes": 9715,
+        "dated_reports": [
+          "weekly_reports/week6/week6_report_20260825_zh.md"
+        ],
+        "file_count": 2,
+        "lineage": "transition"
+      },
+      "week7": {
+        "bytes": 11794,
+        "dated_reports": [
+          "weekly_reports/week7/week7_report_20260831_zh.md"
+        ],
+        "file_count": 2,
+        "lineage": "AgentMembrane"
+      },
+      "week8": {
+        "bytes": 212460,
+        "dated_reports": [
+          "weekly_reports/week8/week8_report_20260907_zh.md"
+        ],
+        "file_count": 12,
+        "lineage": "AgentMembrane"
+      },
+      "week9": {
+        "bytes": 24480,
+        "dated_reports": [
+          "weekly_reports/week9/week9_report_20260916_zh.md"
+        ],
+        "file_count": 3,
+        "lineage": "AgentMembrane"
+      }
+    }
+  }
+}

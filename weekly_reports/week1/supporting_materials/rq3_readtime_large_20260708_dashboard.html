@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="20">
+  <title>RQ3 读取侧防御大跑看板</title>
+  <style>
+    :root {
+      --bg: #f7f1e6;
+      --panel: #fffdf8;
+      --ink: #1d1c18;
+      --muted: #6f695f;
+      --line: #d8cebf;
+      --good: #0f766e;
+      --good-soft: #d7f3ef;
+      --warn: #9a6700;
+      --warn-soft: #fff1cc;
+      --bad: #b42318;
+      --bad-soft: #fee4e2;
+      --accent: #1f4b99;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 24px;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, #fdf2cb 0, transparent 28%),
+        radial-gradient(circle at top right, #dff4f1 0, transparent 24%),
+        linear-gradient(180deg, #fbf7ef 0%, #f7f1e6 100%);
+      font: 15px/1.55 "Avenir Next", "Helvetica Neue", sans-serif;
+    }
+    h1, h2, h3, h4, p { margin: 0; }
+    .wrap { max-width: 1440px; margin: 0 auto; }
+    .hero, .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 20px 44px rgba(29, 28, 24, 0.05);
+    }
+    .hero {
+      padding: 26px;
+      margin-bottom: 18px;
+    }
+    .section {
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .hero-grid, .metric-grid, .pair-grid, .job-grid {
+      display: grid;
+      gap: 14px;
+    }
+    .hero-grid {
+      grid-template-columns: 1.5fr 1fr;
+      align-items: start;
+      margin-top: 14px;
+    }
+    .metric-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 18px;
+    }
+    .pair-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 14px;
+    }
+    .job-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 14px;
+    }
+    .card {
+      background: linear-gradient(180deg, var(--panel), #fbf6ee);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+    .metric-card {
+      background: linear-gradient(180deg, var(--panel), #f5efe4);
+    }
+    .metric-card.good { background: linear-gradient(180deg, var(--panel), var(--good-soft)); }
+    .metric-card.bad { background: linear-gradient(180deg, var(--panel), var(--bad-soft)); }
+    .metric-card.warn { background: linear-gradient(180deg, var(--panel), var(--warn-soft)); }
+    .label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .big {
+      font-size: 32px;
+      line-height: 1.1;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+    .subtle {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 6px;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: #f5efe4;
+    }
+    .chip.good { background: var(--good-soft); color: var(--good); border-color: #9bded6; }
+    .chip.bad { background: var(--bad-soft); color: var(--bad); border-color: #f2b7b1; }
+    .chip.warn { background: var(--warn-soft); color: var(--warn); border-color: #efd28d; }
+    .progress {
+      width: 100%;
+      height: 14px;
+      background: #efe7d8;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid #e1d6c4;
+      margin-top: 14px;
+    }
+    .progress > span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, #0f766e 0%, #1f4b99 100%);
+      border-radius: 999px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+    th, td {
+      border-top: 1px solid var(--line);
+      padding: 12px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    code {
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(31, 75, 153, 0.08);
+      color: var(--accent);
+      font-size: 12px;
+    }
+    .delta-good { color: var(--good); font-weight: 700; }
+    .delta-bad { color: var(--bad); font-weight: 700; }
+    .mini-list {
+      margin-top: 10px;
+      display: grid;
+      gap: 8px;
+    }
+    .mini-item {
+      border-top: 1px dashed var(--line);
+      padding-top: 8px;
+      font-size: 13px;
+    }
+    .empty {
+      padding: 16px;
+      border: 1px dashed var(--line);
+      border-radius: 16px;
+      color: var(--muted);
+      background: #fcf8f1;
+      margin-top: 12px;
+    }
+    @media (max-width: 1180px) {
+      .hero-grid, .pair-grid, .job-grid { grid-template-columns: 1fr; }
+      .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 720px) {
+      body { padding: 14px; }
+      .hero, .section { padding: 16px; border-radius: 18px; }
+      .metric-grid { grid-template-columns: 1fr; }
+      .big { font-size: 26px; }
+      table, thead, tbody, tr, th, td { display: block; }
+      thead { display: none; }
+      tr { border-top: 1px solid var(--line); padding: 8px 0; }
+      td { border-top: none; padding: 6px 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">RQ3 Live Board</div>
+      <h1>读取侧防御大跑看板</h1>
+      <p class="subtle">这页看的不是“模型会不会犯错”本身，而是加上一条“官方政策优先”的读取侧规则后，错误行动率能不能稳定往下掉。</p>
+      <div class="hero-grid">
+        <div>
+          <div id="hero-text" class="subtle">正在加载...</div>
+          <div class="progress"><span id="progress-bar" style="width:0%"></span></div>
+          <div class="chips" id="hero-chips"></div>
+        </div>
+        <div class="card">
+          <div class="label">当前最值得看的点</div>
+          <div id="headline" class="big">等待已完成的成对结果</div>
+          <p id="headline-sub" class="subtle">至少要有同一个 seed / backend 下的 off 与 on 都跑完，才会出现这里的 headline。</p>
+        </div>
+      </div>
+      <div class="metric-grid" id="metric-grid"></div>
+    </section>
+
+    <section class="section">
+      <h2>按条件看</h2>
+      <p class="subtle">每一行就是一个真实跑完的条件。`rate` 越低越好，因为它表示模型仍然做出危险动作的比例。</p>
+      <div id="conditions-wrap"></div>
+    </section>
+
+    <section class="section">
+      <h2>成对对比</h2>
+      <p class="subtle">同一个 seed、同一个 backend 下，把 `off` 和 `on` 逐题配对。`delta` 为负，说明防御让错误行动率下降了。</p>
+      <div id="pairs-wrap"></div>
+    </section>
+
+    <section class="section">
+      <h2>任务进度</h2>
+      <p class="subtle">这块是整个 20-job 矩阵的状态。你可以直接看到现在卡在哪个 job。</p>
+      <div id="jobs-wrap" class="job-grid"></div>
+    </section>
+  </div>
+
+  <script>
+    const DATA_URL = "rq3_readtime_large_20260708_dashboard_data.json";
+
+    function pct(x) {
+      return `${Number(x).toFixed(1)}%`;
+    }
+
+    function statusChip(label, cls="") {
+      return `<span class="chip ${cls}">${label}</span>`;
+    }
+
+    function deltaClass(delta) {
+      if (delta < 0) return "delta-good";
+      if (delta > 0) return "delta-bad";
+      return "";
+    }
+
+    function backendLabel(v) {
+      return v === "prompt_only" ? "prompt_only" : "tiermem";
+    }
+
+    function renderMetrics(data) {
+      const counts = data.counts;
+      const best = data.best_pair;
+      const cards = [
+        {
+          cls: "metric-card",
+          label: "总进度",
+          value: `${counts.completed_jobs + counts.skipped_jobs}/${counts.total_jobs}`,
+          subtle: `已完成或跳过 ${pct(counts.completion_pct)}`
+        },
+        {
+          cls: "metric-card warn",
+          label: "正在运行",
+          value: `${counts.running_jobs}`,
+          subtle: counts.running_jobs ? "后台还在继续跑" : "当前没有活动 job"
+        },
+        {
+          cls: "metric-card",
+          label: "已成对结果",
+          value: `${data.pair_rows.length}`,
+          subtle: "同 seed / 同 backend 的 off-on 对比"
+        },
+        {
+          cls: best ? "metric-card good" : "metric-card bad",
+          label: "最好一组",
+          value: best ? `${best.delta_pp.toFixed(1)}pp` : "—",
+          subtle: best ? `${backendLabel(best.backend)} / seed ${best.seed} / N=${best.passes}` : "还没有成对 headline"
+        }
+      ];
+      document.getElementById("metric-grid").innerHTML = cards.map(card => `
+        <div class="card ${card.cls}">
+          <div class="label">${card.label}</div>
+          <div class="big">${card.value}</div>
+          <div class="subtle">${card.subtle}</div>
+        </div>
+      `).join("");
+    }
+
+    function renderHero(data) {
+      const counts = data.counts;
+      document.getElementById("hero-text").innerHTML =
+        `快照时间：<strong>${data.snapshot_at}</strong><br>` +
+        `run tag：<code>${data.run_tag}</code><br>` +
+        `模型：<code>${data.config.model}</code> · seeds：<code>${data.config.seeds.join(", ")}</code>`;
+      document.getElementById("progress-bar").style.width = `${counts.completion_pct}%`;
+      document.getElementById("hero-chips").innerHTML = [
+        statusChip(`completed ${counts.completed_jobs}`, "good"),
+        statusChip(`running ${counts.running_jobs}`, counts.running_jobs ? "warn" : ""),
+        statusChip(`pending ${counts.pending_jobs}`),
+        counts.failed_jobs ? statusChip(`failed ${counts.failed_jobs}`, "bad") : "",
+      ].filter(Boolean).join("");
+
+      const best = data.best_pair;
+      if (!best) return;
+      const headline = `${backendLabel(best.backend)} · seed ${best.seed} · N=${best.passes}`;
+      document.getElementById("headline").textContent = headline;
+      document.getElementById("headline-sub").innerHTML =
+        `防御开启后，错误行动率从 <strong>${best.off_rate_pct.toFixed(1)}%</strong> ` +
+        `降到 <strong>${best.on_rate_pct.toFixed(1)}%</strong>，` +
+        `变化是 <span class="${deltaClass(best.delta_pp)}">${best.delta_pp.toFixed(1)}pp</span>。` +
+        `逐题翻转：变好 <strong>${best.better_flips}</strong> 条，变差 <strong>${best.worse_flips}</strong> 条。`;
+    }
+
+    function renderConditions(data) {
+      if (!data.condition_rows.length) {
+        document.getElementById("conditions-wrap").innerHTML =
+          `<div class="empty">还没有任何 report 落盘，等第一组结果出来这里会自动有表。</div>`;
+        return;
+      }
+      const rows = data.condition_rows.map(row => `
+        <tr>
+          <td><code>${row.report_id}</code></td>
+          <td>${backendLabel(row.backend)}</td>
+          <td>${row.defense}</td>
+          <td>${row.seed}</td>
+          <td>${row.passes}</td>
+          <td>${row.k}/${row.n}</td>
+          <td>${row.rate_pct.toFixed(1)}%</td>
+          <td>${row.lo_pct.toFixed(1)}% – ${row.hi_pct.toFixed(1)}%</td>
+        </tr>
+      `).join("");
+      document.getElementById("conditions-wrap").innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>report</th>
+              <th>backend</th>
+              <th>defense</th>
+              <th>seed</th>
+              <th>pass</th>
+              <th>坏例数</th>
+              <th>rate</th>
+              <th>95% CI</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+    }
+
+    function renderPairs(data) {
+      if (!data.pair_rows.length) {
+        document.getElementById("pairs-wrap").innerHTML =
+          `<div class="empty">现在还没有任何 off/on 成对结果。等同一个 seed 的两边都跑完，这里会出现对比卡片。</div>`;
+        return;
+      }
+      const aggregateHtml = data.aggregate_rows.length ? `
+        <table>
+          <thead>
+            <tr>
+              <th>backend</th>
+              <th>pass</th>
+              <th>seeds_done</th>
+              <th>off mean</th>
+              <th>on mean</th>
+              <th>mean delta</th>
+              <th>better flips</th>
+              <th>worse flips</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.aggregate_rows.map(row => `
+              <tr>
+                <td>${backendLabel(row.backend)}</td>
+                <td>${row.passes}</td>
+                <td>${row.seeds_done}</td>
+                <td>${row.off_mean_pct.toFixed(1)}%</td>
+                <td>${row.on_mean_pct.toFixed(1)}%</td>
+                <td class="${deltaClass(row.delta_mean_pp)}">${row.delta_mean_pp.toFixed(1)}pp</td>
+                <td>${row.better_total}</td>
+                <td>${row.worse_total}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      ` : "";
+
+      const pairCards = data.pair_rows.map(row => `
+        <div class="card">
+          <div class="label">${backendLabel(row.backend)} · seed ${row.seed} · N=${row.passes}</div>
+          <div class="big ${deltaClass(row.delta_pp)}">${row.delta_pp.toFixed(1)}pp</div>
+          <div class="subtle">off ${row.off_rate_pct.toFixed(1)}% → on ${row.on_rate_pct.toFixed(1)}%</div>
+          <div class="chips">
+            ${statusChip(`变好 ${row.better_flips}`, row.better_flips ? "good" : "")}
+            ${statusChip(`变差 ${row.worse_flips}`, row.worse_flips ? "bad" : "")}
+            ${statusChip(`样本 ${row.n_items}`)}
+          </div>
+          ${row.examples && row.examples.length ? `
+            <div class="mini-list">
+              ${row.examples.slice(0, 4).map(ex => `
+                <div class="mini-item">
+                  <strong>${ex.subject || ex.item_id}</strong><br>
+                  <span class="subtle">item: ${ex.item_id}</span>
+                </div>
+              `).join("")}
+            </div>
+          ` : ""}
+        </div>
+      `).join("");
+
+      document.getElementById("pairs-wrap").innerHTML = `
+        ${aggregateHtml}
+        <div class="pair-grid">${pairCards}</div>
+      `;
+    }
+
+    function renderJobs(data) {
+      const html = data.job_cards.map(job => {
+        const cls = job.status === "completed" ? "good" : (job.status === "running" ? "warn" : (job.status === "failed" ? "bad" : ""));
+        return `
+          <div class="card">
+            <div class="label">${backendLabel(job.backend)} · ${job.defense} · seed ${job.seed}</div>
+            <div style="margin-top:8px">${statusChip(job.status, cls)}</div>
+            <div class="subtle" style="margin-top:10px"><code>${job.report_id}</code></div>
+            <div class="subtle">passes: ${job.passes.join(", ")}</div>
+            <div class="subtle">report: ${job.report_exists ? "yes" : "no"} · items: ${job.items_exists ? "yes" : "no"}</div>
+          </div>
+        `;
+      }).join("");
+      document.getElementById("jobs-wrap").innerHTML = html;
+    }
+
+    async function loadBoard() {
+      try {
+        const res = await fetch(DATA_URL + `?t=${Date.now()}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        renderHero(data);
+        renderMetrics(data);
+        renderConditions(data);
+        renderPairs(data);
+        renderJobs(data);
+      } catch (err) {
+        document.getElementById("hero-text").innerHTML = `<span class="delta-bad">加载失败：</span> ${String(err)}`;
+      }
+    }
+
+    loadBoard();
+  </script>
+</body>
+</html>
