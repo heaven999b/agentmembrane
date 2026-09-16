@@ -1,0 +1,112 @@
+{
+  "protocol_id": "semantic-rq2-focused-interaction-confirmation-v1",
+  "timestamp": "2026-09-01T03:12:43.873818+00:00",
+  "confirmatory": true,
+  "claim_bearing": false,
+  "case_n": 200,
+  "document_cluster_n": 100,
+  "integrity": {
+    "status": "PASS",
+    "expected_record_n": 1600,
+    "observed_record_n": 1600,
+    "case_n": 200,
+    "document_cluster_n": 100,
+    "condition_n": 4,
+    "calls_per_case": 8,
+    "problems": []
+  },
+  "downstream_usage": {
+    "new_calls": 1200,
+    "cache_hits": 400,
+    "input_tokens": 1669501,
+    "output_tokens": 121418,
+    "total_tokens": 1790919,
+    "latency_ms": 5947969,
+    "persisted_completed_calls": 1600,
+    "persisted_failed_calls": 0,
+    "persisted_input_tokens": 2217228,
+    "persisted_output_tokens": 158778,
+    "persisted_total_tokens": 2376006,
+    "persisted_latency_ms": 7326424
+  },
+  "analysis": {
+    "protocol_id": "semantic-rq2-focused-interaction-confirmation-v1",
+    "confirmatory": true,
+    "multiplicity_family_n": 1,
+    "statistical_unit": "ContractNLI document cluster",
+    "primary_contrast": "(T_full-T_inference)-(S_full-S_inference)",
+    "primary_stratum": "construct_valid_complete_document_clusters",
+    "point_estimator": "case_weighted_mean; equal to the mean document-cluster delta because every included document contains exactly two cases",
+    "condition_effects_descriptive": {
+      "S_inference": {
+        "completed_case_n": 200,
+        "point": 0.105,
+        "document_cluster_bootstrap_95ci": [
+          0.06,
+          0.155
+        ]
+      },
+      "S_full": {
+        "completed_case_n": 200,
+        "point": 0.135,
+        "document_cluster_bootstrap_95ci": [
+          0.09,
+          0.185
+        ]
+      },
+      "T_inference": {
+        "completed_case_n": 200,
+        "point": 0.105,
+        "document_cluster_bootstrap_95ci": [
+          0.06,
+          0.155
+        ]
+      },
+      "T_full": {
+        "completed_case_n": 200,
+        "point": 0.13,
+        "document_cluster_bootstrap_95ci": [
+          0.085,
+          0.18
+        ]
+      }
+    },
+    "primary_interaction": {
+      "all_attempt_completed": {
+        "planned_document_cluster_n": 100,
+        "completed_document_cluster_n": 100,
+        "document_cluster_coverage": 1.0,
+        "completed_case_n": 200,
+        "point": -0.005,
+        "positive_document_cluster_n": 5,
+        "negative_document_cluster_n": 6,
+        "tied_document_cluster_n": 89,
+        "discordant_document_cluster_n": 11,
+        "exact_two_sided_cluster_sign_p": 1.0,
+        "document_cluster_bootstrap_95ci": [
+          -0.04,
+          0.025
+        ],
+        "cluster_aggregation": "mean_case_interaction_delta_within_document_before_sign_test"
+      },
+      "construct_valid": {
+        "planned_document_cluster_n": 100,
+        "completed_document_cluster_n": 89,
+        "document_cluster_coverage": 0.89,
+        "completed_case_n": 178,
+        "point": 0.0,
+        "positive_document_cluster_n": 4,
+        "negative_document_cluster_n": 4,
+        "tied_document_cluster_n": 81,
+        "discordant_document_cluster_n": 8,
+        "exact_two_sided_cluster_sign_p": 1.0,
+        "document_cluster_bootstrap_95ci": [
+          -0.033707865168539325,
+          0.028089887640449437
+        ],
+        "cluster_aggregation": "mean_case_interaction_delta_within_document_before_sign_test"
+      }
+    },
+    "result_label": "focused_interaction_not_confirmed"
+  }
+}

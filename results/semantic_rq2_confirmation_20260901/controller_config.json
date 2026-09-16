@@ -1,0 +1,13 @@
+{
+  "protocol_id": "semantic-rq2-confirmation-controller-v1",
+  "full_manifest_sha256": "899cf5565b5db964ebef9bdc20a8749afcce249782c3168c148c3c17df24eec3",
+  "checkpoint_manifest_sha256": "ab83f0934a6abef28bcf6a114802e2b2d967237178f23774e1f04c1ae7946bd6",
+  "profile_sha256": "47d75c596b022b26d39b9dc5bf5fe8eb1604216792a046fe24e452a035444112",
+  "main_protocol_sha256": "42b8f076d52b59ee0541be218c94ea7214735a647cbd9610418720ce4e0ad650",
+  "focused_protocol_sha256": "64ad047ff7bc4dcc5016ecbce2f45a5c9abb9fd107e0354ee5deccda5344f71a",
+  "implementation_sha256": "286708cab4a77d0cadd25c3f4f7c7be00a7d0c2960a144fb920c09e95af53d6b",
+  "seed": 20260901,
+  "checkpoint_case_n": 50,
+  "full_case_n": 200,
+  "checkpoint_promotion_basis": "engineering_integrity_only"
+}
