@@ -118,5 +118,11 @@
       "task_key": "travel/user_task_7",
       "goal_id": "injection_task_4"
     }
-  ]
+  ],
+  "program_lineage": "agentmembrane-canonical",
+  "construct_id": "host_mediated_capability_exploitation",
+  "construct_version": "1.0.0",
+  "study_id": "three_tier_engineering_pilot_20260916",
+  "evidence_level": "engineering",
+  "claim_bearing": false
 }

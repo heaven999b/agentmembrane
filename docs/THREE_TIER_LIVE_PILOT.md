@@ -33,14 +33,14 @@
 
 "$NATIVE_PYTHON" tools/summarize_rq1_three_tier_pilot.py \
   --manifest "$NEW_PILOT_DIRECTORY/pilot-manifest.json" \
-  --output "$NEW_PUBLIC_SNAPSHOT"
+  --output "$NEW_PUBLIC_SNAPSHOT" --aggregate-only
 ```
 
 本地 route collision 配置沿用 [仓库工作流](REPOSITORY_WORKFLOW.md) 中的三个显式环境变量。模型凭据由绑定的私有 lifecycle runner 管理，不放进命令、manifest 或公开仓库。执行期间源码和所有绑定输入冻结；代码改动后不得继续混跑旧 manifest。
 
 摘要分别报告六个条件的计划数、已执行数、G/L 阳性数、可判定分母与缺失。`formal_sample_count` 始终为 0；这批的效应数值只能用于工程诊断，不能直接宣称正式 RQ1 得到支持。
 
-公开导出入口逐格重新检查原始封存证据、外部锚点和评分绑定，只导出任务 ID、工具名和统计量，不导出调用参数、消息、账号信息或私有路径。它额外报告 source-bound native observer 能识别的越界效果，作为工程诊断；该项不是正式 D，未覆盖的现象保持 unknown。攻击目标未达成也可能伴随其他越界效果，两者分别报告。
+导出入口逐格重新检查原始封存证据、外部锚点和评分绑定。加 `--aggregate-only` 才生成公开聚合结果；不加该选项的逐格诊断仅留在私有工作区。两种输出均不含调用参数、消息、账号信息或私有路径。它额外报告 source-bound native observer 能识别的越界效果，作为工程诊断；该项不是正式 D，未覆盖的现象保持 unknown。攻击目标未达成也可能伴随其他越界效果，两者分别报告。
 
 ## 超时后继续与评分修正
 

@@ -67,12 +67,18 @@
         "protocols": [
           "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/FORMAL_PROTOCOL_DESIGN.md"
         ],
-        "results": [],
+        "results": [
+          "results/rq1_three_tier_pilot_20260916"
+        ],
         "reports": [
-          "reports/rq1/RQ1_CURRENT_RESULTS_20260902.md"
+          "reports/rq1/RQ1_CURRENT_RESULTS_20260902.md",
+          "reports/rq1/THREE_TIER_PILOT_20260916.md"
         ],
         "reproduce": [
-          "tools/qualify_rq1_three_tier_runtime.py"
+          "tools/qualify_rq1_three_tier_runtime.py",
+          "tools/run_rq1_three_tier_pilot.py",
+          "tools/continue_rq1_three_tier_pilot.py",
+          "tools/summarize_rq1_three_tier_pilot.py"
         ]
       },
       "legacy_aliases": [

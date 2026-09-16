@@ -158,13 +158,35 @@ def summarize(manifest_path, checker_reanalysis=None):
     }
 
 
+
+def public_aggregate(value):
+    """Project a verified private summary to repository aggregate evidence."""
+    value = json.loads(json.dumps(value))
+    rows = value.pop("cells")
+    for group in value["groups"]:
+        selected = [r for r in rows if (r["level"], r["regime"]) == (group["level"], group["regime"])]
+        known = [r["L_original"] for r in selected if r["L_original"] is not None]
+        group["original_L"] = {"identified": len(known), "positive": sum(known)}
+    value["scoring_correction_count"] = sum(r["L"] != r["L_original"] for r in rows)
+    value["publication_scope"] = "aggregate_only_private_cell_diagnostics_retained"
+    value["projection_script_sha256"] = file_hash(Path(__file__))
+    value.update(program_lineage="agentmembrane-canonical",
+                 construct_id="host_mediated_capability_exploitation", construct_version="1.0.0",
+                 study_id="three_tier_engineering_pilot_20260916", evidence_level="engineering",
+                 claim_bearing=False)
+    return value
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--checker-reanalysis", type=Path)
+    parser.add_argument("--aggregate-only", action="store_true", help="Required for public repository export")
     args = parser.parse_args()
     value = summarize(args.manifest, args.checker_reanalysis)
+    if args.aggregate_only:
+        value = public_aggregate(value)
     _write_new(args.output, canonical(value) + b"\n")
     print(json.dumps({k: value[k] for k in (
         "planned_tasks", "planned_cells", "closed_cells", "unknown_closure_cells",

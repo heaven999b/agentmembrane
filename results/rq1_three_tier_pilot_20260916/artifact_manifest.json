@@ -1,0 +1,26 @@
+{
+  "schema_version": "agentmembrane-public-evidence-manifest/1",
+  "program_lineage": "agentmembrane-canonical",
+  "construct_id": "host_mediated_capability_exploitation",
+  "construct_version": "1.0.0",
+  "study_id": "three_tier_engineering_pilot_20260916",
+  "evidence_level": "engineering",
+  "claim_bearing": false,
+  "artifacts": [
+    {
+      "path": "results/rq1_three_tier_pilot_20260916/README.md",
+      "sha256": "c5a5019dcd07fa556d3cb7a0969a3d9cdb2f8bd392c8ee9f7f1a45dd0ec41c16",
+      "size_bytes": 2269
+    },
+    {
+      "path": "results/rq1_three_tier_pilot_20260916/CHECKPOINT_024.json",
+      "sha256": "e87bdf2239f3eace8dd2e80a041ab85b021246c136674ac10e4c4057e1a60df9",
+      "size_bytes": 7456
+    },
+    {
+      "path": "results/rq1_three_tier_pilot_20260916/STARTUP_FAILURE.json",
+      "sha256": "ec211d33e67abb70bbceb21fecb83d89a67edb95c4b91827fed1d4cd3a0de9dc",
+      "size_bytes": 3298
+    }
+  ]
+}
