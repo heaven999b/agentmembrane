@@ -17,6 +17,8 @@ Evidence labels are used consistently:
 
 ## RQ1
 
+- [105-cell three-tier pilot checkpoint](rq1/THREE_TIER_PILOT_PROGRESS_105_20260917.md) — 98 complete executions, 7 retained unknown closures, 15 pending; engineering evidence only.
+
 - [20-task live pilot update](rq1/THREE_TIER_PILOT_20260916.md)
   — latest engineering update: 20 original tasks × 6 conditions fixed before
   execution. An invalidated login caused an initial HTTP 401; the user then selected

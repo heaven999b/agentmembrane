@@ -12,14 +12,18 @@ import importlib.util
 import json
 from pathlib import Path
 import sys
+from datetime import datetime, timezone
 
-PROJECT = Path(__file__).resolve().parents[1]
+_bootstrap = argparse.ArgumentParser(add_help=False)
+_bootstrap.add_argument("--execution-source", type=Path)
+_runtime, _ = _bootstrap.parse_known_args()
+PROJECT = (_runtime.execution_source or Path(__file__).resolve().parents[1]).resolve()
 sys.path.insert(0, str(PROJECT))
 
 from agentmembrane.host_v2.rq1_collab_v1.audit import _write_new, canonical, strict_loads, file_hash
 from agentmembrane.host_v2.rq1_collab_v6.evaluation import read_evidence, derive_outcomes
 from agentmembrane.host_v2.rq1_three_tier_formal_v1.diagnostic import (
-    CONDITIONS, validate_manifest,
+    CONDITIONS, validate_manifest, validate_cell_lifecycle_receipt,
 )
 
 
@@ -27,8 +31,49 @@ def read(path):
     return strict_loads(Path(path).read_bytes())
 
 
-def summarize(manifest_path, checker_reanalysis=None):
+def load_review_guard(path, expected_hash, review_path, manifest):
+    path = Path(path)
+    if (path.is_symlink() or not path.is_file() or not expected_hash
+            or file_hash(path) != expected_hash):
+        raise ValueError("continuation_guard_hash_mismatch")
+    spec = importlib.util.spec_from_file_location("pilot_summary_review_guard", path)
+    guard = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(guard)
+    if Path(guard.PROJECT).resolve() != PROJECT:
+        raise ValueError("continuation_guard_execution_source_mismatch")
+    review = read(review_path)
+    rows = review.get("acknowledged_failures")
+    if (review.get("manifest_sha256") != manifest["manifest_sha256"]
+            or review.get("retry_existing_cells") is not False
+            or review.get("reason") != "sealed_failures_reviewed_no_replay"
+            or not isinstance(rows, list)
+            or len({r["episode_id"] for r in rows}) != len(rows)):
+        raise ValueError("invalid_closed_failure_review")
+    return guard, {r["episode_id"]: r for r in rows}
+
+
+def summarize(manifest_path, checker_reanalysis=None, *, continuation_guard=None,
+              continuation_guard_sha256=None, review_path=None):
     manifest = validate_manifest(read(manifest_path))
+    if any(x is not None for x in (continuation_guard, continuation_guard_sha256, review_path)):
+        if any(x is None for x in (continuation_guard, continuation_guard_sha256, review_path)):
+            raise ValueError("guard_hash_and_review_required_together")
+        guard, acknowledged = load_review_guard(
+            continuation_guard, continuation_guard_sha256, review_path, manifest)
+    else:
+        guard, acknowledged = None, {}
+    # Freeze the membership before scanning evidence. A cell closing later stays
+    # active in this snapshot; concurrent progress never implies all complete.
+    snapshot_started = datetime.now(timezone.utc).isoformat()
+    snapshot = []
+    for cell in manifest["cells"]:
+        folder = Path(manifest["run_parent"]) / cell["episode_id"]
+        if folder.is_symlink():
+            raise ValueError("pilot_run_symlink_not_allowed")
+        state = ("summary" if (folder / "summary.json").is_file() else
+                 "failure" if (folder / "failure.json").is_file() else
+                 "active" if folder.exists() else "unattempted")
+        snapshot.append((cell, folder, state))
     revised_checker = None
     if checker_reanalysis is not None:
         path = Path(checker_reanalysis)
@@ -38,12 +83,32 @@ def summarize(manifest_path, checker_reanalysis=None):
         spec = importlib.util.spec_from_file_location(name, path)
         revised_checker = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(revised_checker)
-    rows, running = [], []
-    for cell in manifest["cells"]:
-        folder = Path(manifest["run_parent"]) / cell["episode_id"]
-        if not folder.exists():
+    rows, running, used = [], [], set()
+    for cell, folder, state in snapshot:
+        if state == "unattempted":
             continue
-        if not (folder / "summary.json").is_file():
+        if state == "failure":
+            if guard is None or cell["episode_id"] not in acknowledged:
+                raise ValueError("reviewed_infrastructure_seal_required")
+            guard.verify_pre_actor_failure(folder, cell, manifest, acknowledged[cell["episode_id"]])
+            used.add(cell["episode_id"])
+            failure = read(folder / "failure.json")
+            task = next(t for t in manifest["tasks"] if t["bundle_sha256"] == cell["bundle_sha256"])
+            if (failure.get("task_key") != task["task_key"]
+                    or failure.get("level") != cell["level"]
+                    or failure.get("regime") != cell["regime"]):
+                raise ValueError("pilot_failure_cell_binding_mismatch")
+            rows.append({"episode_id": cell["episode_id"], "task_key": failure["task_key"],
+                         "level": cell["level"], "regime": cell["regime"], "G": None, "L": None,
+                         "L_original": None, "G_actor_lineage": "unknown", "closure_class": "fatal_unknown",
+                         "model_request_count": failure.get("model_request_count", 0), "elapsed_seconds": None,
+                         "evaluation_error_count": 0, "execution_failure_count": 1,
+                         "decision_status_counts": {}, "native_backend_entries_by_actor": {},
+                         "native_rejections_by_actor": {}, "observed_unauthorized_native_effect_diagnostic": None,
+                         "outside_request_dispatches_diagnostic": [], "native_observer_error": None,
+                         "evidence_integrity_verified": True, "cleanup_confirmed": True})
+            continue
+        if state == "active":
             running.append(cell["episode_id"])
             continue
         summary = read(folder / "summary.json")
@@ -60,7 +125,33 @@ def summarize(manifest_path, checker_reanalysis=None):
                 or summary["level"] != cell["level"]
                 or summary["regime"] != cell["regime"]):
             raise ValueError("pilot_summary_cell_binding_mismatch")
+        if (summary.get("cleanup_confirmed") is not True
+                or summary.get("evaluation_errors") != []
+                or report.get("evaluation_errors") != []
+                or summary.get("closure_class") != evidence["closure_class"]
+                or report.get("closure_class") != evidence["closure_class"]
+                or summary.get("execution_failures") != evidence["failures"]
+                or report.get("execution_failures") != evidence["failures"]):
+            raise ValueError("pilot_cleanup_or_evaluation_not_verified")
+        receipt = read(folder / "evidence" / "artifacts" / "proxy-lifecycle-receipt.json")
+        validate_cell_lifecycle_receipt(receipt, manifest=manifest, cell=cell)
+        seal = read(folder / "evidence" / "seal.json")
+        extension = seal["metadata"].get("formal_extension", {})
+        if (extension.get("pilot_manifest_sha256") != manifest["manifest_sha256"]
+                or extension.get("proxy_lifecycle_receipt_sha256") != receipt["receipt_sha256"]
+                or receipt["model_request_count"] != summary["model_request_count"]):
+            raise ValueError("pilot_cleanup_seal_binding_mismatch")
         unknown = evidence["closure_class"] == "fatal_unknown"
+        if unknown and guard is not None:
+            ack = acknowledged.get(cell["episode_id"], {})
+            if ack.get("failure_kind") == "sealed_controller_failure":
+                guard.verify_sealed_controller_failure(folder, cell, manifest, ack, summary, evidence)
+            elif (ack.get("execution_seal_sha256") != seal_hash
+                  or not evidence["failures"]
+                  or any(f.get("kind") != "model_service_error" or f.get("http_status") != 408
+                         for f in evidence["failures"])):
+                raise ValueError("unreviewed_closed_failure")
+            used.add(cell["episode_id"])
         strict = report.get("strict_task_result")
         expected_g = None if unknown else report["native_goal_success"]
         expected_l = None if unknown or not isinstance(strict, dict) else strict.get("value")
@@ -116,6 +207,8 @@ def summarize(manifest_path, checker_reanalysis=None):
             "evidence_integrity_verified": True,
             "cleanup_confirmed": summary["cleanup_confirmed"],
         })
+    if guard is not None and used != set(acknowledged):
+        raise ValueError("review_contains_nonfailed_or_unregistered_cells")
     groups = []
     for level, regime in CONDITIONS:
         selected = [r for r in rows if r["level"] == level and r["regime"] == regime]
@@ -135,6 +228,9 @@ def summarize(manifest_path, checker_reanalysis=None):
     return {
         "schema_version": "rq1-three-tier-public-live-pilot-summary/1",
         "analysis_script_sha256": file_hash(Path(__file__)),
+        "continuation_guard_sha256": continuation_guard_sha256,
+        "failure_review_sha256": file_hash(review_path) if review_path is not None else None,
+        "snapshot_membership_at": snapshot_started,
         "checker_reanalysis_sha256": (file_hash(checker_reanalysis)
                                       if checker_reanalysis is not None else None),
         "scoring_status": ("posthoc_diagnostic_correction_original_scores_preserved"
@@ -143,6 +239,8 @@ def summarize(manifest_path, checker_reanalysis=None):
         "code_bundle_sha256": manifest["code_bundle_sha256"],
         "planned_tasks": manifest["task_count"], "planned_cells": len(manifest["cells"]),
         "closed_cells": len(rows), "in_progress_or_unscored_cells": len(running),
+        "unattempted_cells": sum(state == "unattempted" for _, _, state in snapshot),
+        "infrastructure_unknown_cells": sum(state == "failure" for _, _, state in snapshot),
         "tasks_with_all_six_cells_closed": sum(v == 6 for v in task_counts.values()),
         "model_request_count": sum(r["model_request_count"] for r in rows),
         "unknown_closure_cells": sum(r["closure_class"] == "fatal_unknown" for r in rows),
@@ -182,9 +280,16 @@ def main():
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--checker-reanalysis", type=Path)
+    parser.add_argument("--execution-source", type=Path)
+    parser.add_argument("--continuation-guard", type=Path)
+    parser.add_argument("--continuation-guard-sha256")
+    parser.add_argument("--review", type=Path)
     parser.add_argument("--aggregate-only", action="store_true", help="Required for public repository export")
     args = parser.parse_args()
-    value = summarize(args.manifest, args.checker_reanalysis)
+    value = summarize(args.manifest, args.checker_reanalysis,
+                      continuation_guard=args.continuation_guard,
+                      continuation_guard_sha256=args.continuation_guard_sha256,
+                      review_path=args.review)
     if args.aggregate_only:
         value = public_aggregate(value)
     _write_new(args.output, canonical(value) + b"\n")
