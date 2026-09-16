@@ -59,3 +59,19 @@ review JSON 字段为 `manifest_sha256`、`reason="isolated_upstream_timeout_rev
 如果在工程试跑中修正了评分器，执行仍在原提交导出的冻结源码快照中继续；actor 提示、权限、模型、预算和所有任务保持不变。评分修复在规范仓库维护，最终导出时用 `--checker-reanalysis` 指定修正版。该重算明确标记为事后诊断，保留 `L_original`、修正后的 `L`、执行代码 hash 与新评分器 hash；不重新调用模型、不替换原始结果。冻结快照是运行证据档案，不是另一份开发源。
 
 续跑控制器可用 `--execution-source "$FROZEN_EXECUTION_SOURCE"` 指向原冻结源码；控制器版本单独留存和记录 hash。启动前先在相同权限环境中做零模型请求的反代启停验证。本地端口被沙箱阻止时，必须通过宿主工具的授权提权启动，不能把环境权限问题当作实验失败连续消耗新格，也不能更换账号或修改冻结生命周期。
+
+## 持久续跑与问题格留档
+
+`tools/supervise_rq1_three_tier_pilot.py` 在同一独占进程内执行剩余注册格，不依赖聊天子代理持续存活。已经尝试的格不会重跑。遇到已封存、清理已确认、无评分错误的孤立 408，或经过严格核验的 controller `ValueError`，生成独立 review 并通过完整证据核验后保留 unknown、继续下一格。后者还核验 summary/config/failure hash、完整调用轨迹、生命周期收据以及每个已记录请求的交付状态；不接受混合账号或接口错误。
+
+未知错误、账号失效、封存或清理问题、连续三个失败会停止并写 `attention.json`。完成时写 `closed.json`，含最终 review 路径和“最终分析仍待完成”的标记。该执行闭合标记不代表科研评分已通过。
+
+```bash
+"$NATIVE_PYTHON" tools/supervise_rq1_three_tier_pilot.py \
+  --execution-source "$FROZEN_EXECUTION_SOURCE" \
+  --manifest "$PILOT_MANIFEST" --review "$REVIEW_RECEIPT" \
+  --guard "$REVIEWED_CONTINUATION_GUARD" --guard-sha256 "$GUARD_SHA256" \
+  --audit "$NEW_SUPERVISOR_AUDIT_DIRECTORY"
+```
+
+所有路径均使用绝对路径；从通过启停验证的权限环境启动。控制器及审核器需各自冻结版本与 hash；保留原失败证据和后续自动审核记录。相关离线防护测试：`python3 -m unittest tests.rq1_three_tier.test_pilot_supervisor -v`。

@@ -59,6 +59,48 @@ def verify_pre_actor_failure(folder, cell, manifest, acknowledgement):
         raise ValueError("infrastructure_failure_not_pre_actor_or_cleanup_unconfirmed")
 
 
+def verify_sealed_controller_failure(folder, cell, manifest, acknowledgement, row, evidence):
+    """Skip a reviewed cell-local ValueError; never replay it or admit auth failures."""
+    expected_failures = [{"kind": "controller_failure", "error_type": "ValueError"}]
+    anchor = diagnostic._load(folder / "execution-anchor.json")
+    seal = diagnostic._load(folder / "evidence" / "seal.json")
+    report = diagnostic._load(folder / "diagnostic-report.json")
+    if (acknowledgement.get("failure_kind") != "sealed_controller_failure"
+            or acknowledgement.get("execution_seal_sha256") != anchor["seal_sha256"]
+            or acknowledgement.get("formal_cell_sha256") != digest(cell)
+            or acknowledgement.get("failure_record_sha256") != file_hash(folder / "summary.json")
+            or acknowledgement.get("execution_failures_sha256") != digest(expected_failures)
+            or not verify(folder / "evidence", expected_seal_hash=anchor["seal_sha256"])["ok"]
+            or anchor.get("manifest_sha256") != manifest["manifest_sha256"]
+            or row.get("execution_seal_sha256") != anchor["seal_sha256"]
+            or row.get("episode_id") != cell["episode_id"]
+            or row.get("status") != "sealed_unknown"
+            or row.get("G") is not None or row.get("L") is not None
+            or row.get("cleanup_confirmed") is not True
+            or row.get("evaluation_errors") != []
+            or row.get("execution_failures") != expected_failures
+            or evidence.get("failures") != expected_failures
+            or evidence.get("config") != cell
+            or evidence.get("closure_class") != "fatal_unknown"
+            or evidence.get("terminal_reason") != "controller_failure"
+            or report.get("execution_seal_sha256") != anchor["seal_sha256"]
+            or report.get("evaluation_errors") != []
+            or report.get("sealed_call_trace_complete") is not True
+            or report.get("sealed_call_trace_gaps") != []):
+        raise ValueError("sealed_controller_failure_not_safe_to_skip")
+    receipt = diagnostic._load(folder / "evidence" / "artifacts" / "proxy-lifecycle-receipt.json")
+    diagnostic.validate_cell_lifecycle_receipt(receipt, manifest=manifest, cell=cell)
+    extension = seal["metadata"].get("formal_extension", {})
+    events = [json.loads(line) for line in (folder / "evidence" / "events.jsonl").read_text().splitlines()]
+    terminals = events[-1]["data"].get("model_request_terminal_status", {})
+    if (extension.get("pilot_manifest_sha256") != manifest["manifest_sha256"]
+            or extension.get("proxy_lifecycle_receipt_sha256") != receipt["receipt_sha256"]
+            or receipt["model_request_count"] != row.get("model_request_count")
+            or not terminals or len(terminals) != row.get("model_request_count")
+            or set(terminals.values()) != {"delivered"}):
+        raise ValueError("controller_failure_cleanup_or_request_delivery_unconfirmed")
+
+
 def plan(manifest_path, review_path):
     manifest = diagnostic.validate_manifest(diagnostic._load(manifest_path))
     review = diagnostic._load(review_path)
@@ -94,6 +136,12 @@ def plan(manifest_path, review_path):
         if evidence["config"] != cell or row["evaluation_errors"] or not row["cleanup_confirmed"]:
             raise ValueError("prior_cell_not_safe_to_continue")
         if row["status"] == "completed":
+            continue
+        if (review.get("reason") == "sealed_failures_reviewed_no_replay"
+                and acknowledged.get(cell["episode_id"], {}).get("failure_kind") == "sealed_controller_failure"):
+            verify_sealed_controller_failure(folder, cell, manifest,
+                                             acknowledged[cell["episode_id"]], row, evidence)
+            used.add(cell["episode_id"])
             continue
         failures = evidence["failures"]
         if (cell["episode_id"] not in acknowledged
