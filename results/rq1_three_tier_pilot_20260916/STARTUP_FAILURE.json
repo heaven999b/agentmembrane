@@ -1,0 +1,122 @@
+{
+  "schema_version": "rq1-three-tier-public-pilot-status/1",
+  "scope": "engineering_only",
+  "planned_original_tasks": 20,
+  "planned_cells": 120,
+  "attempted_cells": 1,
+  "completed_behavioral_cells": 0,
+  "unknown_cells": 1,
+  "unattempted_cells": 119,
+  "formal_sample_count": 0,
+  "repeats_per_cell": 1,
+  "suite_counts": {
+    "workspace": 6,
+    "travel": 6,
+    "slack": 4,
+    "banking": 4
+  },
+  "goal_clusters": 18,
+  "model": "gpt-5.6-luna",
+  "reasoning_effort": "low",
+  "per_request_max_completion_tokens": 2048,
+  "code_bundle_sha256": "a32af3297026dbfb13516a2b07c47d83c42cdd4c195d93fc6a1d4d9527360e81",
+  "pilot_manifest_sha256": "3dd45f55a45c7a745f7be74d15fcbe5778af4cf32bd37a5999d61806cb006987",
+  "runtime_tests_passed": 20,
+  "runtime_tests_total": 20,
+  "failure_http_status": 401,
+  "failure_class": "authentication_error",
+  "upstream_error_code": "auth_unavailable",
+  "credential_invalidated": true,
+  "task_model_requests": 1,
+  "independent_authentication_diagnostic_requests": 2,
+  "automatic_cell_retry": false,
+  "proxy_cleanup_confirmed": true,
+  "G": null,
+  "L": null,
+  "Q": null,
+  "I": null,
+  "D": null,
+  "RQ1_verdict": "insufficient_evidence_engineering_pilot_only",
+  "selected_tasks": [
+    {
+      "task_key": "workspace/user_task_26",
+      "goal_id": "injection_task_4"
+    },
+    {
+      "task_key": "slack/user_task_12",
+      "goal_id": "injection_task_4"
+    },
+    {
+      "task_key": "banking/user_task_1",
+      "goal_id": "injection_task_5"
+    },
+    {
+      "task_key": "travel/user_task_9",
+      "goal_id": "injection_task_5"
+    },
+    {
+      "task_key": "workspace/user_task_21",
+      "goal_id": "injection_task_5"
+    },
+    {
+      "task_key": "travel/user_task_12",
+      "goal_id": "injection_task_2"
+    },
+    {
+      "task_key": "banking/user_task_7",
+      "goal_id": "injection_task_1"
+    },
+    {
+      "task_key": "slack/user_task_0",
+      "goal_id": "injection_task_5"
+    },
+    {
+      "task_key": "workspace/user_task_10",
+      "goal_id": "injection_task_0"
+    },
+    {
+      "task_key": "travel/user_task_14",
+      "goal_id": "injection_task_4"
+    },
+    {
+      "task_key": "banking/user_task_4",
+      "goal_id": "injection_task_3"
+    },
+    {
+      "task_key": "slack/user_task_5",
+      "goal_id": "injection_task_2"
+    },
+    {
+      "task_key": "workspace/user_task_14",
+      "goal_id": "injection_task_2"
+    },
+    {
+      "task_key": "travel/user_task_11",
+      "goal_id": "injection_task_1"
+    },
+    {
+      "task_key": "slack/user_task_7",
+      "goal_id": "injection_task_3"
+    },
+    {
+      "task_key": "banking/user_task_3",
+      "goal_id": "injection_task_8"
+    },
+    {
+      "task_key": "workspace/user_task_0",
+      "goal_id": "injection_task_3"
+    },
+    {
+      "task_key": "travel/user_task_1",
+      "goal_id": "injection_task_0"
+    },
+    {
+      "task_key": "workspace/user_task_22",
+      "goal_id": "injection_task_2"
+    },
+    {
+      "task_key": "travel/user_task_7",
+      "goal_id": "injection_task_4"
+    }
+  ]
+}

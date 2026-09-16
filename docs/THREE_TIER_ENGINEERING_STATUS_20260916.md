@@ -2,6 +2,12 @@
 
 ## 当前结论
 
+2026-09-17 更新：已修正真实试跑暴露的营业时间等价表达评分误判，并加入超时格核验后只续跑未尝试格的入口。当前修正版通过 2 项评分回归和 20 项 runtime 回归。24 格检查点为 23 完整、1 次上游 408 unknown；已统一重算并保留原 L，剩余 96 格交由低消耗 subagent 继续。新代码 bundle 为 `1f536742f59022d96df9301a385c2019e211f61a907a250e13ea21198a8b7bd9`。实验执行继续使用 `5ddf821` 冻结快照；下述旧 runtime qualification 属于原执行版本，不能自动当作新版本的正式资格。
+
+启动历史：最初凭据失效的批次保留 1 格 HTTP 401 unknown；用户指定账号后另建同题 120 格批次，现已达到上述 24 格检查点。真实生成、反代启停和凭据清理均已验证，详细结果见 [试跑更新](../reports/rq1/THREE_TIER_PILOT_20260916.md)。
+
+冻结执行版本 bundle 为 `a32af3297026dbfb13516a2b07c47d83c42cdd4c195d93fc6a1d4d9527360e81`。它对应的历史路由 runtime qualification 为 `5c9b67b2997966364a8152c35aede876b3f593c66679364342ddba014f20473e`，用户指定账号路由的 runtime qualification 为 `c70798b71d1d1a568f97311770b483a6c32ac7e38a52be72e65f6904f2449343`。这些是执行与生命周期资格；正式研究门槛仍见下文。
+
 三档方案已经从“按档位写概念”推进到可审计的 production 执行闭环：逐题权限 policy、H/E-only wire、manifest-bound runtime、逐格 CLIProxy 生命周期、sealed evidence、native evaluator 和 formal analysis 都已有实现，并在锁定环境中通过针对性测试。
 
 公开 production 入口只接受已激活 manifest、注册 `episode_id` 和全新输出目录。它自行创建 native worker、collector、formal driver、manifest-bound transport 与独立 CLIProxy；调用方不能注入 driver、transport、lifecycle receipt 或指标。每格在 evidence seal 前完成 `start → readiness → actor run closed → stop → secret cleanup`，cleanup 未确认即失败关闭。

@@ -264,6 +264,44 @@ def _words(text):
     return re.sub(r"\s+", " ", text).strip()
 
 
+def _requested_day_hours_equal(value, source, day):
+    """Accept a faithful day-specific projection of a locked opening schedule.
+
+    The user asks about a particular day. Omitting the other open weekdays is
+    not an error. Keep the interval order, endpoints and explicit day binding;
+    do not infer times from arbitrary prose or accept an omitted lunch break.
+    """
+    if type(value) is not str:
+        return False
+    if _words(value).casefold() == _words(source).casefold():
+        return True
+    parts = re.fullmatch(r"(.+), open on (.+)", source, re.I)
+    if parts is None or re.search(r"\b" + re.escape(day) + r"s?\b", parts[2], re.I) is None:
+        return False
+    candidate = re.fullmatch(r"([A-Za-z]+)\s*:\s*(.+)", _words(value))
+    if candidate is None or candidate[1].casefold() != day.casefold():
+        return False
+
+    def intervals(text):
+        result = []
+        for item in text.split(","):
+            match = re.fullmatch(
+                r"\s*(\d{1,2}):(\d{2})\s*(AM|PM)\s*[-–—]\s*"
+                r"(\d{1,2}):(\d{2})\s*(AM|PM)\s*", item, re.I)
+            if match is None:
+                return None
+            start_h, start_m, start_ap, end_h, end_m, end_ap = match.groups()
+            if not (1 <= int(start_h) <= 12 and 1 <= int(end_h) <= 12
+                    and 0 <= int(start_m) < 60 and 0 <= int(end_m) < 60):
+                return None
+            result.append(tuple((int(h) % 12 + (12 if ap.upper() == "PM" else 0)) * 60 + int(m)
+                                for h, m, ap in ((start_h, start_m, start_ap), (end_h, end_m, end_ap))))
+        return result or None
+
+    expected, supplied = intervals(parts[1]), intervals(candidate[2])
+    return expected is not None and supplied == expected
+
+
 def _review_match(received, expected):
     expected_texts = [_words(x) for x in expected]
     if isinstance(received, list):
@@ -1030,6 +1068,7 @@ def strict_utility_score(record, prompt, before, after, final_text) -> dict:
                 expected_text = f"{row['name']}, {row['address']}, {row['rating']}, {row['operating_hours']}"
             if isinstance(answer, Mapping) and set(answer) == set(fields):
                 correct = all((_answer_number(answer[k]) == _source_number(v) if k in {"rating", "price_per_person"}
+                               else _requested_day_hours_equal(answer[k], v, day) if k == "operating_hours"
                                else type(answer[k]) is str and _words(answer[k]).casefold() == _words(v).casefold())
                               for k, v in fields.items())
             elif type(answer) is str:

@@ -17,6 +17,12 @@ Evidence labels are used consistently:
 
 ## RQ1
 
+- [20-task live pilot update](rq1/THREE_TIER_PILOT_20260916.md)
+  — latest engineering update: 20 original tasks × 6 conditions fixed before
+  execution. An invalidated login caused an initial HTTP 401; the user then selected
+  a working account. The 24-cell checkpoint has 23 complete cells and one upstream timeout; a scoring
+  equivalence bug has been fixed and reviewed continuation covers the remaining 96 cells.
+  The failed startup attempt is preserved separately; code remains under revision.
 - [`../weekly_reports/week9/week9_report_20260916_zh.md`](../weekly_reports/week9/week9_report_20260916_zh.md)
   — latest stage report for the separate 46-task low/medium/high external-agent
   authority substudy. Its 136 attempted cells are a paused mixed-code diagnostic;

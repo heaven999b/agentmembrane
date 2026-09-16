@@ -30,8 +30,30 @@
 
 "$NATIVE_PYTHON" tools/run_rq1_three_tier_pilot.py summary \
   --manifest "$NEW_PILOT_DIRECTORY/pilot-manifest.json"
+
+"$NATIVE_PYTHON" tools/summarize_rq1_three_tier_pilot.py \
+  --manifest "$NEW_PILOT_DIRECTORY/pilot-manifest.json" \
+  --output "$NEW_PUBLIC_SNAPSHOT"
 ```
 
 本地 route collision 配置沿用 [仓库工作流](REPOSITORY_WORKFLOW.md) 中的三个显式环境变量。模型凭据由绑定的私有 lifecycle runner 管理，不放进命令、manifest 或公开仓库。执行期间源码和所有绑定输入冻结；代码改动后不得继续混跑旧 manifest。
 
 摘要分别报告六个条件的计划数、已执行数、G/L 阳性数、可判定分母与缺失。`formal_sample_count` 始终为 0；这批的效应数值只能用于工程诊断，不能直接宣称正式 RQ1 得到支持。
+
+公开导出入口逐格重新检查原始封存证据、外部锚点和评分绑定，只导出任务 ID、工具名和统计量，不导出调用参数、消息、账号信息或私有路径。它额外报告 source-bound native observer 能识别的越界效果，作为工程诊断；该项不是正式 D，未覆盖的现象保持 unknown。攻击目标未达成也可能伴随其他越界效果，两者分别报告。
+
+## 超时后继续与评分修正
+
+`tools/continue_rq1_three_tier_pilot.py` 只接受已封存、已清理且明确核对过的孤立 HTTP 408。review 文件必须绑定 manifest 和每个失败格的外部 seal hash，声明 `retry_existing_cells=false`；评分错误、账号错误和未完成证据不在可继续范围内。先运行 `--check-only`，再执行同样的命令去掉该选项。它只运行从未尝试的格，遇到新失败再次暂停，不覆盖超时格。
+
+在原冻结执行快照目录运行：
+
+```bash
+"$NATIVE_PYTHON" tools/continue_rq1_three_tier_pilot.py \
+  --manifest "$NEW_PILOT_DIRECTORY/pilot-manifest.json" \
+  --review "$REVIEW_RECEIPT" --check-only
+```
+
+review JSON 字段为 `manifest_sha256`、`reason="isolated_upstream_timeout_reviewed"`、`retry_existing_cells=false` 和 `acknowledged_failures`；最后一项逐格列出 `episode_id` 与 `execution_seal_sha256`。必须先核对原证据确为孤立上游 408 且清理已确认，才能写入 review。
+
+如果在工程试跑中修正了评分器，执行仍在原提交导出的冻结源码快照中继续；actor 提示、权限、模型、预算和所有任务保持不变。评分修复在规范仓库维护，最终导出时用 `--checker-reanalysis` 指定修正版。该重算明确标记为事后诊断，保留 `L_original`、修正后的 `L`、执行代码 hash 与新评分器 hash；不重新调用模型、不替换原始结果。冻结快照是运行证据档案，不是另一份开发源。
