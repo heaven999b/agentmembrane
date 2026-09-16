@@ -269,7 +269,7 @@ class PerCellProxyLifecycle:
         }
         try:
             result = self._runner.start(accounting)
-        except Exception as exc:
+        except BaseException as exc:
             active = accounting.get("_active_private_root")
             if type(active) is str:
                 candidate = Path(active)
@@ -282,6 +282,8 @@ class PerCellProxyLifecycle:
                         self._pid = int(raw_pid) if raw_pid.isdigit() else None
                     except OSError:
                         self._pid = None
+            if not isinstance(exc, Exception):
+                raise
             raise ProxyLifecycleFailure("per_cell_proxy_start_failed") from exc
         if type(result) is dict:
             if type(result.get("root")) is str:
@@ -397,8 +399,17 @@ class PerCellProxyLifecycle:
             return {"process_stop_confirmed": True,
                     "secret_cleanup_confirmed": True}
         if not self._root.exists():
-            self._closed = True
-            return {"process_stop_confirmed": True,
+            # Missing files alone do not prove that the process exited.
+            stopped = self._closed
+            if not stopped and self._pid is not None:
+                try:
+                    os.kill(self._pid, 0)
+                except ProcessLookupError:
+                    stopped = True
+                except PermissionError:
+                    stopped = False
+            self._closed = stopped
+            return {"process_stop_confirmed": stopped,
                     "secret_cleanup_confirmed": True}
         stop_confirmed = False
         try:
@@ -604,7 +615,7 @@ def rehearse_bound_proxy_lifecycle(*, route_binding_path: str | Path,
         receipt = {**body, "receipt_sha256": digest(body)}
         _write_new(Path(output).resolve(), canonical(receipt) + b"\n")
         return receipt
-    except Exception:
+    except BaseException:
         if root is None:
             active = accounting.get("_active_private_root")
             if type(active) is str:

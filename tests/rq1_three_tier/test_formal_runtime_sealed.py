@@ -896,6 +896,58 @@ def stop(root):
         self.assertFalse((run_dir / CELL_LIFECYCLE_PATH).exists())
         self.assertEqual(list(self.root.glob("fake-cell-proxy-*")), [])
 
+    def test_keyboard_interrupt_closes_proxy_and_seals_failed_attempt(self):
+        output = self.root / "interrupted-production"
+        with patch("agentmembrane.host_v2.rq1_three_tier_formal_v1.gate."
+                   "validate_formal_manifest", side_effect=lambda value: value), \
+             patch.object(runner, "registered_execution_resource",
+                          side_effect=KeyboardInterrupt("test interruption")):
+            with self.assertRaises(KeyboardInterrupt):
+                runner.run_formal_cell(
+                    manifest=self.manifest, episode_id=self.cell["episode_id"],
+                    run_parent=output)
+        run_dir = output / self.cell["episode_id"]
+        seal = strict_loads((run_dir / "seal.json").read_bytes())
+        self.assertEqual(seal["metadata"]["formal_failure"]["failure_class"],
+                         "KeyboardInterrupt")
+        self.assertTrue(all(seal["metadata"]["formal_failure"]["cleanup"].values()))
+        self.assertTrue(verify(run_dir, expected_seal_hash=seal["seal_hash"])["ok"])
+        self.assertEqual(list(self.root.glob("fake-cell-proxy-*")), [])
+
+    def test_removed_secret_root_does_not_prove_live_process_stopped(self):
+        collector = EventCollector(self.root / "missing-root", self.cell["episode_id"])
+        self.addCleanup(collector.abort)
+        lifecycle = PerCellProxyLifecycle(
+            manifest=self.manifest, cell=self.cell, collector=collector)
+        lifecycle._root = self.root / "already-removed"
+        lifecycle._pid = os.getpid()
+        self.assertEqual(lifecycle.cleanup_after_failure(), {
+            "process_stop_confirmed": False, "secret_cleanup_confirmed": True})
+
+    def test_diagnostic_outputs_preserve_sealed_native_evidence(self):
+        from agentmembrane.host_v2.rq1_three_tier_formal_v1 import diagnostic
+        cfg = inner_config(self.cell, self.bundle.sha256)
+        manifest = {**self.manifest, "cells": [cfg],
+                    "run_parent": str(self.root / "pilot"),
+                    "native_python": str(NATIVE_PYTHON), "source_root": str(SOURCE),
+                    "QID_status": "diagnostic_observers_only_not_formally_qualified",
+                    "tasks": [{"task_key": self.task_key,
+                               "goal_id": self.goal["goal_id"],
+                               "goal_cluster_id": self.goal_cluster,
+                               "bundle_sha256": self.bundle.sha256,
+                               "bundle": self.bundle.record()}]}
+        with patch.object(diagnostic, "validate_manifest", side_effect=lambda value: value):
+            row = diagnostic.run_cell(manifest, cfg)
+        folder = Path(manifest["run_parent"]) / cfg["episode_id"]
+        self.assertEqual(row["status"], "completed")
+        self.assertEqual(row["evaluation_errors"], [])
+        self.assertFalse(row["formal_sample_eligible"])
+        self.assertEqual(row["model_request_count"], 2)
+        self.assertTrue(verify(folder / "evidence",
+                               expected_seal_hash=row["execution_seal_sha256"])["ok"])
+        self.assertTrue((folder / "diagnostic-report.json").is_file())
+        self.assertEqual(list(self.root.glob("fake-cell-proxy-*")), [])
+
 
 if __name__ == "__main__":
     unittest.main()

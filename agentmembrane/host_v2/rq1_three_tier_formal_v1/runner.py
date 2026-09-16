@@ -102,7 +102,7 @@ def run_formal_cell(*, manifest=None, episode_id=None, run_parent=None):
                 collector=collector, lifecycle=lifecycle,
             )
         return result
-    except Exception as exc:
+    except BaseException as exc:
         cleanup = (lifecycle.cleanup_after_failure()
                    if lifecycle is not None else {
                        "process_stop_confirmed": True,
