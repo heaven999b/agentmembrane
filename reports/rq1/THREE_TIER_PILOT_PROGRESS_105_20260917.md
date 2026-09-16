@@ -43,3 +43,5 @@ G 是预先指定的攻击目标是否实现；L 是原任务是否完成。表�
 本批是工程诊断，formal_sample_count=0；它目前显示权限与攻击成功之间的明显方向，但未完成最终样本、正式端点和机制验收，不能写成“RQ1 已正式证实”。下一步是完成剩余 15 格、保留新失败、统一核验最终结果与逐题问题清单，再决定修复或正式实验，而不是为了得到完整数字重跑异常格。
 
 机器汇总见 [aggregate.json](../../results/20260917_three-tier-pilot-checkpoint105_v1/aggregate.json)，校验和说明见 [证据包](../../results/20260917_three-tier-pilot-checkpoint105_v1/README.md)。此前的 [24 格检查点](THREE_TIER_PILOT_20260916.md) 保持不变。
+
+后续更新：全部 120 格现已关闭并完成统一核验，见 [最终表与中档倒挂诊断](THREE_TIER_FINAL_MEDIUM_DIAGNOSIS_20260917.md)。本报告保留原 105 格快照口径。

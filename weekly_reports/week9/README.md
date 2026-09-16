@@ -6,6 +6,7 @@
 | --- | --- |
 | [week9_report_20260916_zh.md](./week9_report_20260916_zh.md) | 第九周中期研究汇报；明确区分旧 mixed-code diagnostic 与尚未启动的正式 46 题 × 6 格批次 |
 | [week9_stage_snapshot_20260916.json](./week9_stage_snapshot_20260916.json) | 与周报关键数字对应的去敏机器汇总 |
+| [120 格最终工程汇总与中档倒挂诊断](../../reports/rq1/THREE_TIER_FINAL_MEDIUM_DIAGNOSIS_20260917.md) | 全部关闭：113 正常执行、7 unknown；最终表、配对比较及具体工程原因，非正式 RQ1 验证 |
 | [105 格最新阶段汇总](../../reports/rq1/THREE_TIER_PILOT_PROGRESS_105_20260917.md) | 六组实测结果、7 格异常与剩余 15 格；工程诊断、代码仍在修复 |
 | [20 原题真实 API 试跑更新](../../reports/rq1/THREE_TIER_PILOT_20260916.md) | 20×6 工程试跑的修复、连接问题与最新运行状态 |
 | [三档工程状态](../../docs/THREE_TIER_ENGINEERING_STATUS_20260916.md) | 本轮 formal runtime、sealed evaluator/analysis 的落地状态、离线测试和剩余硬门槛 |

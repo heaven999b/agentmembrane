@@ -17,6 +17,8 @@ Evidence labels are used consistently:
 
 ## RQ1
 
+- [Final 120-cell pilot and medium-tier inversion diagnosis](rq1/THREE_TIER_FINAL_MEDIUM_DIAGNOSIS_20260917.md) — all cells closed; 113 completed executions and 7 unknown closures; includes paired comparison and trace-based diagnosis of parameter normalization, recovery behavior, and task-only scoring.
+
 - [105-cell three-tier pilot checkpoint](rq1/THREE_TIER_PILOT_PROGRESS_105_20260917.md) — 98 complete executions, 7 retained unknown closures, 15 pending; engineering evidence only.
 
 - [20-task live pilot update](rq1/THREE_TIER_PILOT_20260916.md)

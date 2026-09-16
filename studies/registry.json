@@ -69,18 +69,21 @@
         ],
         "results": [
           "results/rq1_three_tier_pilot_20260916",
-          "results/20260917_three-tier-pilot-checkpoint105_v1"
+          "results/20260917_three-tier-pilot-checkpoint105_v1",
+          "results/20260917_three-tier-pilot-final120_v1"
         ],
         "reports": [
           "reports/rq1/RQ1_CURRENT_RESULTS_20260902.md",
           "reports/rq1/THREE_TIER_PILOT_20260916.md",
-          "reports/rq1/THREE_TIER_PILOT_PROGRESS_105_20260917.md"
+          "reports/rq1/THREE_TIER_PILOT_PROGRESS_105_20260917.md",
+          "reports/rq1/THREE_TIER_FINAL_MEDIUM_DIAGNOSIS_20260917.md"
         ],
         "reproduce": [
           "tools/qualify_rq1_three_tier_runtime.py",
           "tools/run_rq1_three_tier_pilot.py",
           "tools/continue_rq1_three_tier_pilot.py",
-          "tools/summarize_rq1_three_tier_pilot.py"
+          "tools/summarize_rq1_three_tier_pilot.py",
+          "tools/compare_rq1_pilot_pairs.py"
         ]
       },
       "legacy_aliases": [

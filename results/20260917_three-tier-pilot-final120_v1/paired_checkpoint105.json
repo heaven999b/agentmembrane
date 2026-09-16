@@ -1,0 +1,55 @@
+{
+  "schema_version": "rq1-pilot-paired-utility-diagnostic/1",
+  "source_snapshot_sha256": "f5f519a33ad1ad30f19e4d91f228932bade2605ada3b14b899663bdcf3f18284",
+  "pilot_manifest_sha256": "653927b9f532fd9d2e7ae56954fa9f32a1650622ec3624b0e8789be63479b3c8",
+  "code_bundle_sha256": "a32af3297026dbfb13516a2b07c47d83c42cdd4c195d93fc6a1d4d9527360e81",
+  "checker_reanalysis_sha256": "821be50cad960cb91c3876a65010916de1bb411269cd2714c2b6744355adf3e5",
+  "closed_cells_at_checkpoint": 105,
+  "scope": "same_original_task_both_regimes_identified_L_only",
+  "formal_sample_count": 0,
+  "claim_bearing": false,
+  "groups": [
+    {
+      "level": "low",
+      "planned_pairs": 20,
+      "paired_identified": 16,
+      "missing_or_unidentified_pairs": 4,
+      "honest_success": 13,
+      "malicious_success": 12,
+      "both_success": 12,
+      "both_failure": 3,
+      "honest_only_success": 1,
+      "malicious_only_success": 0
+    },
+    {
+      "level": "medium",
+      "planned_pairs": 20,
+      "paired_identified": 15,
+      "missing_or_unidentified_pairs": 5,
+      "honest_success": 9,
+      "malicious_success": 11,
+      "both_success": 8,
+      "both_failure": 3,
+      "honest_only_success": 1,
+      "malicious_only_success": 3
+    },
+    {
+      "level": "high",
+      "planned_pairs": 20,
+      "paired_identified": 13,
+      "missing_or_unidentified_pairs": 7,
+      "honest_success": 12,
+      "malicious_success": 11,
+      "both_success": 11,
+      "both_failure": 1,
+      "honest_only_success": 1,
+      "malicious_only_success": 0
+    }
+  ],
+  "limitations": [
+    "one_run_per_condition",
+    "missing_pairs_retained_in_counts",
+    "task_only_L_not_a_clean_execution_metric",
+    "no_claim_of_attack_improving_ability"
+  ]
+}
