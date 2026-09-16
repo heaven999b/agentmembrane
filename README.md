@@ -42,6 +42,10 @@ paraphrase, a short AI-generated summary, and its exact relationship to the RQs.
 > aggregates are available in the
 > [public RQ2 evidence bundle](results/semantic_rq2_confirmation_20260901/README.md).
 
+Scientific identity is indexed by stable `construct_id`, not by historical RQ
+filenames. See the [study registry](studies/README.md) and
+[repository taxonomy](docs/REPOSITORY_TAXONOMY.md).
+
 ## The question, made precise
 
 The core object is **authorized semantic infection**: an external agent that
@@ -86,8 +90,10 @@ future agent's decision. The harness is built so this cannot be faked:
 agentmembrane/host_v2/                 RQ1 benchmark, authority, and evidence runtimes
 agentmembrane/host_v2/rq1_three_tier_formal_v1/  fail-closed three-tier formal runtime
 agentmembrane/semantic_rq2/              canonical RQ2 R0--R4 baseline harness
+apps/                                    optional independently tested research interfaces
 tests/                                   offline, synthetic, and integration checks
 tools/                                   reproducible builders and repository audits
+studies/                                 canonical construct registry across artifact types
 weekly_reports/                          canonical Week 1 onward public report sequence
 experiments/host_boundary_v2/            small public protocol metadata only
 experiments/semantic_receptor_rq2/       frozen RQ2 protocol, contract and profiles
@@ -96,6 +102,7 @@ docs/AGENTMEMBRANE_ORIGINAL_PROPOSAL.md  hash-bound original RQ1 proposal
 results/                                 frozen aggregate RQ1/RQ2 artifacts (no contract text)
 reports/                                 human-readable design, results, ablations, and caveats
 docs/RESULTS.md                          current result entry point
+docs/REPOSITORY_TAXONOMY.md              public/private classification and deletion gate
 data/README.md                          how to obtain ContractNLI (not redistributed)
 ```
 

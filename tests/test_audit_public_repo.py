@@ -19,6 +19,7 @@ class PublicRepositoryAuditTests(unittest.TestCase):
             "tracked_files": lambda: files,
             "validate_weekly_structure": lambda errors: [],
             "validate_markdown_links": lambda tracked, errors: None,
+            "validate_study_registry": lambda errors: [],
         }
         common.update(overrides)
         with patch.multiple(audit, **common), redirect_stdout(stream):
@@ -67,6 +68,29 @@ class PublicRepositoryAuditTests(unittest.TestCase):
             )
         self.assertEqual(status, 0)
         self.assertEqual(result["errors"], [])
+
+    def test_repository_study_registry_is_valid(self) -> None:
+        errors: list[str] = []
+        construct_ids = audit.validate_study_registry(errors)
+        self.assertEqual(errors, [])
+        self.assertEqual(set(construct_ids), audit.REQUIRED_CONSTRUCT_IDS)
+
+    def test_study_registry_rejects_escaping_path(self) -> None:
+        registry = json.loads(audit.STUDY_REGISTRY.read_text(encoding="utf-8"))
+        registry["constructs"][0]["paths"]["code"].append("../private")
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "registry.json"
+            path.write_text(json.dumps(registry), encoding="utf-8")
+            errors: list[str] = []
+            audit.validate_study_registry(
+                errors,
+                root=audit.ROOT,
+                registry_path=path,
+            )
+        self.assertTrue(
+            any("unsafe registry path" in error for error in errors),
+            errors,
+        )
 
 
 if __name__ == "__main__":
