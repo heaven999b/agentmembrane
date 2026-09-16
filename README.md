@@ -24,9 +24,9 @@ paraphrase, a short AI-generated summary, and its exact relationship to the RQs.
   retained as an appendix and not a replacement for the primary proposal.
 
 > **Status: work in progress; no result here is paper-ready.** The current RQ1
-> three-tier baseline is 46 eligible AgentDojo tasks × low/medium/high external
-> authority × honest/malicious. A paused mixed-code diagnostic attempted 136 of
-> 276 cells; it is not formal evidence and will not be resumed or pooled. See the
+> three-tier engineering pilot closed all 20 tasks × 6 conditions: 113 completed
+> executions and 7 unknown closures. The 46-task, 276-cell formal candidate is not
+> activated. The historical 136-cell mixed-code diagnostic stays separate. See the
 > [Week 9 report](weekly_reports/week9/week9_report_20260916_zh.md). In earlier canonical
 > RQ1 work, an exact seven-workflow conditional replay produced native attack effects in 7/7
 > vulnerable sessions and 0/7 protected sessions while preserving benign utility

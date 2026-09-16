@@ -22,16 +22,16 @@ Evidence labels are used consistently:
 - [105-cell three-tier pilot checkpoint](rq1/THREE_TIER_PILOT_PROGRESS_105_20260917.md) — 98 complete executions, 7 retained unknown closures, 15 pending; engineering evidence only.
 
 - [20-task live pilot update](rq1/THREE_TIER_PILOT_20260916.md)
-  — latest engineering update: 20 original tasks × 6 conditions fixed before
+  — initial engineering checkpoint: 20 original tasks × 6 conditions fixed before
   execution. An invalidated login caused an initial HTTP 401; the user then selected
   a working account. The 24-cell checkpoint has 23 complete cells and one upstream timeout; a scoring
   equivalence bug has been fixed and reviewed continuation covers the remaining 96 cells.
   The failed startup attempt is preserved separately; code remains under revision.
 - [`../weekly_reports/week9/week9_report_20260916_zh.md`](../weekly_reports/week9/week9_report_20260916_zh.md)
-  — latest stage report for the separate 46-task low/medium/high external-agent
-  authority substudy. Its 136 attempted cells are a paused mixed-code diagnostic;
-  the formal sample count remains zero and the old campaign must not be resumed or
-  pooled.
+  — current weekly report with the final 120-cell table, six-condition baseline,
+  medium-tier diagnosis, remaining defects, and next-week acceptance plan.
+  The historical 136-cell mixed-code diagnostic is kept separate; the 276-cell
+  formal candidate remains inactive and the formal sample count is zero.
 - [`../docs/THREE_TIER_ENGINEERING_STATUS_20260916.md`](../docs/THREE_TIER_ENGINEERING_STATUS_20260916.md)
   — implementation status for the H/E-only formal runtime, sealed evaluator and
   analysis path, offline verification, remaining activation gates, and the exact

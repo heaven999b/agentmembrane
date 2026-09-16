@@ -17,7 +17,7 @@ here; a staging or handoff copy does not count as published. See
 | Week 6 | [week6/](./week6/) | Transition into the AgentMembrane research line and the strict A/B negative result |
 | Week 7 | [week7/](./week7/) | RQ2 full confirmation and canonical RQ1 engineering/activation-calibration status |
 | Week 8 | [week8/](./week8/) | Scale-36 contextual-attack baseline, corrected task endpoint, and next-stage permission-gradient plan |
-| Week 9 | [week9/](./week9/) | RQ1 three-tier external-agent permission baseline, paused diagnostic results, and formalization status |
+| Week 9 | [week9/](./week9/) | Three-tier baseline, final 120-cell engineering results, medium-tier diagnosis, open issues, and next-week plan |
 
 User-facing naming follows the proposal: canonical RQ1 is the
 `authority_admission_boundary`; canonical RQ2 is
