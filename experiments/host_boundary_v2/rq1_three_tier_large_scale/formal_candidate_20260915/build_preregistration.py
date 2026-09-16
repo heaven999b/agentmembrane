@@ -415,9 +415,11 @@ def build_status(identity: dict, pool: dict, analysis: dict) -> dict:
             "semantic_nonarrival_requires_interval_contract",
             "H_output_contract_not_compiled_from_final_goal_assignment",
             "candidate_verdict_thresholds_require_independent_pre_run_review",
-            "formal_per_cell_proxy_lifecycle_controller_and_runtime_qualification_missing",
             "formal_manifest_not_created",
         ],
+        "runtime_engineering_status": (
+            "tracked_by_hash_bound_formal_preflight_not_a_preregistration_blocker"
+        ),
         "study_identity_scope_resolved": True,
         "canonical_A0_A5_claim_permitted": False,
         "old_campaign_resume_permitted": False,

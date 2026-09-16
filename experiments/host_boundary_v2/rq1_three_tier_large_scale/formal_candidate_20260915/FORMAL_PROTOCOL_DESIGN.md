@@ -23,12 +23,7 @@
 
 H 在全部六格保有原题所需工具，system prompt、输出 schema、预算和终态责任逐题固定。honest 与 malicious 只改变 E 收到的内容，不能改变工具、预算、H 合同、checker 或评分器。
 
-当前只实现了可注入 fake transport 的 sealed offline core。公开 production
-入口固定 fail closed：`FORMAL_PER_CELL_PROXY_LIFECYCLE_IMPLEMENTED=false`、
-`FORMAL_RUNTIME_IMPLEMENTED=false`。已有 route receipt 只证明一次零样本
-rehearsal，而 cell seal 在调用方 cleanup 之前完成，所以它不能证明下面要求的
-逐格 lifecycle。正式 manifest gate 会先检查这一实现标志，不能靠 rehearsal
-receipt 或自报字段绕过。
+可注入 fake transport 的 sealed offline core 与 production outer controller 均已实现。公开 production 入口设置 `FORMAL_PER_CELL_PROXY_LIFECYCLE_IMPLEMENTED=true`、`FORMAL_RUNTIME_IMPLEMENTED=true`，且只允许 runner 自行创建 manifest-bound transport。零样本 rehearsal receipt 用于证明绑定的本机 runner／binary／route 可真实启停；每个正式 cell 仍必须另外生成包含五个有序事件的 receipt，并在 cleanup 完成后才封存 evidence，不能靠 rehearsal receipt 或自报字段替代。
 
 ## 3. 三档权限如何落地
 
@@ -96,12 +91,12 @@ Q/I/D 不能由模型自报，不能把 unknown 当 0，也不能用后来补写
 
 ## 7. 旧证据隔离
 
-旧 v6 evidence、`scale-36`、`live_campaign_002` 及其 136 个 mixed-code attempted cells 都只能保留为 diagnostic。`live_campaign_002` 永久暂停且 `old_campaign_resume_permitted=false`；不得恢复、补跑、重评分后升格或与 276 格新实验 pool。正式入口只接受当前 manifest 注册后新分配的 `rq1-evidence-formal/1`。
+旧 v6 evidence、`scale-36`、`live_campaign_002` 及其 136 个 mixed-code attempted cells 都只能保留为 diagnostic。`live_campaign_002` 永久暂停且 `old_campaign_resume_permitted=false`；不得恢复、补跑、重评分后升格或与 276 格新实验 pool。正式入口只接受当前 manifest 注册后新分配、且带逐格 production lifecycle 绑定的 `rq1-evidence-formal/2`。offline qualification 也使用该 envelope 版本，但 `formal_sample_eligible=false`，公开 evaluator 会拒绝把它计入结果。
 
 ## 8. 当前状态与启动顺序
 
-截至 2026-09-16，H/E formal wire、manifest-bound offline core、sealed evidence、native evaluator 和 formal analysis 已实现，并通过 fake-transport 离线闭环测试。逐格 proxy outer controller 尚未实现，公开 production runner 固定拒绝执行。真实研究样本为 0，本轮修复没有调用 API，`formal_ready=false`。
+截至 2026-09-16，H/E formal wire、manifest-bound runtime、逐格 proxy outer controller、sealed evidence、native evaluator 和 formal analysis 已实现。17 项 production runtime qualification 已通过；切换账号的真实 CLIProxy 零生成演练也完成了 start、readiness、stop 与 secret cleanup，研究样本仍为 0。正式预检中的 `formal_per_cell_proxy_lifecycle_integrated` 与 `formal_runtime_qualified` 现在均为 true，但 `formal_ready=false`。
 
-剩余门槛是：final 18-goal assignment、由其重编的 final H contract、构念治理、统计独立审查、全 46 题 Q/I/D scorer/evaluator qualification、production per-cell proxy lifecycle receipt，以及最终 manifest。
+剩余门槛是：final 18-goal assignment、由其重编的 final H contract、构念治理、统计独立审查、全 46 题 Q/I/D adjudication、formal evaluator qualification，以及最终 manifest。
 
-执行顺序固定为：先关闭所有无需真实模型的合同和 scorer 门槛，并实现、用 fake process 验证逐格 outer controller；再在正式题池外进行一次隔离、不可入池的真实 CLIProxy smoke，并核验 production lifecycle receipt；最后才允许 create-only 生成新的 276 格 manifest。manifest 生成后才可开始第一个正式 actor。当前状态不能判定 RQ1 支持或不支持。
+执行顺序固定为：先关闭所有 outcome-blind 合同和 scorer／evaluator 门槛；然后以当前 code／route／runtime qualification 的精确哈希 create-only 生成新的 276 格 manifest；manifest 生成后才可开始第一个正式 actor。当前状态不能判定 RQ1 支持或不支持。

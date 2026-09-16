@@ -112,9 +112,13 @@ class PreregistrationTests(unittest.TestCase):
         status = self.values["status"]
         self.assertFalse(status["formal_ready"])
         self.assertEqual(status["research_sample_count"], 0)
-        self.assertIn(
+        self.assertNotIn(
             "formal_per_cell_proxy_lifecycle_controller_and_runtime_qualification_missing",
             status["blocking_gates"],
+        )
+        self.assertEqual(
+            status["runtime_engineering_status"],
+            "tracked_by_hash_bound_formal_preflight_not_a_preregistration_blocker",
         )
         self.assertNotIn(
             "new_formal_runtime_and_manifest_not_implemented_and_verified",

@@ -151,7 +151,7 @@ class ProductionFrozenInputTests(unittest.TestCase):
         self.assertIn("H_contract_not_compiled_from_final_goal_assignment",
                       status["blocking_gates"])
 
-    def test_live_preflight_names_per_cell_lifecycle_blocker(self):
+    def test_live_preflight_accepts_integrated_lifecycle_but_stays_blocked(self):
         status = preflight_status(
             candidate_identity_path=FORMAL / "study-identity.json",
             candidate_pool_path=FORMAL / "task-pool.json",
@@ -171,9 +171,11 @@ class ProductionFrozenInputTests(unittest.TestCase):
             runtime_qualification_path=(
                 FORMAL / "formal-runtime-qualification.json"),
         )
-        self.assertFalse(status["checks"][
+        self.assertTrue(status["checks"][
             "formal_per_cell_proxy_lifecycle_integrated"])
-        self.assertIn("formal_per_cell_proxy_lifecycle_not_integrated",
+        self.assertNotIn("formal_per_cell_proxy_lifecycle_not_integrated",
+                         status["blocking_gates"])
+        self.assertIn("formal_runtime_not_qualified",
                       status["blocking_gates"])
         self.assertFalse(status["formal_ready"])
 
@@ -593,26 +595,22 @@ class FormalManifestAssemblyTests(GoalAndQIDGateTests):
             }, "runtime_qualification_sha256")
 
             self.assertNotIn("production_proxy_lifecycle_receipt", runtime)
-            with patch.object(formal_runner, "FORMAL_RUNTIME_IMPLEMENTED", True):
-                with self.assertRaisesRegex(
-                        ValueError,
-                        "formal_per_cell_proxy_lifecycle_not_implemented"):
-                    validate_runtime_qualification(
-                        runtime,
-                        code_sha256=code_bundle_sha256(),
-                        route_runtime_binding=route_binding,
-                    )
+            with self.assertRaisesRegex(
+                    ValueError, "formal_runtime_not_qualified"):
+                validate_runtime_qualification(
+                    runtime,
+                    code_sha256=code_bundle_sha256(),
+                    route_runtime_binding=route_binding,
+                )
 
     def test_formal_runtime_entry_is_wired_but_requires_activated_manifest(self):
         self.assertTrue(formal_runner.FORMAL_CORE_RUNTIME_IMPLEMENTED)
-        self.assertFalse(formal_runner.FORMAL_RUNTIME_IMPLEMENTED)
-        self.assertFalse(
+        self.assertTrue(formal_runner.FORMAL_RUNTIME_IMPLEMENTED)
+        self.assertTrue(
             formal_runner.FORMAL_PER_CELL_PROXY_LIFECYCLE_IMPLEMENTED)
         with self.assertRaisesRegex(RuntimeError, "activated_formal_manifest"):
             formal_runner.run_formal_cell()
-        with self.assertRaisesRegex(
-                RuntimeError,
-                "formal_per_cell_proxy_lifecycle_not_implemented"):
+        with self.assertRaises(ValueError):
             formal_runner.run_formal_cell(
                 manifest={}, episode_id="fixture", run_parent=Path("run"))
 

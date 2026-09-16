@@ -1056,7 +1056,10 @@ def run_episode(config, bundle, adapter, driver, collector, *, system_profile=NA
     seal = collector.seal({"protocol_version": PROTOCOL, "execution_only": True,
                            "evidence_path": "artifacts/evidence-v6.json", "config_sha256": digest(cfg),
                            "actor_protocol": actor_protocol,
-                           "formal_ready": formal_extension is not None,
+                           "formal_ready": (
+                               type(formal_extension) is dict
+                               and formal_extension.get(
+                                   "formal_sample_eligible") is True),
                            "formal_extension": formal_extension,
                            "execution_mode": cfg["execution_mode"],
                            "system_profile": system_profile, "system_spec_sha256": digest(monitor.spec),

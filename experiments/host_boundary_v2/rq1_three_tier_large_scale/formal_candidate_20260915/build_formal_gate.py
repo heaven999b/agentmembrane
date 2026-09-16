@@ -4,8 +4,10 @@ The command performs no model or network calls. Route, attestation, runtime,
 canary, and private candidate inputs have no machine-local defaults: callers
 must name every one on the command line. Outputs are create-only so a failed
 or repeated invocation cannot overwrite an existing registration artifact.
-The generated preflight remains blocked until the public runner owns and seals
-the per-cell proxy start/readiness/run/stop/secret-cleanup lifecycle.
+The generated preflight reports each gate independently.  The public runner
+now owns and seals the per-cell proxy start/readiness/run/stop/secret-cleanup
+lifecycle; activation remains blocked until every scientific and evaluator
+contract is also frozen and qualified.
 """
 from __future__ import annotations
 
@@ -206,7 +208,8 @@ def parser() -> argparse.ArgumentParser:
         default=STUDY / "qid_formal_adjudication_20260915/final-adjudication.json",
     )
     command.add_argument("--runtime-qualification", type=Path,
-                         default=HERE / "formal-runtime-qualification.json")
+                         default=(HERE /
+                                  "formal-runtime-qualification-private-v2-20260916.json"))
     command.add_argument("--evaluator-qualification", type=Path,
                          default=HERE / "formal-evaluator-qualification.json")
     return command

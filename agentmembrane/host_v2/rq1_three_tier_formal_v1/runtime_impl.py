@@ -40,7 +40,7 @@ from .contract import (
 )
 
 
-FORMAL_EVIDENCE_SCHEMA = "rq1-evidence-formal/1"
+FORMAL_EVIDENCE_SCHEMA = "rq1-evidence-formal/2"
 FORMAL_ALLOCATION_SCHEMA = "rq1-formal-cell-allocation/1"
 FORMAL_EVIDENCE_PATH = "artifacts/evidence-formal-v1.json"
 FORMAL_ALLOCATION_PATH = "artifacts/formal-allocation.json"
@@ -257,14 +257,15 @@ def _registered_context(manifest: dict, cell: dict, bundle) -> dict:
 
 
 @contextmanager
-def registered_task_resource(manifest: dict, task_key: str):
-    """Load one manifest-registered bundle and trusted evaluator adapter.
+def _registered_resource(manifest: dict, task_key: str, *, evaluator_only: bool):
+    """Load one manifest-registered bundle and a fresh native adapter.
 
     Downstream analysis must not deserialize a caller-provided bundle or trust
     an adapter supplied alongside an evaluation JSON.  This resolver starts
     from the exact, hash-bound qualified source and final goal assignment in an
     activated manifest, reloads the public AgentDojo task locally, and shuts
-    the evaluator worker down when the caller leaves the context.
+    the worker down when the caller leaves the context.  Execution and
+    evaluation adapters are deliberately distinct one-shot resources.
     """
     from ..rq1_collab_v1.admission import load_development_bundles
     from ..rq1_collab_v1.process_backend import ProcessNativeTask
@@ -323,11 +324,28 @@ def registered_task_resource(manifest: dict, task_key: str):
                    != record["source_record"]["prompt_sha256"]
                 or digest(adapter.tool_specs)
                    != record["source_record"]["tool_schema_sha256"]):
-            raise ValueError("registered_evaluator_adapter_source_mismatch")
-        setattr(adapter, _EVALUATOR_ONLY_ATTR, True)
+            raise ValueError("registered_native_adapter_source_mismatch")
+        if evaluator_only:
+            setattr(adapter, _EVALUATOR_ONLY_ATTR, True)
         yield {"bundle": bundle, "adapter": adapter}
     finally:
         adapter.shutdown()
+
+
+@contextmanager
+def registered_task_resource(manifest: dict, task_key: str):
+    """Load the trusted evaluator-only resource for downstream scoring."""
+    with _registered_resource(
+            manifest, task_key, evaluator_only=True) as resource:
+        yield resource
+
+
+@contextmanager
+def registered_execution_resource(manifest: dict, task_key: str):
+    """Load the fresh execution-only resource for one production cell."""
+    with _registered_resource(
+            manifest, task_key, evaluator_only=False) as resource:
+        yield resource
 
 
 def evaluate_registered_native_endpoints(*, adapter, run_root: str | Path,
@@ -658,7 +676,8 @@ def _validate_formal_permissions(inner: dict) -> None:
 
 
 def wrap_evidence(inner: dict, *, manifest: dict, cell: dict,
-                  allocation: dict, context: dict) -> dict:
+                  allocation: dict, context: dict,
+                  lifecycle_receipt: dict | None = None) -> dict:
     """Create the compact formal record that will enter the execution seal."""
     cell = validate_cell(cell)
     validate_allocation(allocation, manifest=manifest, cell=cell,
@@ -681,6 +700,13 @@ def wrap_evidence(inner: dict, *, manifest: dict, cell: dict,
                != allocation["attack_spec_sha256"]
             or inner.get("qid_pre_run_registration") is not None):
         raise ValueError("inner_evidence_formal_binding_mismatch")
+    production = lifecycle_receipt is not None
+    lifecycle_sha256 = None
+    if production:
+        from .proxy_lifecycle import validate_cell_lifecycle_receipt
+        lifecycle_receipt = validate_cell_lifecycle_receipt(
+            lifecycle_receipt, manifest=manifest, cell=cell)
+        lifecycle_sha256 = lifecycle_receipt["receipt_sha256"]
     body = {
         "schema_version": FORMAL_EVIDENCE_SCHEMA,
         "protocol_version": FORMAL_PROTOCOL,
@@ -689,6 +715,13 @@ def wrap_evidence(inner: dict, *, manifest: dict, cell: dict,
         "allocation_sha256": allocation["allocation_sha256"],
         "allocated_after_manifest_registration": True,
         "legacy_source": False,
+        "execution_class": (
+            "production_per_cell_proxy" if production
+            else "offline_runtime_qualification"),
+        "formal_sample_eligible": production,
+        "production_proxy_lifecycle_receipt_path": (
+            "artifacts/proxy-lifecycle-receipt.json" if production else None),
+        "production_proxy_lifecycle_receipt_sha256": lifecycle_sha256,
         "episode_id": cell["episode_id"],
         "formal_cell_sha256": digest(cell),
         "formal_task_binding_sha256": cell["formal_task_binding_sha256"],
@@ -720,7 +753,8 @@ def wrap_evidence(inner: dict, *, manifest: dict, cell: dict,
 def _validate_evidence_components(evidence: dict, *, manifest: dict,
                                   cell: dict, allocation: dict,
                                   inner_evidence: dict, bundle,
-                                  events=None) -> dict:
+                                  events=None,
+                                  lifecycle_receipt: dict | None = None) -> dict:
     """Validate the envelope and underlying H/E execution from first principles."""
     cell = validate_cell(cell)
     context = _registered_context(manifest, cell, bundle)
@@ -728,7 +762,8 @@ def _validate_evidence_components(evidence: dict, *, manifest: dict,
     validate_allocation(allocation, manifest=manifest, cell=cell,
                         bundle=bundle, context=context)
     expected = wrap_evidence(inner_evidence, manifest=manifest, cell=cell,
-                             allocation=allocation, context=context)
+                             allocation=allocation, context=context,
+                             lifecycle_receipt=lifecycle_receipt)
     if type(evidence) is not dict or evidence != expected:
         raise ValueError("formal_evidence_envelope_binding_mismatch")
     if events is not None:
@@ -754,12 +789,18 @@ def _formal_seal_extension(evidence: dict, allocation: dict) -> dict:
             "QID_adjudicated_task_sha256"],
         "runtime_object_claim_sha256": evidence[
             "runtime_object_claim_sha256"],
+        "formal_sample_eligible": evidence["formal_sample_eligible"],
+        "production_proxy_lifecycle_receipt_path": evidence[
+            "production_proxy_lifecycle_receipt_path"],
+        "production_proxy_lifecycle_receipt_sha256": evidence[
+            "production_proxy_lifecycle_receipt_sha256"],
         "legacy_evidence_eligible": False,
     }
 
 
 def _seal_failed_attempt(collector, *, manifest: dict, cell: dict,
-                         allocation: dict | None, exc: Exception) -> None:
+                         allocation: dict | None, exc: Exception,
+                         cleanup: dict | None = None) -> None:
     if getattr(collector, "_sealed", False):
         return
     data = {
@@ -770,6 +811,7 @@ def _seal_failed_attempt(collector, *, manifest: dict, cell: dict,
         "failure_class": type(exc).__name__,
         "formal_evidence_admitted": False,
         "replacement_cell_permitted": False,
+        "cleanup": clone(cleanup) if type(cleanup) is dict else None,
     }
     try:
         collector.emit("formal_attempt_failed", data,
@@ -788,9 +830,13 @@ def _seal_failed_attempt(collector, *, manifest: dict, cell: dict,
             pass
 
 
-def _lifecycle(events: list[dict], episode_id: str) -> None:
-    names = ("formal_cell_allocated", "episode_started", "episode_closed",
-             "formal_evidence_admitted", "collector_seal")
+def _lifecycle(events: list[dict], episode_id: str, *, production: bool) -> None:
+    names = (["formal_proxy_process_started", "formal_proxy_readiness_passed"]
+             if production else []) + [
+        "formal_cell_allocated", "episode_started", "episode_closed",
+    ] + (["formal_proxy_lifecycle_completed"] if production else []) + [
+        "formal_evidence_admitted", "collector_seal",
+    ]
     selected = {}
     for name in names:
         rows = [row for row in events if row.get("kind") == name]
@@ -806,7 +852,8 @@ def _lifecycle(events: list[dict], episode_id: str) -> None:
 
 def validate_sealed_formal_run(run_dir: str | Path, *,
                                expected_seal_hash: str, manifest: dict,
-                               episode_id: str, bundle) -> dict:
+                               episode_id: str, bundle,
+                               require_production_lifecycle: bool = True) -> dict:
     """Read a sealed attempt; unsealed, modified and post-hoc evidence all fail."""
     from .gate import validate_formal_manifest
 
@@ -824,6 +871,19 @@ def validate_sealed_formal_run(run_dir: str | Path, *,
     allocation = strict_loads((root / FORMAL_ALLOCATION_PATH).read_bytes())
     evidence = strict_loads((root / FORMAL_EVIDENCE_PATH).read_bytes())
     inner = strict_loads((root / "artifacts/evidence-v6.json").read_bytes())
+    production = (type(evidence) is dict
+                  and evidence.get("formal_sample_eligible") is True)
+    lifecycle_receipt = None
+    if production:
+        from .proxy_lifecycle import (
+            CELL_LIFECYCLE_PATH, validate_cell_lifecycle_receipt,
+        )
+        lifecycle_receipt = strict_loads(
+            (root / CELL_LIFECYCLE_PATH).read_bytes())
+        validate_cell_lifecycle_receipt(
+            lifecycle_receipt, manifest=manifest, cell=cell)
+    elif require_production_lifecycle:
+        raise ValueError("offline_runtime_evidence_not_formal_sample")
     events = [strict_loads(line) for line in
               (root / "events.jsonl").read_bytes().splitlines()]
     context = _registered_context(manifest, cell, bundle)
@@ -832,6 +892,7 @@ def validate_sealed_formal_run(run_dir: str | Path, *,
     _validate_evidence_components(
         evidence, manifest=manifest, cell=cell, allocation=allocation,
         inner_evidence=inner, bundle=bundle, events=events,
+        lifecycle_receipt=lifecycle_receipt,
     )
     extension = _formal_seal_extension(evidence, allocation)
     metadata = seal.get("metadata")
@@ -839,16 +900,17 @@ def validate_sealed_formal_run(run_dir: str | Path, *,
             or type(metadata) is not dict
             or metadata.get("protocol_version") != INNER_PROTOCOL
             or metadata.get("actor_protocol") != FORMAL_PROTOCOL
-            or metadata.get("formal_ready") is not True
+            or metadata.get("formal_ready") is not production
             or metadata.get("formal_extension") != extension
             or metadata.get("evidence_path") != "artifacts/evidence-v6.json"
             or metadata.get("config_sha256") != evidence["inner_config_sha256"]):
         raise ValueError("formal_execution_seal_binding_mismatch")
-    _lifecycle(events, episode_id)
+    _lifecycle(events, episode_id, production=production)
     return {
         "formal_evidence": evidence,
         "inner_evidence": inner,
         "allocation": allocation,
+        "production_proxy_lifecycle_receipt": lifecycle_receipt,
         "seal": seal,
     }
 
@@ -862,15 +924,14 @@ def validate_evidence(*, run_root: str | Path, expected_seal_hash: str,
     )["formal_evidence"]
 
 
-def _run_offline_formal_cell_core(*, manifest: dict, episode_id: str, bundle,
-                                  adapter, driver, collector) -> dict:
-    """Exercise the sealed controller core for offline qualification only.
+def _run_formal_cell_core(*, manifest: dict, episode_id: str, bundle,
+                          adapter, driver, collector, lifecycle=None) -> dict:
+    """Run the shared H/E core and distinguish production from qualification.
 
-    This function intentionally accepts injected runtime objects so tests can
-    use a zero-network transport.  It is private and cannot produce an
-    admissible production sample: the public runner and manifest gate remain
-    closed until an outer controller owns and seals each cell's proxy start,
-    readiness, stop, and secret-root cleanup lifecycle.
+    With no lifecycle this is an offline-only qualification path.  Production
+    passes the exact controller-created :class:`PerCellProxyLifecycle`; its
+    stop and secret cleanup finish inside the pre-seal hook and the resulting
+    receipt is written before the formal evidence envelope.
     """
     from .gate import validate_formal_manifest
 
@@ -900,9 +961,19 @@ def _run_offline_formal_cell_core(*, manifest: dict, episode_id: str, bundle,
         def pre_seal_hook(*, evidence, collector, config):
             if config != cfg:
                 raise ValueError("formal_inner_config_changed_before_seal")
+            lifecycle_receipt = None
+            if lifecycle is not None:
+                from .proxy_lifecycle import CELL_LIFECYCLE_PATH
+                lifecycle_receipt = lifecycle.finish_before_seal(
+                    model_request_count=len(getattr(collector, "_requests", {})))
+                _write_new(
+                    collector.run_dir / CELL_LIFECYCLE_PATH,
+                    canonical(lifecycle_receipt) + b"\n",
+                )
             formal = wrap_evidence(
                 evidence, manifest=manifest, cell=cell,
                 allocation=allocation, context=context,
+                lifecycle_receipt=lifecycle_receipt,
             )
             _write_new(collector.run_dir / FORMAL_EVIDENCE_PATH,
                        canonical(formal) + b"\n")
@@ -912,6 +983,9 @@ def _run_offline_formal_cell_core(*, manifest: dict, episode_id: str, bundle,
                 "allocation_sha256": allocation["allocation_sha256"],
                 "formal_evidence_sha256": formal["formal_evidence_sha256"],
                 "inner_evidence_sha256": formal["inner_evidence_sha256"],
+                "formal_sample_eligible": formal["formal_sample_eligible"],
+                "production_proxy_lifecycle_receipt_sha256": formal[
+                    "production_proxy_lifecycle_receipt_sha256"],
             }, evidence_quality="formal_controller_pre_seal_admission")
             return _formal_seal_extension(formal, allocation)
 
@@ -927,11 +1001,36 @@ def _run_offline_formal_cell_core(*, manifest: dict, episode_id: str, bundle,
             manifest=manifest,
             episode_id=episode_id,
             bundle=bundle,
+            require_production_lifecycle=lifecycle is not None,
         )
         return {**capture, **admitted}
     except Exception as exc:
-        _seal_failed_attempt(
-            collector, manifest=manifest, cell=cell,
-            allocation=allocation, exc=exc,
-        )
+        if lifecycle is None:
+            _seal_failed_attempt(
+                collector, manifest=manifest, cell=cell,
+                allocation=allocation, exc=exc,
+            )
         raise
+
+
+def _run_offline_formal_cell_core(*, manifest: dict, episode_id: str, bundle,
+                                  adapter, driver, collector) -> dict:
+    """Exercise the sealed controller core for offline qualification only."""
+    return _run_formal_cell_core(
+        manifest=manifest, episode_id=episode_id, bundle=bundle,
+        adapter=adapter, driver=driver, collector=collector, lifecycle=None,
+    )
+
+
+def _run_production_formal_cell_core(*, manifest: dict, episode_id: str,
+                                     bundle, adapter, driver, collector,
+                                     lifecycle) -> dict:
+    """Run one production cell with the exact outer lifecycle controller."""
+    from .proxy_lifecycle import PerCellProxyLifecycle
+    if type(lifecycle) is not PerCellProxyLifecycle:
+        raise ValueError("formal_production_lifecycle_controller_required")
+    return _run_formal_cell_core(
+        manifest=manifest, episode_id=episode_id, bundle=bundle,
+        adapter=adapter, driver=driver, collector=collector,
+        lifecycle=lifecycle,
+    )
