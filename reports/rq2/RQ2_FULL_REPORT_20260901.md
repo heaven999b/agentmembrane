@@ -120,6 +120,9 @@ R2相对R1有清楚跃升，R4的描述性风险最高；但是R3低于R2，所�
 
 - [主proposal中的RQ2](../../docs/PROPOSAL.md)
 - [canonical RQ2实验协议](../../experiments/semantic_receptor_rq2/PROTOCOL.md)
+- [200题独立确认冻结协议](../../experiments/semantic_receptor_rq2/FULL_200_CONFIRMATORY_PROTOCOL.md)
+- [200题聚焦机制确认协议](../../experiments/semantic_receptor_rq2/FOCUSED_INTERACTION_CONFIRMATION_PROTOCOL.md)
+- [200题机器可读证据包](../../results/semantic_rq2_confirmation_20260901/README.md)
 - [早期50题确认报告](../../results/semantic_rq2_heldout_20260901/HELDOUT_CONFIRMATORY_REPORT.md)
 - [早期七条件消融报告](../../results/semantic_rq2_heldout_20260901/MECHANISM_ABLATION_REPORT.md)
 - [Week 7周报](../../weekly_reports/week7/week7_report_20260831_zh.md)

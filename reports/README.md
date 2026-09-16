@@ -57,6 +57,9 @@ suite-ambient authority while keeping H fixed. Reports must preserve that scope.
   consolidated report covering the 200-case design, primary and robustness results,
   response-range checks, exploratory ablations, focused confirmation ablation, and
   claim boundaries.
+- [`../results/semantic_rq2_confirmation_20260901/`](../results/semantic_rq2_confirmation_20260901/README.md)
+  — frozen protocols, preflight receipts, hash bindings, and machine-readable
+  aggregates for the independent 200-case engineering confirmation.
 - [`../weekly_reports/week7/week7_report_20260831_zh.md`](../weekly_reports/week7/week7_report_20260831_zh.md)
   — shorter Week 7 update for a general research audience.
 - [`../results/v3_ab_comparison_seed1.md`](../results/v3_ab_comparison_seed1.md)

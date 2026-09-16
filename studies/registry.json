@@ -1,0 +1,171 @@
+{
+  "schema_version": "agentmembrane-study-registry/1",
+  "canonical_proposal": "docs/PROPOSAL.md",
+  "identity_key": [
+    "program_lineage",
+    "construct_id"
+  ],
+  "constructs": [
+    {
+      "program_lineage": "agentmembrane-canonical",
+      "rq_label": "RQ1",
+      "construct_id": "authority_admission_boundary",
+      "construct_version": "1.0.0",
+      "proposal_alignment": "RQ1_authority_admission",
+      "status": "engineering",
+      "evidence_level": "engineering",
+      "claim_bearing": false,
+      "paths": {
+        "code": [
+          "agentmembrane/host_v2",
+          "agentmembrane/rq1"
+        ],
+        "tests": [
+          "tests/host_v2",
+          "tests/rq1"
+        ],
+        "protocols": [
+          "experiments/host_boundary_v2/PROTOCOL_RQ1.md"
+        ],
+        "results": [
+          "results/rq1_activation_calibration_v1",
+          "results/rq1_conditional_protection_v1",
+          "results/rq1_public_agentdojo_multi_v5"
+        ],
+        "reports": [
+          "reports/rq1/RQ1_CURRENT_RESULTS_20260902.md"
+        ],
+        "reproduce": [
+          "tools/run_original_authority_rq1.py"
+        ]
+      },
+      "legacy_aliases": [],
+      "pooling_forbidden_with": [
+        "host_mediated_capability_exploitation"
+      ]
+    },
+    {
+      "program_lineage": "agentmembrane-canonical",
+      "rq_label": "RQ1b",
+      "construct_id": "host_mediated_capability_exploitation",
+      "construct_version": "1.0.0",
+      "proposal_alignment": "RQ1b_host_mediated",
+      "status": "engineering",
+      "evidence_level": "engineering",
+      "claim_bearing": false,
+      "paths": {
+        "code": [
+          "agentmembrane/host_v2/rq1_collab_v1",
+          "agentmembrane/host_v2/rq1_collab_v6",
+          "agentmembrane/host_v2/rq1_three_tier_formal_v1"
+        ],
+        "tests": [
+          "tests/rq1_collab_v1",
+          "tests/rq1_collab_v6",
+          "tests/rq1_three_tier"
+        ],
+        "protocols": [
+          "experiments/host_boundary_v2/rq1_three_tier_large_scale/formal_candidate_20260915/FORMAL_PROTOCOL_DESIGN.md"
+        ],
+        "results": [],
+        "reports": [
+          "reports/rq1/RQ1_CURRENT_RESULTS_20260902.md"
+        ],
+        "reproduce": [
+          "tools/qualify_rq1_three_tier_runtime.py"
+        ]
+      },
+      "legacy_aliases": [
+        {
+          "label": "HB-RQ2-HCE",
+          "meaning": "Historical Host Boundary experiment identifier; it does not denote canonical proposal RQ2."
+        },
+        {
+          "label": "RQ2",
+          "meaning": "Legacy Host Boundary analysis-family label only; never pool it with semantic receptor evidence."
+        }
+      ],
+      "pooling_forbidden_with": [
+        "authority_admission_boundary",
+        "semantic_receptor_expressiveness"
+      ]
+    },
+    {
+      "program_lineage": "agentmembrane-canonical",
+      "rq_label": "RQ2",
+      "construct_id": "semantic_receptor_expressiveness",
+      "construct_version": "1.0.0",
+      "proposal_alignment": "RQ2_receptor_boundary",
+      "status": "engineering",
+      "evidence_level": "engineering",
+      "claim_bearing": false,
+      "paths": {
+        "code": [
+          "agentmembrane/semantic_rq2"
+        ],
+        "tests": [
+          "tests/semantic_rq2"
+        ],
+        "protocols": [
+          "experiments/semantic_receptor_rq2"
+        ],
+        "results": [
+          "results/semantic_rq2_calibration_20260831",
+          "results/semantic_rq2_heldout_20260901",
+          "results/semantic_rq2_confirmation_20260901"
+        ],
+        "reports": [
+          "reports/rq2/RQ2_FULL_REPORT_20260901.md"
+        ],
+        "reproduce": [
+          "tools/audit_rq2_public_bundle.py",
+          "tools/run_rq2_independent_review.py"
+        ]
+      },
+      "legacy_aliases": [],
+      "pooling_forbidden_with": [
+        "host_mediated_capability_exploitation"
+      ]
+    },
+    {
+      "program_lineage": "agentmembrane-canonical",
+      "rq_label": "RQ3",
+      "construct_id": "memory_promotion_boundary",
+      "construct_version": "1.0.0",
+      "proposal_alignment": "RQ3_memory_promotion",
+      "status": "planned",
+      "evidence_level": "none",
+      "claim_bearing": false,
+      "paths": {
+        "code": [],
+        "tests": [],
+        "protocols": [],
+        "results": [],
+        "reports": [],
+        "reproduce": []
+      },
+      "legacy_aliases": [],
+      "pooling_forbidden_with": []
+    },
+    {
+      "program_lineage": "agentmembrane-canonical",
+      "rq_label": "RQ4",
+      "construct_id": "authority_semantic_relationship",
+      "construct_version": "1.0.0",
+      "proposal_alignment": "RQ4_authority_semantic_relationship",
+      "status": "planned",
+      "evidence_level": "none",
+      "claim_bearing": false,
+      "paths": {
+        "code": [],
+        "tests": [],
+        "protocols": [],
+        "results": [],
+        "reports": [],
+        "reproduce": []
+      },
+      "legacy_aliases": [],
+      "pooling_forbidden_with": []
+    }
+  ]
+}

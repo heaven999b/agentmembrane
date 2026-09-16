@@ -40,6 +40,7 @@ curve, robustness analyses, response-range diagnostics, seven-condition
 exploratory ablation, 200-case focused ablation, and interpretation boundaries:
 
 - **[RQ2 full report](../reports/rq2/RQ2_FULL_REPORT_20260901.md)**
+- [RQ2 200-case machine-readable evidence bundle](../results/semantic_rq2_confirmation_20260901/README.md)
 - [Report index](../reports/README.md)
 - [Week 7 human-readable update](../weekly_reports/week7/week7_report_20260831_zh.md)
 

@@ -22,6 +22,15 @@ one model family, and only 25 independent clusters.
 The completed result and the next-round design are in
 [`results/semantic_rq2_heldout_20260901/`](../../results/semantic_rq2_heldout_20260901/HELDOUT_CONFIRMATORY_REPORT.md).
 
+The independent 200-case train-split engineering confirmation is frozen in
+[`FULL_200_CONFIRMATORY_PROTOCOL.md`](FULL_200_CONFIRMATORY_PROTOCOL.md), with its
+single focused mechanism test in
+[`FOCUSED_INTERACTION_CONFIRMATION_PROTOCOL.md`](FOCUSED_INTERACTION_CONFIRMATION_PROTOCOL.md).
+It is a source-disjoint within-domain confirmation, not a relabeling of the
+canonical test-split protocol and not a formal or cross-domain run. Its public
+aggregate evidence bundle is in
+[`results/semantic_rq2_confirmation_20260901/`](../../results/semantic_rq2_confirmation_20260901/README.md).
+
 ## Zero-token setup and checks
 
 ```bash
@@ -59,6 +68,44 @@ python3 -m agentmembrane.semantic_rq2 build-heldout-manifest \
 python3 -m agentmembrane.semantic_rq2 preflight \
   --manifest experiments/semantic_receptor_rq2/manifests/contractnli_test_50_seed20260901_heldout.json \
   --profile experiments/semantic_receptor_rq2/profiles/engineering_confirmatory_v2.json
+```
+
+Build the independent full confirmation and its 50-case integrity checkpoint
+before making any model call:
+
+```bash
+python3 -m agentmembrane.semantic_rq2 build-confirmation-manifest \
+  --split data/official/contract-nli/train.json \
+  --license data/official/contract-nli/LICENSE \
+  --exclude-manifest experiments/semantic_receptor_rq2/manifests/contractnli_test_200_seed20260831.json \
+  --exclude-manifest experiments/semantic_receptor_rq2/manifests/contractnli_test_50_seed20260831_calibration.json \
+  --exclude-manifest experiments/semantic_receptor_rq2/manifests/contractnli_test_50_seed20260901_heldout.json \
+  --output experiments/semantic_receptor_rq2/manifests/contractnli_train_200_seed20260901_confirmation_v3.json \
+  --documents 100 \
+  --seed 20260901
+
+python3 -m agentmembrane.semantic_rq2 build-confirmation-checkpoint \
+  --full-manifest experiments/semantic_receptor_rq2/manifests/contractnli_train_200_seed20260901_confirmation_v3.json \
+  --output experiments/semantic_receptor_rq2/manifests/contractnli_train_50_seed20260901_checkpoint_v3.json \
+  --documents 25 \
+  --seed 20260901
+
+python3 -m agentmembrane.semantic_rq2 preflight \
+  --manifest experiments/semantic_receptor_rq2/manifests/contractnli_train_200_seed20260901_confirmation_v3.json \
+  --profile experiments/semantic_receptor_rq2/profiles/engineering_confirmation_200_v3.json
+```
+
+The controller runs the 50-case prefix through every stage, promotes only validated
+role-local cache entries if its integrity gate passes, reconstructs a single
+200-case full matrix, and then runs the focused four-cell interaction:
+
+```bash
+python3 -m agentmembrane.semantic_rq2 run-confirmation-controller \
+  --full-manifest experiments/semantic_receptor_rq2/manifests/contractnli_train_200_seed20260901_confirmation_v3.json \
+  --checkpoint-manifest experiments/semantic_receptor_rq2/manifests/contractnli_train_50_seed20260901_checkpoint_v3.json \
+  --profile experiments/semantic_receptor_rq2/profiles/engineering_confirmation_200_v3.json \
+  --root-dir outputs/semantic_rq2_confirmation200_train_v3_20260901 \
+  --seed 20260901
 ```
 
 ## Execution shape
