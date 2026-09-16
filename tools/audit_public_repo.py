@@ -12,6 +12,7 @@ from urllib.parse import unquote
 
 
 ROOT = Path(__file__).resolve().parents[1]
+STUDY_REGISTRY = ROOT / "studies" / "registry.json"
 MAX_TRACKED_BYTES = 10 * 1024 * 1024
 SAFE_TEXT_SUFFIXES = {
     ".csv", ".html", ".json", ".md", ".py", ".sh", ".toml", ".txt",
@@ -57,6 +58,15 @@ SECRET_PATTERNS = {
     "private_proxy_label": re.compile(r"\bcli_" + r"proxy_pool\b"),
 }
 MARKDOWN_LINK = re.compile(r"\[[^\]]+\]\((<[^>]+>|[^)\s]+)(?:\s+['\"][^'\"]+['\"])?\)")
+REQUIRED_CONSTRUCT_IDS = {
+    "authority_admission_boundary",
+    "host_mediated_capability_exploitation",
+    "semantic_receptor_expressiveness",
+    "memory_promotion_boundary",
+    "authority_semantic_relationship",
+}
+ALLOWED_STUDY_STATUS = {"planned", "engineering", "diagnostic", "formal", "archived"}
+ALLOWED_EVIDENCE_LEVEL = {"none", "engineering", "diagnostic", "formal"}
 
 
 def tracked_files() -> list[Path]:
@@ -113,6 +123,122 @@ def validate_markdown_links(files: list[Path], errors: list[str]) -> None:
                 errors.append(f"broken markdown link: {doc.relative_to(ROOT)} -> {raw}")
 
 
+def validate_study_registry(
+    errors: list[str],
+    *,
+    root: Path = ROOT,
+    registry_path: Path | None = None,
+) -> list[str]:
+    """Validate canonical construct identity and repository-relative links."""
+    path = registry_path or root / "studies" / "registry.json"
+    try:
+        registry = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        errors.append(f"study registry is unreadable: {type(exc).__name__}")
+        return []
+    if type(registry) is not dict:
+        errors.append("study registry must be a JSON object")
+        return []
+    if registry.get("schema_version") != "agentmembrane-study-registry/1":
+        errors.append("study registry schema mismatch")
+    if registry.get("identity_key") != ["program_lineage", "construct_id"]:
+        errors.append("study registry identity key mismatch")
+    proposal = registry.get("canonical_proposal")
+    if proposal != "docs/PROPOSAL.md" or not (root / str(proposal)).is_file():
+        errors.append("study registry canonical proposal is missing")
+
+    constructs = registry.get("constructs")
+    if type(constructs) is not list:
+        errors.append("study registry constructs must be a list")
+        return []
+    identities: set[tuple[str, str]] = set()
+    ids: list[str] = []
+    rows_by_id: dict[str, dict] = {}
+    for index, row in enumerate(constructs):
+        label = f"study registry construct {index}"
+        if type(row) is not dict:
+            errors.append(f"{label} must be an object")
+            continue
+        lineage = row.get("program_lineage")
+        construct_id = row.get("construct_id")
+        if type(lineage) is not str or type(construct_id) is not str:
+            errors.append(f"{label} has invalid identity")
+            continue
+        identity = (lineage, construct_id)
+        if identity in identities:
+            errors.append(f"duplicate study registry identity: {lineage}/{construct_id}")
+        identities.add(identity)
+        ids.append(construct_id)
+        rows_by_id[construct_id] = row
+        if row.get("status") not in ALLOWED_STUDY_STATUS:
+            errors.append(f"invalid status for construct {construct_id}")
+        if row.get("evidence_level") not in ALLOWED_EVIDENCE_LEVEL:
+            errors.append(f"invalid evidence level for construct {construct_id}")
+        if type(row.get("claim_bearing")) is not bool:
+            errors.append(f"invalid claim-bearing flag for construct {construct_id}")
+        if not re.fullmatch(r"\d+\.\d+\.\d+", str(row.get("construct_version", ""))):
+            errors.append(f"invalid construct version for {construct_id}")
+        if type(row.get("rq_label")) is not str or type(row.get("proposal_alignment")) is not str:
+            errors.append(f"invalid proposal mapping for construct {construct_id}")
+
+        path_groups = row.get("paths")
+        if type(path_groups) is not dict:
+            errors.append(f"paths must be an object for construct {construct_id}")
+            continue
+        for group in ("code", "tests", "protocols", "results", "reports", "reproduce"):
+            values = path_groups.get(group)
+            if type(values) is not list or any(type(value) is not str for value in values):
+                errors.append(f"invalid {group} paths for construct {construct_id}")
+                continue
+            for relative in values:
+                candidate = Path(relative)
+                if candidate.is_absolute() or ".." in candidate.parts:
+                    errors.append(f"unsafe registry path for construct {construct_id}: {relative}")
+                    continue
+                resolved = (root / candidate).resolve()
+                try:
+                    resolved.relative_to(root.resolve())
+                except ValueError:
+                    errors.append(f"escaping registry path for construct {construct_id}: {relative}")
+                    continue
+                if not resolved.exists():
+                    errors.append(f"missing registry path for construct {construct_id}: {relative}")
+
+        aliases = row.get("legacy_aliases")
+        if type(aliases) is not list or any(
+            type(alias) is not dict
+            or type(alias.get("label")) is not str
+            or type(alias.get("meaning")) is not str
+            for alias in aliases
+        ):
+            errors.append(f"invalid legacy aliases for construct {construct_id}")
+        forbidden = row.get("pooling_forbidden_with")
+        if type(forbidden) is not list or any(type(value) is not str for value in forbidden):
+            errors.append(f"invalid pooling policy for construct {construct_id}")
+
+    if set(ids) != REQUIRED_CONSTRUCT_IDS:
+        errors.append(
+            "study registry construct set mismatch: "
+            + ", ".join(sorted(set(ids)))
+        )
+    for construct_id, row in rows_by_id.items():
+        forbidden = row.get("pooling_forbidden_with", [])
+        if type(forbidden) is not list:
+            continue
+        for other in forbidden:
+            if other not in rows_by_id:
+                errors.append(f"unknown pooling exclusion for {construct_id}: {other}")
+            elif construct_id not in rows_by_id[other].get("pooling_forbidden_with", []):
+                errors.append(f"asymmetric pooling exclusion: {construct_id} / {other}")
+        if row.get("status") == "planned":
+            paths = row.get("paths", {})
+            if row.get("evidence_level") != "none" or row.get("claim_bearing") is not False:
+                errors.append(f"planned construct has an evidence claim: {construct_id}")
+            if type(paths) is dict and any(paths.get(group) for group in ("results", "reports")):
+                errors.append(f"planned construct has published evidence paths: {construct_id}")
+    return sorted(set(ids))
+
+
 def main() -> int:
     errors: list[str] = []
     files = tracked_files()
@@ -165,10 +291,12 @@ def main() -> int:
 
     weeks = validate_weekly_structure(errors)
     validate_markdown_links(files, errors)
+    construct_ids = validate_study_registry(errors)
     result = {
-        "schema_version": "agentmembrane-public-repository-audit/2",
+        "schema_version": "agentmembrane-public-repository-audit/3",
         "tracked_file_count": len(files),
         "weekly_reports": weeks,
+        "construct_ids": construct_ids,
         "passed": not errors,
         "errors": sorted(set(errors)),
     }

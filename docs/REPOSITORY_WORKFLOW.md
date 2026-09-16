@@ -12,6 +12,11 @@ datasets, raw model I/O, runtime environments, route/account attestations, and
 large run artifacts. This is one project with a public repository and an
 explicit local data boundary, rather than two competing source trees.
 
+The artifact taxonomy, stable scientific identity rules, naming contract, and
+local deletion gate are defined in
+[`REPOSITORY_TAXONOMY.md`](./REPOSITORY_TAXONOMY.md). The machine-readable
+construct map is [`studies/registry.json`](../studies/registry.json).
+
 ## Source-of-truth rules
 
 1. GitHub `main` and the canonical local checkout are authoritative for code and
