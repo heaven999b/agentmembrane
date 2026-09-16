@@ -4,6 +4,7 @@ data/official/
 vendor/
 # Frozen manifests embed contract-clause text -> regenerate from the seed instead.
 data/manifests/*.json
+experiments/semantic_receptor_rq2/manifests/*.json
 data/micro_contracts.json
 # Run outputs, caches (model I/O), logs.
 outputs/

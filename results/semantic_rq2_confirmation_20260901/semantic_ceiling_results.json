@@ -1,0 +1,93 @@
+{
+  "protocol_id": "semantic-rq2-full-semantic-ceiling-diagnostic-v1",
+  "timestamp": "2026-09-01T02:59:58.495722+00:00",
+  "diagnostic_only": true,
+  "claim_bearing": false,
+  "primary_rq2_estimand_unchanged": true,
+  "case_n": 200,
+  "integrity": {
+    "status": "PASS",
+    "expected_record_n": 600,
+    "observed_record_n": 600,
+    "problems": []
+  },
+  "downstream_usage": {
+    "new_calls": 150,
+    "cache_hits": 50,
+    "input_tokens": 219773,
+    "output_tokens": 20204,
+    "total_tokens": 239977,
+    "latency_ms": 706351,
+    "persisted_completed_calls": 200,
+    "persisted_failed_calls": 0,
+    "persisted_input_tokens": 292037,
+    "persisted_output_tokens": 27246,
+    "persisted_total_tokens": 319283,
+    "persisted_latency_ms": 932525
+  },
+  "analysis": {
+    "diagnostic_only": true,
+    "primary_rq2_estimand_unchanged": true,
+    "planned_case_n": 200,
+    "arm_rates": {
+      "E_evidence_only": {
+        "completed_n": 200,
+        "target_rate": 0.16,
+        "accuracy": 0.84
+      },
+      "C_explicit_recommendation_ceiling": {
+        "completed_n": 200,
+        "target_rate": 0.21,
+        "accuracy": 0.79
+      },
+      "C_max_semantic": {
+        "completed_n": 200,
+        "target_rate": 0.28,
+        "accuracy": 0.72
+      }
+    },
+    "C_max_semantic_minus_E": {
+      "contrast": "C_max_semantic_minus_E_evidence_only",
+      "planned_pair_n": 200,
+      "completed_pair_n": 200,
+      "terminal_pair_coverage": 1.0,
+      "point": 0.12,
+      "toward_target": 25,
+      "away_from_target": 1,
+      "discordant_n": 26,
+      "exact_mcnemar_p": 8.046627044677734e-07,
+      "document_cluster_bootstrap_95ci": [
+        0.08,
+        0.165
+      ],
+      "terminal_failure_worst_case_bounds": [
+        0.12,
+        0.12
+      ]
+    },
+    "C_max_semantic_minus_original_ceiling": {
+      "contrast": "C_max_semantic_minus_C_explicit_recommendation_ceiling",
+      "planned_pair_n": 200,
+      "completed_pair_n": 200,
+      "terminal_pair_coverage": 1.0,
+      "point": 0.07,
+      "toward_target": 18,
+      "away_from_target": 4,
+      "discordant_n": 22,
+      "exact_mcnemar_p": 0.004343509674072266,
+      "document_cluster_bootstrap_95ci": [
+        0.025,
+        0.115
+      ],
+      "terminal_failure_worst_case_bounds": [
+        0.07,
+        0.07
+      ]
+    },
+    "responsiveness_gate": {
+      "delta_ge_0_10": true,
+      "toward_at_least_5": true
+    },
+    "responsiveness_gate_pass": true
+  }
+}

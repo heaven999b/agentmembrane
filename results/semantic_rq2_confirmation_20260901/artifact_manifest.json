@@ -1,0 +1,119 @@
+{
+  "schema_version": "agentmembrane-rq2-public-evidence-bundle/1",
+  "bundle_id": "semantic-rq2-confirmation200-train-v3-20260901",
+  "based_on_git_commit": "64d0061731f419e6c1188ea298d132bb9f2c4e0c",
+  "run_date": "2026-09-01",
+  "publication_date": "2026-09-16",
+  "evidence_level": "engineering",
+  "claim_bearing": false,
+  "hash_algorithm": "sha256",
+  "hash_scope": "raw_file_bytes",
+  "artifacts": [
+    {
+      "path": "experiments/semantic_receptor_rq2/FULL_200_CONFIRMATORY_PROTOCOL.md",
+      "role": "frozen_main_protocol",
+      "bytes": 4711,
+      "sha256": "42b8f076d52b59ee0541be218c94ea7214735a647cbd9610418720ce4e0ad650"
+    },
+    {
+      "path": "experiments/semantic_receptor_rq2/FOCUSED_INTERACTION_CONFIRMATION_PROTOCOL.md",
+      "role": "frozen_focused_protocol",
+      "bytes": 2412,
+      "sha256": "64ad047ff7bc4dcc5016ecbce2f45a5c9abb9fd107e0354ee5deccda5344f71a"
+    },
+    {
+      "path": "experiments/semantic_receptor_rq2/profiles/engineering_confirmation_200_v3.json",
+      "role": "frozen_execution_profile",
+      "bytes": 2654,
+      "sha256": "47d75c596b022b26d39b9dc5bf5fe8eb1604216792a046fe24e452a035444112"
+    },
+    {
+      "path": "experiments/semantic_receptor_rq2/preflight_confirmation200_v3.json",
+      "role": "full_preflight_receipt",
+      "bytes": 1301,
+      "sha256": "c14aa86b2e2e65117fa5c7ae193dab6ad703b91d9e12d5d190ee9eb035145d8d"
+    },
+    {
+      "path": "experiments/semantic_receptor_rq2/preflight_confirmation50_checkpoint_v3.json",
+      "role": "checkpoint_preflight_receipt",
+      "bytes": 1297,
+      "sha256": "6a6bb9dd37e607c9426dbf46b4bcf5d93d78a7997fa69f173ff40b8ef084e452"
+    },
+    {
+      "path": "results/semantic_rq2_confirmation_20260901/CONFIRMATION_REPORT.md",
+      "role": "generated_aggregate_report",
+      "bytes": 734,
+      "sha256": "c0af4f85af6c15eff7bf952a35a45a9c992e3ee5489be0d6a99afe8c98497655"
+    },
+    {
+      "path": "results/semantic_rq2_confirmation_20260901/confirmation_analysis.json",
+      "role": "primary_aggregate_analysis",
+      "bytes": 15912,
+      "sha256": "9ca0a2d161411ce211761f5bf102ba53d8c0a9d674da2f2a9d138a7b2ca2ac22"
+    },
+    {
+      "path": "results/semantic_rq2_confirmation_20260901/focused_interaction_results.json",
+      "role": "focused_mechanism_aggregate",
+      "bytes": 3451,
+      "sha256": "61b67805a78ad4abfedc353d265cd157a733555385ffe8b93fd9342138198194"
+    },
+    {
+      "path": "results/semantic_rq2_confirmation_20260901/semantic_ceiling_results.json",
+      "role": "response_range_aggregate",
+      "bytes": 2457,
+      "sha256": "3795cd2a98a81de683f81db0503c3ccfce25cc8a756e88da81e316992fe87be3"
+    },
+    {
+      "path": "results/semantic_rq2_confirmation_20260901/controller_config.json",
+      "role": "controller_hash_bindings",
+      "bytes": 762,
+      "sha256": "b34b52e416693d1857d95fe00914d03860b7f5d5da0c3f9b666df8ec1e82972a"
+    }
+  ],
+  "withheld_commitments": [
+    {
+      "artifact_id": "contractnli_train_200_seed20260901_confirmation_v3",
+      "sha256": "899cf5565b5db964ebef9bdc20a8749afcce249782c3168c148c3c17df24eec3",
+      "case_n": 200,
+      "cluster_n": 100,
+      "contains_licensed_dataset_text": true,
+      "reason": "The frozen manifest embeds ContractNLI clause text and is not redistributed."
+    },
+    {
+      "artifact_id": "contractnli_train_50_seed20260901_checkpoint_v3",
+      "sha256": "ab83f0934a6abef28bcf6a114802e2b2d967237178f23774e1f04c1ae7946bd6",
+      "case_n": 50,
+      "cluster_n": 25,
+      "contains_licensed_dataset_text": true,
+      "reason": "The frozen checkpoint manifest embeds ContractNLI clause text and is not redistributed."
+    }
+  ],
+  "headline_source": {
+    "path": "results/semantic_rq2_confirmation_20260901/confirmation_analysis.json",
+    "json_pointer": "/per_downstream/openai-terra-neutral-p0/seed_results/20260901/primary_gamma_r2/source_fidelity_valid",
+    "scale": 100,
+    "round_decimals": 1,
+    "expected_raw_point": 0.14659685863874344,
+    "expected_raw_ci": [
+      0.0855614973262032,
+      0.20833333333333334
+    ],
+    "expected_p": 2.2361520677804947e-05,
+    "expected_case_n": 191,
+    "expected_cluster_n": 99
+  },
+  "private_exclusions": [
+    {
+      "category": "licensed_benchmark_manifests",
+      "reason": "The frozen manifests embed ContractNLI clause text; their hashes remain public."
+    },
+    {
+      "category": "raw_model_io_and_case_records",
+      "reason": "Prompts, responses, per-case records, and provider caches remain in the private evidence workspace."
+    },
+    {
+      "category": "local_runtime_state",
+      "reason": "Routes, credentials, endpoints, and runtime state are never public artifacts."
+    }
+  ]
+}

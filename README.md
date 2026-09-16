@@ -38,6 +38,9 @@ paraphrase, a short AI-generated summary, and its exact relationship to the RQs.
 > non-monotone and `claim_bearing=false`. See the [`reports/` index](reports/README.md),
 > [current RQ1 report](reports/rq1/RQ1_CURRENT_RESULTS_20260902.md), and
 > [full RQ2 report](reports/rq2/RQ2_FULL_REPORT_20260901.md).
+> The frozen 200-case protocols, preflight receipts, and machine-readable
+> aggregates are available in the
+> [public RQ2 evidence bundle](results/semantic_rq2_confirmation_20260901/README.md).
 
 ## The question, made precise
 
