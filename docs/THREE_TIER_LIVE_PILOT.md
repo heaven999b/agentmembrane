@@ -44,7 +44,7 @@
 
 ## 超时后继续与评分修正
 
-`tools/continue_rq1_three_tier_pilot.py` 只接受已封存、已清理且明确核对过的孤立 HTTP 408。review 文件必须绑定 manifest 和每个失败格的外部 seal hash，声明 `retry_existing_cells=false`；评分错误、账号错误和未完成证据不在可继续范围内。先运行 `--check-only`，再执行同样的命令去掉该选项。它只运行从未尝试的格，遇到新失败再次暂停，不覆盖超时格。
+`tools/continue_rq1_three_tier_pilot.py` 接受两类经过明确审核的失败：已封存并清理的孤立 HTTP 408，以及 actor 启动前、零模型请求且已完整封存和清理的基础设施失败。review 文件必须绑定 manifest 和每个失败格的外部 seal hash，声明 `retry_existing_cells=false`；基础设施失败还必须绑定 `failure.json` 的 hash，并通过零请求事件链核验。评分错误、账号错误和未完成证据不在可继续范围内。先运行 `--check-only`，再执行同样的命令去掉该选项。它只运行从未尝试的格，遇到新失败再次暂停，不覆盖超时格。
 
 在原冻结执行快照目录运行：
 
@@ -54,6 +54,8 @@
   --review "$REVIEW_RECEIPT" --check-only
 ```
 
-review JSON 字段为 `manifest_sha256`、`reason="isolated_upstream_timeout_reviewed"`、`retry_existing_cells=false` 和 `acknowledged_failures`；最后一项逐格列出 `episode_id` 与 `execution_seal_sha256`。必须先核对原证据确为孤立上游 408 且清理已确认，才能写入 review。
+review JSON 字段为 `manifest_sha256`、`reason="isolated_upstream_timeout_reviewed"`、`retry_existing_cells=false` 和 `acknowledged_failures`；最后一项逐格列出 `episode_id` 与 `execution_seal_sha256`。必须先核对原证据确为孤立上游 408 且清理已确认，才能写入 review。混合基础设施失败的 review 使用 `reason="sealed_failures_reviewed_no_replay"`，相应项增加 `failure_kind="pre_actor_infrastructure_failure"` 与 `failure_record_sha256`；这些失败保留 unknown，不重新执行。
 
 如果在工程试跑中修正了评分器，执行仍在原提交导出的冻结源码快照中继续；actor 提示、权限、模型、预算和所有任务保持不变。评分修复在规范仓库维护，最终导出时用 `--checker-reanalysis` 指定修正版。该重算明确标记为事后诊断，保留 `L_original`、修正后的 `L`、执行代码 hash 与新评分器 hash；不重新调用模型、不替换原始结果。冻结快照是运行证据档案，不是另一份开发源。
+
+续跑控制器可用 `--execution-source "$FROZEN_EXECUTION_SOURCE"` 指向原冻结源码；控制器版本单独留存和记录 hash。启动前先在相同权限环境中做零模型请求的反代启停验证。本地端口被沙箱阻止时，必须通过宿主工具的授权提权启动，不能把环境权限问题当作实验失败连续消耗新格，也不能更换账号或修改冻结生命周期。

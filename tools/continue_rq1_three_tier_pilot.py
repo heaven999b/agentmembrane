@@ -1,4 +1,4 @@
-"""Continue unattempted cells after an explicitly reviewed upstream timeout.
+"""Continue unattempted cells after explicitly reviewed sealed failures.
 
 Run from the original frozen execution checkout. This never replaces a failed
 cell, changes the manifest, or silently replays a delivered request. A new
@@ -12,11 +12,51 @@ import signal
 import sys
 import uuid
 
-PROJECT = Path(__file__).resolve().parents[1]
+_bootstrap = argparse.ArgumentParser(add_help=False)
+_bootstrap.add_argument("--execution-source", type=Path)
+_runtime, _ = _bootstrap.parse_known_args()
+PROJECT = (_runtime.execution_source or Path(__file__).resolve().parents[1]).resolve()
 sys.path.insert(0, str(PROJECT))
-from agentmembrane.host_v2.rq1_collab_v1.audit import canonical, _write_new, file_hash
+from agentmembrane.host_v2.rq1_collab_v1.audit import canonical, _write_new, file_hash, verify
+from agentmembrane.host_v2.rq1_collab_v3.contract import digest
 from agentmembrane.host_v2.rq1_collab_v6.evaluation import read_evidence
 from agentmembrane.host_v2.rq1_three_tier_formal_v1 import diagnostic
+
+
+def verify_pre_actor_failure(folder, cell, manifest, acknowledgement):
+    """Admit only a hash-anchored startup failure before any actor/request event."""
+    row = diagnostic._load(folder / "failure.json")
+    seal = diagnostic._load(folder / "evidence" / "seal.json")
+    expected = acknowledgement.get("execution_seal_sha256")
+    if (acknowledgement.get("failure_kind") != "pre_actor_infrastructure_failure"
+            or not expected
+            or acknowledgement.get("failure_record_sha256") != file_hash(folder / "failure.json")
+            or not verify(folder / "evidence", expected_seal_hash=expected)["ok"]):
+        raise ValueError("infrastructure_review_anchor_mismatch")
+    cleanup = {"process_stop_confirmed": True, "secret_cleanup_confirmed": True}
+    failure = seal.get("metadata", {}).get("formal_failure", {})
+    events = [json.loads(line) for line in (folder / "evidence" / "events.jsonl").read_text().splitlines()]
+    if (row.get("episode_id") != cell["episode_id"]
+            or row.get("status") != "infrastructure_failure"
+            or row.get("failure_class") != "ProxyLifecycleFailure"
+            or row.get("model_request_count") != 0
+            or row.get("G") is not None or row.get("L") is not None
+            or row.get("cleanup") != cleanup
+            or row.get("formal_sample_eligible") is not False
+            or failure.get("formal_manifest_sha256") != manifest["manifest_sha256"]
+            or failure.get("formal_cell_sha256") != digest(cell)
+            or failure.get("episode_id") != cell["episode_id"]
+            or failure.get("failure_class") != "ProxyLifecycleFailure"
+            or failure.get("cleanup") != cleanup
+            or failure.get("replacement_cell_permitted") is not False
+            or failure.get("formal_evidence_admitted") is not False
+            or [event["kind"] for event in events] != [
+                "diagnostic_pilot_allocated", "formal_attempt_failed", "collector_seal"]
+            or events[1]["data"] != failure
+            or events[-1]["data"].get("model_request_terminal_status") != {}
+            or events[-1]["data"].get("request_coverage") != "none_recorded"
+            or any((folder / "evidence" / "model_requests").iterdir())):
+        raise ValueError("infrastructure_failure_not_pre_actor_or_cleanup_unconfirmed")
 
 
 def plan(manifest_path, review_path):
@@ -24,7 +64,7 @@ def plan(manifest_path, review_path):
     review = diagnostic._load(review_path)
     if (review.get("manifest_sha256") != manifest["manifest_sha256"]
             or review.get("retry_existing_cells") is not False
-            or review.get("reason") != "isolated_upstream_timeout_reviewed"
+            or review.get("reason") not in {"isolated_upstream_timeout_reviewed", "sealed_failures_reviewed_no_replay"}
             or not isinstance(review.get("acknowledged_failures"), list)):
         raise ValueError("explicit_timeout_review_required")
     acknowledgements = review["acknowledged_failures"]
@@ -36,6 +76,14 @@ def plan(manifest_path, review_path):
         folder = Path(manifest["run_parent"]) / cell["episode_id"]
         if not folder.exists():
             pending.append(cell)
+            continue
+        if (folder / "failure.json").exists():
+            if (review.get("reason") != "sealed_failures_reviewed_no_replay"
+                    or cell["episode_id"] not in acknowledged
+                    or (folder / "summary.json").exists()):
+                raise ValueError("unreviewed_infrastructure_failure_requires_attention")
+            verify_pre_actor_failure(folder, cell, manifest, acknowledged[cell["episode_id"]])
+            used.add(cell["episode_id"])
             continue
         row = diagnostic._load(folder / "summary.json")
         anchor = diagnostic._load(folder / "execution-anchor.json")
@@ -66,6 +114,8 @@ def main():
     parser.add_argument("--manifest", required=True, type=Path)
     parser.add_argument("--review", required=True, type=Path)
     parser.add_argument("--check-only", action="store_true")
+    parser.add_argument("--execution-source", type=Path,
+                        help="Import the unchanged manifest-bound execution source from this directory")
     args = parser.parse_args()
     manifest, pending = plan(args.manifest, args.review)
     if args.check_only:
@@ -86,6 +136,8 @@ def main():
             "manifest_sha256": manifest["manifest_sha256"],
             "review_sha256": file_hash(args.review),
             "controller_source_sha256": file_hash(Path(__file__)),
+            "execution_source": str(PROJECT),
+            "code_bundle_sha256": manifest["code_bundle_sha256"],
             "unattempted_cells": [c["episode_id"] for c in pending],
             "automatic_cell_retry": False,
         }) + b"\n")
