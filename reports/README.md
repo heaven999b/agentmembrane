@@ -17,6 +17,8 @@ Evidence labels are used consistently:
 
 ## RQ1
 
+- [三档权限实验交接报告（2026-09-20）](rq1/THREE_TIER_HANDOFF_20260920_ZH.md) — plain-language results, current baseline, concrete defects, next-stage work, and code/evidence entry points for resuming in another task.
+
 - [Final 120-cell pilot and medium-tier inversion diagnosis](rq1/THREE_TIER_FINAL_MEDIUM_DIAGNOSIS_20260917.md) — all cells closed; 113 completed executions and 7 unknown closures; includes paired comparison and trace-based diagnosis of parameter normalization, recovery behavior, and task-only scoring.
 
 - [105-cell three-tier pilot checkpoint](rq1/THREE_TIER_PILOT_PROGRESS_105_20260917.md) — 98 complete executions, 7 retained unknown closures, 15 pending; engineering evidence only.
