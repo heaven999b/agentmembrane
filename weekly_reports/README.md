@@ -18,6 +18,7 @@ here; a staging or handoff copy does not count as published. See
 | Week 7 | [week7/](./week7/) | RQ2 full confirmation and canonical RQ1 engineering/activation-calibration status |
 | Week 8 | [week8/](./week8/) | Scale-36 contextual-attack baseline, corrected task endpoint, and next-stage permission-gradient plan |
 | Week 9 | [week9/](./week9/) | Three-tier baseline, final 120-cell engineering results, medium-tier diagnosis, open issues, and next-week plan |
+| Week 10 | [week10/](./week10/) | Delegated-value falsification (new construct): RQ1 phenomenon, four preregistered controls, same-task grounding ablation, M1 provenance gate, scoring fixes |
 
 User-facing naming follows the proposal: canonical RQ1 is the
 `authority_admission_boundary`; canonical RQ2 is

@@ -19,6 +19,10 @@ paraphrase, a short AI-generated summary, and its exact relationship to the RQs.
 - **PRIMARY — current research plan:** [`docs/PROPOSAL.md`](docs/PROPOSAL.md),
   centered on authority, receptor expressiveness, memory promotion, and the
   evidence-preserving semantic-infection study implemented in this repository.
+- **PIVOT (2026-09-28) — what changed from the original proposal and why:**
+  [`docs/RESEARCH_PIVOT_20260928.md`](docs/RESEARCH_PIVOT_20260928.md); the current
+  experiments (delegated-value falsification, verification membrane) are described in
+  the [Week 10 report](weekly_reports/week10/week10_report_20260928_zh.md).
 - **ALTERNATIVE / SECONDARY — bio-inspired admission and containment direction:**
   [`docs/APPENDIX_BIO_INSPIRED_ALTERNATIVE.md`](docs/APPENDIX_BIO_INSPIRED_ALTERNATIVE.md),
   retained as an appendix and not a replacement for the primary proposal.
