@@ -1,6 +1,9 @@
 # Week 11 Package (as of 2026-09-30)
 
-本目录记录第十一周截至 2026-09-30 的进展:全批次审计与更正、判分器 v2、第二个主力模型试跑、接入 τ³-bench 并完成攻击实验(dev + 确认集)、RQ8 多轮会话实验(两批)。新版研究设计见 [v2 proposal 原文](../../docs/PROPOSAL_V2_20260927_zh.md) 与 [新版研究设计与各 RQ 进展](../../docs/AGENTMEMBRANE_V2_DESIGN_AND_STATUS_zh.md)。
+本目录记录第十一周截至 2026-09-30 的进展:全批次审计与更正、判分器 v2、第二个主力模型试跑、接入 τ³-bench 并完成攻击实验(dev + 确认集)、RQ8 多轮会话实验(两批)。
+
+- **新版 proposal:[AgentMembrane v2 研究 proposal](../../docs/PROPOSAL_V2_20260927_zh.md)**
+- **各 RQ 的设计、实验方法与最新结果:[新版研究设计与各 RQ 进展](../../docs/AGENTMEMBRANE_V2_DESIGN_AND_STATUS_zh.md)**
 
 | 文件 | 内容 |
 | --- | --- |

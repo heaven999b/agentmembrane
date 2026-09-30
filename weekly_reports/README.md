@@ -7,6 +7,8 @@ AgentMembrane program. New weekly reports are prepared, validated, and committed
 here; a staging or handoff copy does not count as published. See
 [PROCESS.md](./PROCESS.md) for the exact workflow and release checks.
 
+**Current research proposal (v2, from Week 10 on):** [AgentMembrane v2 research proposal](../docs/PROPOSAL_V2_20260927_zh.md) · per-RQ design, methods and latest results: [v2 design and per-RQ status](../docs/AGENTMEMBRANE_V2_DESIGN_AND_STATUS_zh.md).
+
 | Week | Entry point | Scope |
 | --- | --- | --- |
 | Week 1 | [week1/](./week1/) | Pre-AgentMembrane memory research: initial benchmark and RQ evidence package |
@@ -19,7 +21,7 @@ here; a staging or handoff copy does not count as published. See
 | Week 8 | [week8/](./week8/) | Scale-36 contextual-attack baseline, corrected task endpoint, and next-stage permission-gradient plan |
 | Week 9 | [week9/](./week9/) | Three-tier baseline, final 120-cell engineering results, medium-tier diagnosis, open issues, and next-week plan |
 | Week 10 | [week10/](./week10/) | Delegated-value falsification (new construct): RQ1 phenomenon, four preregistered controls, same-task grounding ablation, M1 provenance gate, scoring fixes |
-| Week 11 | [week11/](./week11/) | As of 2026-09-30: full-batch audit and corrections to Week 10, scorer v2, second-model pilot, τ³-bench integration with attack experiments (dev + confirm), RQ8 multi-round sessions (moved to appendix); v2 proposal and per-RQ design published in `docs/` |
+| Week 11 | [week11/](./week11/) | As of 2026-09-30: full-batch audit and corrections to Week 10, scorer v2, second-model pilot, τ³-bench integration with attack experiments (dev + confirm), RQ8 multi-round sessions (moved to appendix); [v2 proposal](../docs/PROPOSAL_V2_20260927_zh.md) and [per-RQ design](../docs/AGENTMEMBRANE_V2_DESIGN_AND_STATUS_zh.md) published |
 
 User-facing naming follows the proposal: canonical RQ1 is the
 `authority_admission_boundary`; canonical RQ2 is

@@ -28,7 +28,7 @@ paraphrase, a short AI-generated summary, and its exact relationship to the RQs.
   [`docs/RESEARCH_PIVOT_20260928.md`](docs/RESEARCH_PIVOT_20260928.md); the current
   experiments (delegated-value falsification, verification membrane) are described in
   the [Week 10 report](weekly_reports/week10/week10_report_20260928_zh.md); corrections to it and
-  the latest interim results are in the [Week 11 report](weekly_reports/week11/week11_report_20260930_zh.md).
+  the latest results are in the [Week 11 report](weekly_reports/week11/week11_report_20260930_zh.md).
 - **ALTERNATIVE / SECONDARY — bio-inspired admission and containment direction:**
   [`docs/APPENDIX_BIO_INSPIRED_ALTERNATIVE.md`](docs/APPENDIX_BIO_INSPIRED_ALTERNATIVE.md),
   retained as an appendix and not a replacement for the primary proposal.

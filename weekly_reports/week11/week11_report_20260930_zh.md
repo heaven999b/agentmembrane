@@ -1,8 +1,9 @@
 # 第十一周研究汇报(截至 2026-09-30):审计更正、判分器 v2、第二个模型试跑、τ³-bench 接入与攻击实验、RQ8 多轮会话
 
+- **新版 proposal:[AgentMembrane v2 研究 proposal](../../docs/PROPOSAL_V2_20260927_zh.md)**(实验开始前的设计)
+- **各 RQ 的设计、实验方法与最新结果:[新版研究设计与各 RQ 进展](../../docs/AGENTMEMBRANE_V2_DESIGN_AND_STATUS_zh.md)**
+
 > 本报告汇总本周截至 2026-09-30 的全部工作。所有数字见 [week11_stage_snapshot_20260930.json](./week11_stage_snapshot_20260930.json)。上周报告见 [第十周](../week10/week10_report_20260928_zh.md)。
->
-> **新版研究设计**:[v2 proposal 原文](../../docs/PROPOSAL_V2_20260927_zh.md)(实验开始前的设计);[新版研究设计与各 RQ 进展](../../docs/AGENTMEMBRANE_V2_DESIGN_AND_STATUS_zh.md)(按 RQ 写明要回答什么、怎么做、数据从哪来、实验怎么跑、怎么检验、目前结果)。
 
 ## 一、本周做了什么,结果说明什么
 
