@@ -16,13 +16,19 @@ paraphrase, a short AI-generated summary, and its exact relationship to the RQs.
 
 ## Proposal tracks
 
-- **PRIMARY — current research plan:** [`docs/PROPOSAL.md`](docs/PROPOSAL.md),
+- **CURRENT (v2, since 2026-09-28) — delegated-value falsification and the verification membrane:**
+  the [v2 proposal](docs/PROPOSAL_V2_20260927_zh.md) (design written before the experiments) and the
+  [v2 design and per-RQ status](docs/AGENTMEMBRANE_V2_DESIGN_AND_STATUS_zh.md) (for each RQ: the question,
+  method, data, procedure, tests, and current results). Progress: [Week 10](weekly_reports/week10/week10_report_20260928_zh.md),
+  [Week 11](weekly_reports/week11/week11_report_20260930_zh.md).
+- **PREVIOUS — original research plan (2026-08 to 2026-09-22):** [`docs/PROPOSAL.md`](docs/PROPOSAL.md),
   centered on authority, receptor expressiveness, memory promotion, and the
   evidence-preserving semantic-infection study implemented in this repository.
 - **PIVOT (2026-09-28) — what changed from the original proposal and why:**
   [`docs/RESEARCH_PIVOT_20260928.md`](docs/RESEARCH_PIVOT_20260928.md); the current
   experiments (delegated-value falsification, verification membrane) are described in
-  the [Week 10 report](weekly_reports/week10/week10_report_20260928_zh.md).
+  the [Week 10 report](weekly_reports/week10/week10_report_20260928_zh.md); corrections to it and
+  the latest interim results are in the [Week 11 report](weekly_reports/week11/week11_report_20260930_zh.md).
 - **ALTERNATIVE / SECONDARY — bio-inspired admission and containment direction:**
   [`docs/APPENDIX_BIO_INSPIRED_ALTERNATIVE.md`](docs/APPENDIX_BIO_INSPIRED_ALTERNATIVE.md),
   retained as an appendix and not a replacement for the primary proposal.

@@ -209,6 +209,6 @@ M-RoT 的 1 次为 URL 登记册按文件名比对的真实弱点(同名 PDF 换
 
 ## 八、文件与可复现性
 
-实验工作区位于主仓库之外（`~/Documents/agentmembrane-exp/`），本周新增：`run_ep2.py`（开关：`--grounding`、`--membrane`、`--cue`、`--channel`、`--mask`）、`summary2.py`（`--cue / --c2b / --tail / --m1 / --pilot`）、`m1_counterfactual.py`、`registry.py`、`test_runtime.py`（8/8）、`test_membrane.py`（8/8）。每批输出目录（`out_pilot_grounding/`、`out_rq1_cue/`、`out_rq1_c2b/`、`out_rq1_tail/`、`out_rq5_m1/`）各含运行前写下的 `PREREG.md` 与 runner 快照及 sha256。研究计划见 `proposal/PROPOSAL_v2.md`，接口级落地设计见 `proposal/HANDOFF_v2.md`。
+实验工作区位于主仓库之外，本周新增：`run_ep2.py`（开关：`--grounding`、`--membrane`、`--cue`、`--channel`、`--mask`）、`summary2.py`（`--cue / --c2b / --tail / --m1 / --pilot`）、`m1_counterfactual.py`、`registry.py`、`test_runtime.py`（8/8）、`test_membrane.py`（8/8）。每批输出目录（`out_pilot_grounding/`、`out_rq1_cue/`、`out_rq1_c2b/`、`out_rq1_tail/`、`out_rq5_m1/`）各含运行前写下的 `PREREG.md` 与 runner 快照及 sha256。研究计划见 `proposal/PROPOSAL_v2.md`，接口级落地设计见 `proposal/HANDOFF_v2.md`。
 
 上游 benchmark：AgentDyn commit `5353cf7615b135cace8d07c8f12dac53a16b6db3`。

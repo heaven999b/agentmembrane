@@ -2,6 +2,8 @@
 
 > 读者：接手本仓库、或对照旧版 `docs/PROPOSAL.md` 阅读第十周之后材料的人。
 > 本文只说明**研究对象与设计的差异**，不重复结果；结果见 `weekly_reports/week10/`。
+>
+> **2026-09-30 补充**：新版设计全文见 [v2 proposal](PROPOSAL_V2_20260927_zh.md)；按 RQ 逐条的设计、实验方法与最新结果见 [新版研究设计与各 RQ 进展](AGENTMEMBRANE_V2_DESIGN_AND_STATUS_zh.md)；最新周报见 [第十一周](../weekly_reports/week11/week11_report_20260930_zh.md)。
 
 ## 一句话
 

@@ -89,7 +89,7 @@ def validate_weekly_structure(errors: list[str]) -> list[str]:
         (p.name for p in entries if p.is_dir() and re.fullmatch(r"week\d+", p.name)),
         key=lambda value: int(value[4:]),
     )
-    expected = [f"week{i}" for i in range(1, 10)]
+    expected = [f"week{i}" for i in range(1, max(len(weeks), 9) + 1)]  # contiguous from week1, at least week9
     if weeks != expected:
         errors.append(f"weekly directories are {weeks}, expected {expected}")
     for week in weeks:
