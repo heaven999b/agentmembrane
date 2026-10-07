@@ -7,7 +7,7 @@
 
 | 文件 | 内容 |
 | --- | --- |
-| [week12_report_20261007_zh.md](./week12_report_20261007_zh.md) | 本周汇报:一页摘要、全部证据一张表、方法与对照、对审稿意见的回应、能 / 不能说明什么、修掉的问题、下一步 |
+| [week12_report_20261007_zh.md](./week12_report_20261007_zh.md) | 本周汇报,按 RQ 组织:RQ-A 到 RQ-E 与边界各一节,每节写问什么、怎么实现、证据(数字与级别)、状态;另有跨 RQ 材料、修掉的问题、下一步 |
 | [week12_stage_snapshot_20261007.json](./week12_stage_snapshot_20261007.json) | 各批 episode 数与错误数、预注册 / 判定 / 运行哈希文件的 sha256、代码哈希、测试结果、报告中全部关键数字 |
 | [supporting/fig1_diagonal.png](./supporting/fig1_diagonal.png) | 核心图:各防御设计在"放行真值 × 放行假值"平面上的位置;不带见证的设计都在对角线附近 |
 
