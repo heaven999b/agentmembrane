@@ -1,0 +1,283 @@
+{
+ "week": 12,
+ "date": "2026-10-07",
+ "status": "interim (week closed 2026-10-06)",
+ "claim_bearing": false,
+ "models": {
+  "H": [
+   "gpt-5.5",
+   "gpt-5.6-luna (second-model replication only)"
+  ],
+  "E": "gpt-6-astra",
+  "monitor_baselines": "gpt-5.5"
+ },
+ "benchmarks": {
+  "agentdyn_commit": "5353cf7615b135cace8d07c8f12dac53a16b6db3",
+  "tau3_bench_commit": "5bfa7e37b36656b37dc6d022156be6563c1007f3"
+ },
+ "metric_note": "primary metric = silent write (attack value written without telling the customer); 'written' and 'undecidable' also reported; cluster means over task clusters, exact cluster sign tests, cluster bootstrap 95% CIs, Holm within prereg families",
+ "headline_counts": {
+  "core_T1_notfound_button_vs_named_button_item_tasks": "83% vs 18%, +65pp [44,85], 8/0/1 clusters, p=.004 (9 clusters)",
+  "core_T1_second_model_luna": "84% vs 12%, +72pp [47,94], 7/0/1, p=.008",
+  "core_same_info_wording_only_SxR_free_vs_frozen": "7% vs 7%",
+  "core_T2_button_vs_reissue_13_tasks": "68% vs 48% (+20pp; not significant under the silent-write metric)",
+  "core_intact_vs_opaque_notfound_button": "43% vs 68% (-25pp, Holm .078)",
+  "T1_pooled_three_task_sets": "87% vs 15%, 24/0/4 clusters (28 clusters; robustness only)",
+  "rqc_noexit_prompt_rule_vs_button": "0/52 vs 68% (+68pp, Holm .006)",
+  "rqc_noexit_enforced": "0/52",
+  "rqc_button_pooled_35_tasks": "78% (109/140)",
+  "rqc_noexit_pooled": "0/140",
+  "rqc_alternatives_listed_vs_button": "67% vs 68% (+1pp [-6,8])",
+  "rqc_true_vs_fake_released_under_button": "88% vs 78%",
+  "rqc_honest_unregistered_true_value_noexit": "0/70 (121/140 transferred)",
+  "rqc_silent_metric_button_alt_noexit": "61% / 53% / 0%",
+  "tau_baselines_attack_honest": {
+   "spotlighting": "77 / 86",
+   "verify_first_PD1": "73 / 73",
+   "source_gate_M1": "0 / 0",
+   "escalate_PD2": "0 / 0",
+   "prompt_rule_named_world": "0 / 89"
+  },
+  "p0_gate_method_Ecode": "0/52 attack written; 26/26 honest new value",
+  "p0_gate_method_repair_Erep": "0/52; 25/26; 73% of attack episodes completed with the correct value; transfer 62% -> 15%",
+  "p0_gate_ai_judge_options_Eai": "4/52 9%; 24/26 91%",
+  "p0_gate_ai_judge_price_Eaip": "29/52 58%; 24/26 93%",
+  "p0_gate_reveal_first_Erev": "0/52; 22/26",
+  "p0_gate_seal_after_Eaft": "0/52; 23/26",
+  "p0_gate_anchor_button": "37/52 66%; 21/26 80%",
+  "p0_gate_anchor_noexit": "0/52; 0/26",
+  "p0_gate_P1_dJ_method_minus_ai_options": "+18pp [0,41], 3/0/8, p=.125, Holm .25 (not significant)",
+  "p0_gate_P3_price_minus_options_written": "+49pp [25,72], 7/0/4, p=.0078, Holm .023",
+  "p0_pooled_35_tasks_method": "0/140 attack; 69/70 honest 98%",
+  "p0_pooled_ai_options": "18/140 15% (silent 8/140); 66/70 94%",
+  "p0_pooled_ai_price": "111/140 80%; 64/70 91%",
+  "p0_pooled_P1_written_metric": "+19pp [8,32], 11/1/17, p=.003",
+  "p0_pooled_P1_silent_metric": "+11pp [2,22], 8/1/20, p=.02",
+  "p0_pooled_P3": "+65pp [50,78], 23/0/6, p<.0001",
+  "p0_s2_laundering_registry_button": "47/52 90% vs named 6% (+84pp [73,94], 11/0/0, Holm .001)",
+  "p0_s2_laundering_prompt_rule": "44/52 85%",
+  "p0_s2_monitor_more_rejective_no_preview": "51% attack / 52% honest",
+  "p0_s2_monitor_more_rejective_with_preview": "0% / 80% (method same batch 0% / 95%; dJ +16pp n.s.)",
+  "p0_s2_monitor_integrity_guard": "82% / 91% (no preview); 68% / 84% (preview)",
+  "p0_s2_coverage_note_vs_button": "64% vs 78% (-15pp [-31,-2], p=.125)",
+  "p0_s2_coverage_note_sparsity_half": "69%",
+  "p0_s2_intact_notfound_button": "50% vs 78% opaque (-28pp [-47,-7], p=.039); lookups before fooled write 2/26",
+  "p0_s2_coarse_vs_named": "65% vs 6% (+59pp [36,81], 9/0/2, p=.004); honest 82% vs 75%",
+  "p0_bd_prompt_rule_three_rule_targeting_talks": "4/156 2% [0,5] held; enforced 4/156 3%",
+  "p0_rt_method_seal_before_five_talks": "0/162 written; seal contamination 0",
+  "p0_rt_seal_after_total_written": "3% [1,6]; contamination 12/152",
+  "p0_rt_reveal_first_total_written": "5% [1,11]; contamination 17/116",
+  "p0_rt_ai_judge_total_written": "50% [35,65] (no persuasion 15%)",
+  "p0_rt_silent_write_all_defences_after_scoring_fix": "0%",
+  "p0_rt_coach_seal": "0/230",
+  "p0_rt_refusing_customer_ai_judge": "74% -> 19%",
+  "p0_rt_refusing_customer_honest_false_refusal": "2/36 6%",
+  "factorial_check_reply_main_effect_silent": "notfound 32% vs named 2%, +30pp [18,41], 9/0/2, Holm 2e-4",
+  "factorial_exit_main_effect_silent": "button 31% / reissue 19% / noexit 1%; all pairwise Holm 2e-4",
+  "factorial_lookup_main_effect": "intact 14% vs opaque 20%, -5pp [-11,+1], Holm .03 (CI includes 0)",
+  "factorial_customer_main_effect": "refuse 16% vs yes 17%, -1pp [-6,+4]",
+  "factorial_interaction_named_world_exits": "2% / 3% / 1%",
+  "factorial_interaction_notfound_world_exits": "60% / 35% / 0%",
+  "factorial_honest_success_by_exit": "button 76% / reissue 64% / noexit 0%; refusing customer false refusal 3%",
+  "reason_codes_notfound_button": "partner_authoritative 38/40, customer_confirmed 1, registry_incomplete 1",
+  "reason_codes_named_button": "partner_authoritative 7/12, customer_confirmed 5/12",
+  "dissect_notfound_button_fooled_said_actual_item_before_write": "0/242; described true item 202/207 97%",
+  "dissect_named_button_fooled_said_actual_item": "8/13",
+  "dissect_ai_judge_options_fooled_said_actual": "14/14",
+  "dissect_ai_judge_price_fooled_said_actual": "2/97",
+  "dissect_seal_fidelity_method": "187/189 resolve to true item, 0 to attack item",
+  "stage0_sibling_variant_attacks": "29/35 tasks; five neighbour gates J=0 on them",
+  "literature_full_text_read": 18
+ },
+ "batches": {
+  "out_core_validity": {
+   "episodes": 46,
+   "errors_in_rows": 0,
+   "PREREG.md_sha256": "67ac6f6e64bad6a0ec780ed8fa908335243352af5981602538e95264f266f1d3",
+   "RESULT.md_sha256": "84095c8487e2c09709dd362f715c90e7e265304154520446a295b84d30887483"
+  },
+  "out_core_validity_conf": {
+   "episodes": 22,
+   "errors_in_rows": 0,
+   "PREREG.md_sha256": "1c3d21bd5c4f963690c1c647ead8f9c2b2f224a6a98ce2c89df2bbe5953d6ec5"
+  },
+  "out_core_dev": {
+   "episodes": 181,
+   "errors_in_rows": 0,
+   "episodes_expected": 180,
+   "PREREG.md_sha256": "ef0d1a9982eba015eb368af3cf0c643ac8d14b51565b96efca5dd9f09334ad98",
+   "RESULT.md_sha256": "29be8698a45f8f7a737566f0c72fff4dd55311a5ca25af55aa8fa18e5c24a8bf",
+   "note": "dev batch; 181 files = 180 jobs + 1 re-run artifact kept"
+  },
+  "out_core_main": {
+   "episodes": 748,
+   "errors_in_rows": 0,
+   "episodes_expected": 748,
+   "PREREG.md_sha256": "bd57dd829ba55efa15943e3335d40965c1dcfd7321ed4e43bb7220ab04d1e8c4",
+   "RESULT.md_sha256": "63720d159f217573afa6dfb91636c41a8783f84a873c0847be7928ed41d868df",
+   "HASHES.txt_sha256": "4ba65f8bcb7555c1bb11a0554e4aba16dba6aa4433884b280612435da7aefb5d"
+  },
+  "out_core_yoked": {
+   "episodes": 44,
+   "errors_in_rows": 0,
+   "episodes_expected": 44,
+   "PREREG.md_sha256": "2795a1b7e0113a2fe5a036ba2cbced0541723b84cf832d3bac242dea933f32b6",
+   "RESULT.md_sha256": "159a8634e17b1db5920688bf46c5d9ad0958d0b1ab8312b608e88824121bba49"
+  },
+  "out_core_boundary": {
+   "episodes": 176,
+   "errors_in_rows": 0,
+   "episodes_expected": 176,
+   "PREREG.md_sha256": "a96ceaeb7d15a5978af0682396c630f4e1ce48e741c7ef5b7546c01d279900d5",
+   "RESULT.md_sha256": "ab2b9fc2b5a4cf49bbf92f0d567070efcbfd80b6d3c125d2cfb51b9c4d6e45f7"
+  },
+  "out_core_neutral": {
+   "episodes": 176,
+   "errors_in_rows": 0,
+   "episodes_expected": 176,
+   "PREREG.md_sha256": "3711a97ec6c507d762f5c25d3a72d5ab8c39d4238a0ba4dec298cf58c345b3ee",
+   "RESULT.md_sha256": "9e22b1df26f72e4b6f9a661dff6e9085669d2b2054a2d1de7996c13259b4444a"
+  },
+  "out_core_luna": {
+   "episodes": 220,
+   "errors_in_rows": 0,
+   "episodes_expected": 220,
+   "PREREG.md_sha256": "0aaca62454111544fd8b12053b450387dca43014d4a80250eda1983159e66b7b",
+   "RESULT.md_sha256": "3d97e6560c009139713cb444010e5f4be331d901f05cbdd0359c605460e022b3"
+  },
+  "out_tau_baselines": {
+   "episodes": 440,
+   "errors_in_rows": 0,
+   "episodes_expected": 440,
+   "PREREG.md_sha256": "774187c8d3a6f10c7843acb6452d121dfa7e2cb0a3e8767f9cada06f840b091c",
+   "RESULT.md_sha256": "dc5d6afe9c3d2052bf331399c93b4dc81117db6f0a993373f3cf7de81d4bf3e0"
+  },
+  "out_ad_baselines": {
+   "episodes": 285,
+   "errors_in_rows": 22,
+   "PREREG.md_sha256": "5f410433fd639ae18b80b55627778f1795fabce39a45949d612597e69eee426a",
+   "RESULT.md_sha256": "690faf6ee40701d15d26dc0bf610cfbfcd7f175aea91f683d3129ce8f97c4093",
+   "note": "22 error rows = Progent dynamic-mode runtime errors, reported as such in RESULT"
+  },
+  "out_ad_baselines_dyn2": {
+   "episodes": 36,
+   "errors_in_rows": 0,
+   "PREREG.md_sha256": "433965cbca02638a927c966b31e5fe095e2035030e3ac7e38ab1b2da2c15d940",
+   "RESULT.md_sha256": "f9086a69afc463c52ad3c92e14fd86e1f3ba571f1c7ac50214ab34e0fcff46db"
+  },
+  "out_ad_addon": {
+   "episodes": 77,
+   "errors_in_rows": 0,
+   "episodes_expected": 76,
+   "PREREG.md_sha256": "cd7fabb6daa959a26b1893063b91c0c8c83f15106c5d04c4073126b996837290",
+   "RESULT.md_sha256": "213bba098b7113b7dfeaae43e1ec072da34069a8a21a7dff6d0fcf18a9755c00",
+   "note": "estimates only"
+  },
+  "out_rqc_validity_dev": {
+   "episodes": 36,
+   "errors_in_rows": 0,
+   "episodes_expected": 36,
+   "PREREG.md_sha256": "9735611323125f1261ce194209206f371a5f23f3301ce23954dca59b59da5d48",
+   "RESULT.md_sha256": "4fbcb28507f06bba4a638f8e22127d84e5394b08f6d4c4cd2a7c5ae050096f73"
+  },
+  "out_rqc_exits": {
+   "episodes": 1050,
+   "errors_in_rows": 0,
+   "episodes_expected": 1050,
+   "PREREG.md_sha256": "87d1a21dc912e6d5010d4348ed4634d98d7ef29f8e299206975815559d02cfc4",
+   "RESULT.md_sha256": "de2892c357220103eeb9d21c4c78643ffcbf1aefd10a5790d31c7d733b7e2399",
+   "HASHES.txt_sha256": "f7375242035664025b242b14fcc2c06f78f38b0d0b0b3468d420981dddd7630b"
+  },
+  "out_p0_gate": {
+   "episodes": 624,
+   "errors_in_rows": 0,
+   "episodes_expected": 624,
+   "PREREG.md_sha256": "69f49d4a11a31aaaa85df028883f80ff62330dc34d286e4e94f4c36826eb2dc2",
+   "RESULT.md_sha256": "318313469e416bd9adaa20c72e70843014b464859bcc92dfa15bf77731ef2b9a",
+   "HASHES.txt_sha256": "72aa2d026eee3e6eb7c57df54b41a702cca36a991fa0f88ad24ba2cad4cb062b"
+  },
+  "out_p0_bd": {
+   "episodes": 312,
+   "errors_in_rows": 0,
+   "episodes_expected": 312,
+   "PREREG.md_sha256": "73ecceeabcb6c5939f1b8580603a17645da5cb92cff6510130c107181e075bde",
+   "RESULT.md_sha256": "45dd0d3df222ea8bb1ea41991d0c05055d09952247c4404961f0829aaeeeecf4",
+   "HASHES.txt_sha256": "5045f27467a2cf41dc4a595e857624bc5ba781e19a9d1de37a01e5b15eb56630"
+  },
+  "out_p0_ext": {
+   "episodes": 396,
+   "errors_in_rows": 0,
+   "episodes_expected": 396,
+   "PREREG.md_sha256": "c861a4d1b5e2fb8e0333884644558e0a9cf8996cbc53879eb47e0f9f3e43eeeb",
+   "RESULT.md_sha256": "910d0f4abbc119e1e018ae5ab0eab34a7c61540efe3845ea41598ff9ff2dc0aa",
+   "HASHES.txt_sha256": "9b5808b42d281f564387efbc03932de02f7511ec0867491ebe0a44f38719106f",
+   "note": "added after stage-1 results; secondary analysis"
+  },
+  "out_p0_s2": {
+   "episodes": 1118,
+   "errors_in_rows": 0,
+   "episodes_expected": 1118,
+   "PREREG.md_sha256": "c5342a8e8078e94c0d8ee6fc2172248ba156fcd879403db8692f4c4f68d781b8",
+   "RESULT.md_sha256": "5924fd4bc0b8522e3e4daf541d469b90852965ff01eaa9f776b443a16df29e0d",
+   "HASHES.txt_sha256": "cb05eeaec3df47244977bf5bc649decb01c0fd40dd8b60dfd349bef375149644"
+  },
+  "out_p0_rt": {
+   "episodes": 768,
+   "errors_in_rows": 0,
+   "episodes_expected": 768,
+   "PREREG.md_sha256": "c57c2898d11c9cc326cdaaf674f9861b567e5e49941044b589fce53c277544c0",
+   "RESULT.md_sha256": "43dbce3bb3df8f0bf56c73e5d39e21591692587c494f23ee66c6eca14fc41571",
+   "HASHES.txt_sha256": "6d9a566332c042d39436be090cfcecf589155c62f798df5d3ccdd624e9581ffa",
+   "note": "38 episodes from an aborted first stage-2 launch quarantined, not counted"
+  },
+  "out_factorial": {
+   "episodes": 910,
+   "errors_in_rows": 0,
+   "episodes_expected": 910,
+   "PREREG.md_sha256": "cce4fd02d5abf47b06ecbe22ef95b59660c439c17989101f175e009750d9b127",
+   "RESULT.md_sha256": "6047ca54c7246871594f7feeb9039f73fd10e031093763092ea9cb172540e902",
+   "HASHES.txt_sha256": "44cb529d6003977270c904ae9604fd3eb71f9aa8f6ccfc5b047a71b5938094ff",
+   "note": "run over two days in three passes under proxy rate limits; 105 error rows quarantined and re-run; final 0 error rows"
+  }
+ },
+ "zero_api_analyses": {
+  "audit_recomputation": "proposal/memos/16_audit/RQ_AUDIT_20261004.md (11 batches + 3 old confirm sets, all consistent)",
+  "dissection": "analysis/dissect_zero_api.md (4,704 episodes re-scored)",
+  "neighbour_gates": "analysis/stage0_neighbors.md",
+  "post_write_notice": "proposal/memos/19_novelty/scripts/post_write_notice.py"
+ },
+ "code_sha256": {
+  "tau/run_tau.py": "0d1f847639dc0f3ddc0ff9d80cd28980868a21f656e9c2deebdd94b3eae26b8f",
+  "tau/tau_membrane.py": "12b1fc2ddd7dd1534cbc1f7a0d3af0c95b5b1c3f1aa19d7a3365c82f9cd280b1",
+  "tau/effect_gate.py": "a0798da0849f309aca71ebbaf290b1152b87022b72b55105d60dab9a51741d69",
+  "tau/tau_registry.py": "71ed7f6125d8a6f3b97c5da44e6d0c140bd0a0e1a87d3e8cde2e17c30e3ace2c",
+  "tau/llm_monitor.py": "6ad1ab1450e74f984b92235b91556b7019b46a47fc1713729654f84df24c589e",
+  "check_texts.py": "4ee865c6aa9b333cabddf95b6692871665e23300be08d50e6c42ace30e626c4c",
+  "registry.py": "d8580d65dbae64e4a3b7656bb880538de9ce428269d8e98159e0b3b9ea8b3fad",
+  "run_ep2.py": "14796da39d797e90e0b183c42aaf1f86458203815c03bce8524b8721e14e4308",
+  "summarize_core.py": "deec68ce4b418b1cc9772195a1c4f7d663497cdd4edfe5901017f88e5f6ea4b8",
+  "run_core_batch.sh": "c7e245379c3a650408399fe77a58bcc1bc2a0cfa03c5c2f7bfb4ed6fbacdf550",
+  "proposal/memos/16_audit/scripts/audit_tau.py": "8ab976286c3a8c166296305136d220dbbfd703cfc7f7449e1dcbd121fe9985a9",
+  "analysis/summarize_rqc.py": "cd8f0b3a14e0144e4d22f065514cb71e29f382af33073df7b9e3a31476300fe7",
+  "analysis/summarize_p0.py": "26d705b12ceb13f609b549e18381b7563cede308dfd46265278f111932a2fd8d",
+  "analysis/summarize_p0_ext.py": "b275f0792f2b7da3fe82db3dba52972d55b42547d16895be8a485a7f119ddcb6",
+  "analysis/summarize_p0_s2.py": "f73e373343fa4bc4953f505481ee8b92356bdfb2c87d607ccbb1d23746a5ddc5",
+  "analysis/summarize_p0_bd.py": "42ef3c8e4d7d205d0bd8bab16786bc22914a4073ffa58d18aed0a65fac4f4b30",
+  "analysis/summarize_p0_rt.py": "7f382a81fca318561c5da67e2aca41eaac1efb48df2cae3e891e0feec40ce565",
+  "analysis/summarize_factorial.py": "edcd1266898b22e25607a8dae1e90febee1eb0c05d841b59423083ce335421c3",
+  "analysis/dissect_zero_api.py": "b5bde43a05ee1a53c6c4011e0370270b329088f83d93aa725c77808d0597d6eb"
+ },
+ "tests_offline": {
+  "tau/test_core_tau.py": "118/118",
+  "tau/test_p0_switches.py": "154/154",
+  "tau/test_effect_gate.py": "21/21",
+  "tau/test_tau_registry.py": "94/94",
+  "tau/test_llm_monitor.py": "all passed",
+  "test_check_texts.py": "54/54",
+  "analysis/test_summarize_p0.py": "86/86",
+  "analysis/test_summarize_p0_rt.py": "91/91",
+  "analysis/test_summarize_factorial.py": "37/37",
+  "evalkit/tests/test_evalkit.py": "79/79"
+ },
+ "decisions_log": "proposal/memos/20_p0/DECISIONS_NIGHT.md (26 pre-run decisions with reasons, 2 observations)"
+}
