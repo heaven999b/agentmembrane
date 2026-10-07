@@ -299,17 +299,14 @@
  },
  "decisions_log": "proposal/memos/20_p0/DECISIONS_NIGHT.md (26 pre-run decisions with reasons, 2 observations)",
  "report_sections": [
-  "0 总表",
-  "1 RQ-A",
-  "2 RQ-B",
-  "3 RQ-C",
-  "4 RQ-D (4a 规则/基线, 4b 见证式提交+消融)",
-  "5 RQ-E",
-  "6 边界",
-  "7 旧编号 RQ1–RQ9 的去向与本周新增证据 + 本周未进主表的批次",
-  "8 跨 RQ 材料",
-  "9 修掉的问题",
-  "10 下一步",
-  "11 文件与可复现性"
+  "一 先看一个例子",
+  "二 六句话讲清结论(含:它会不会自己绕路)",
+  "三 总表",
+  "四 逐条研究问题:RQ-A、RQ-B、RQ-C、RQ-D(4a 规则与基线,4b 见证式提交含灰色情况表)、RQ-E、边界",
+  "五 旧编号 RQ1–RQ9 的去向",
+  "六 其他材料",
+  "七 本周更正",
+  "八 下一步",
+  "九 文件与可复现性"
  ]
 }
