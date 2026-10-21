@@ -14,6 +14,16 @@ The curated [`references/`](references/README.md) library lists the closest pape
 with one page per paper containing bibliographic metadata, a Chinese abstract
 paraphrase, a short AI-generated summary, and its exact relationship to the RQs.
 
+## Latest weekly report
+
+**[Week 14 · 2026-10-21](weekly_reports/week14/README.md)** publishes the current
+[concise Proposal](weekly_reports/week14/docs/PROPOSAL_CURRENT_zh.md),
+[RQ Detail](weekly_reports/week14/docs/RQ_DETAIL.md), and
+[20 result groups](weekly_reports/week14/supporting/results/README.md).
+The materials are dated 2026-10-16 and study how harness information, evidence
+acquisition, and execution gates shape agent decisions under incomplete information.
+The earlier program descriptions below retain their historical scope.
+
 ## Proposal tracks
 
 - **CURRENT (v2, since 2026-09-28) — delegated-value falsification and the verification membrane:**
@@ -29,7 +39,8 @@ paraphrase, a short AI-generated summary, and its exact relationship to the RQs.
   [`docs/RESEARCH_PIVOT_20260928.md`](docs/RESEARCH_PIVOT_20260928.md); the current
   experiments (delegated-value falsification, verification membrane) are described in
   the [Week 10 report](weekly_reports/week10/week10_report_20260928_zh.md); corrections to it and
-  the latest results are in the [Week 12 report](weekly_reports/week12/week12_report_20261007_zh.md).
+  its October 7 results are in the [Week 12 report](weekly_reports/week12/week12_report_20261007_zh.md);
+  current materials are collected in [Week 14](weekly_reports/week14/README.md).
 - **ALTERNATIVE / SECONDARY — bio-inspired admission and containment direction:**
   [`docs/APPENDIX_BIO_INSPIRED_ALTERNATIVE.md`](docs/APPENDIX_BIO_INSPIRED_ALTERNATIVE.md),
   retained as an appendix and not a replacement for the primary proposal.

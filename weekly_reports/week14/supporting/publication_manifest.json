@@ -1,0 +1,420 @@
+{
+  "schema_version": "agentmembrane-weekly-publication/1",
+  "publication_date": "2026-10-21",
+  "material_version": "2026-10-16",
+  "source_package": "AgentMembrane_current_20261016",
+  "full_package_url": "https://drive.google.com/drive/folders/1cu_UdGCmfW6YVgeV_vp-tGK_LZ_UHor1",
+  "result_groups": 20,
+  "files": [
+    {
+      "file": "docs/PROPOSAL_CURRENT_zh.md",
+      "source": "docs/PROPOSAL_CURRENT_zh.md",
+      "source_sha256": "5911ccf81a3e7d606753e800c883f7bdb211ffb98103d19fada5f062999414f1",
+      "published_sha256": "1f49a86d5f46f9172c54523cf50c396c3d701b82c4c3f023014d41b89bf8d0a0",
+      "changes": [
+        "Adapted links for this weekly report."
+      ]
+    },
+    {
+      "file": "docs/RQ_DETAIL.md",
+      "source": "docs/RQ_DETAIL.md",
+      "source_sha256": "d909291aabdb9674503f419163708e8378c724cec85426d0446d470beab7fe2b",
+      "published_sha256": "76973271b7b8dc266af2d523a0ba076386c9d55d3f977ad8b3508554e65f81d9",
+      "changes": [
+        "Adapted links for this weekly report.",
+        "Local endpoint/credential variable names replaced with a pointer to the full package instructions; research text unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/ad_baselines_final.json",
+      "source": "results/ad_baselines_final.json",
+      "source_sha256": "0847de652f9b2121a96ba8661a011d0e2ea341f96d4abbeadb6d620948ef4ebb",
+      "published_sha256": "9954bb98ff5cca1c617a23e150444c9876af490e9138face10428e9a1f8d5a94",
+      "removed_top_level_fields": [
+        "episodes"
+      ],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/ad_baselines_final.md",
+      "source": "results/ad_baselines_final.md",
+      "source_sha256": "e887ced702fd1e8a37b72ef4af27825d239441e6c0aa80223c4a324b82089969",
+      "published_sha256": "e887ced702fd1e8a37b72ef4af27825d239441e6c0aa80223c4a324b82089969",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/boundary_primary.json",
+      "source": "results/boundary_primary.json",
+      "source_sha256": "b5d9c17bb7930245bd16a68148cd2750c05ae70f29a2df0fc8a76c8247cef78f",
+      "published_sha256": "9e11cd6803b4cc358817085353e49d1df340e0d0eead7e40bc89c59aec489a5c",
+      "removed_top_level_fields": [
+        "episodes"
+      ],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/boundary_primary.md",
+      "source": "results/boundary_primary.md",
+      "source_sha256": "73892c056fc6be3382317e45cb4b2aea3af65632fdf51acd6d7539d48fec1fb7",
+      "published_sha256": "73892c056fc6be3382317e45cb4b2aea3af65632fdf51acd6d7539d48fec1fb7",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/boundary_secondary.json",
+      "source": "results/boundary_secondary.json",
+      "source_sha256": "38eb412bf502819d08c41f00e0622ea8583f44323feb21462b5ddf23be1971c8",
+      "published_sha256": "419bef2db9563b547024d982d9c6730a484acd60b2f47a71e60446f651796aba",
+      "removed_top_level_fields": [
+        "episodes"
+      ],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/boundary_secondary.md",
+      "source": "results/boundary_secondary.md",
+      "source_sha256": "e58f60058bbbce0d8ed9188d529ade5f9600ad86bf775ce64fcfd50d2ca78232",
+      "published_sha256": "e58f60058bbbce0d8ed9188d529ade5f9600ad86bf775ce64fcfd50d2ca78232",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/core_primary.json",
+      "source": "results/core_primary.json",
+      "source_sha256": "b2edae04ef2e43d64468dbee3505030a72a766e4e23c9bfbde03fb74507ba11c",
+      "published_sha256": "1d9780da78c547c4ed139f54c3d5a04cd371da8aa02cd1bfd8caf8ef51da7b6d",
+      "removed_top_level_fields": [
+        "episodes"
+      ],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/core_primary.md",
+      "source": "results/core_primary.md",
+      "source_sha256": "d1e166c378b0f1136e9047340f59b9542fa0d1127a6502f467ca5d63b902b0cd",
+      "published_sha256": "d1e166c378b0f1136e9047340f59b9542fa0d1127a6502f467ca5d63b902b0cd",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/core_secondary.json",
+      "source": "results/core_secondary.json",
+      "source_sha256": "a79a6aa19325058b714ded8afc91b8c63fe48f9a6e9a9de2d0b798e3a8180567",
+      "published_sha256": "ff95fa5dcd41754ddc3a3a194739d71fe195d7a0df7731050110df605929cdfe",
+      "removed_top_level_fields": [
+        "episodes"
+      ],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/core_secondary.md",
+      "source": "results/core_secondary.md",
+      "source_sha256": "23be244aac57fa15bd514393190643b274f39fdf0af776e9e93ed7f4e315eeef",
+      "published_sha256": "23be244aac57fa15bd514393190643b274f39fdf0af776e9e93ed7f4e315eeef",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/e1_summary.json",
+      "source": "results/e1_summary.json",
+      "source_sha256": "1afd5c5d6951e70e275aa1927cea23180fa19925cabf6abc16efc0ece014c8fa",
+      "published_sha256": "b9756915f4078ba565a9cb246afbeb385f1fe7b5f5ea521dd9acf97879cc2649",
+      "removed_top_level_fields": [
+        "episodes"
+      ],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/e1_summary.md",
+      "source": "results/e1_summary.md",
+      "source_sha256": "ecd95bc98c394dbf0d2a39ee5c1969c6078ffc1becf7aadbc5c9d7b931014802",
+      "published_sha256": "ecd95bc98c394dbf0d2a39ee5c1969c6078ffc1becf7aadbc5c9d7b931014802",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/e2_summary.json",
+      "source": "results/e2_summary.json",
+      "source_sha256": "8901a625438bbd0f9a75683a80569c086dd2349c5de0ad8f2bbfb00fb0bb5e61",
+      "published_sha256": "b131c43fb053482d912b4de823f03083cb876a4458c5f7c27e50329b4c3e6dc6",
+      "removed_top_level_fields": [
+        "episodes"
+      ],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/e2_summary.md",
+      "source": "results/e2_summary.md",
+      "source_sha256": "29c697b38f9183bf927c251dfa3766d2c72278971495b1b011d43c127453d777",
+      "published_sha256": "29c697b38f9183bf927c251dfa3766d2c72278971495b1b011d43c127453d777",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/factorial_summary.json",
+      "source": "results/factorial_summary.json",
+      "source_sha256": "22191724807ee60f53a56b3990b01be3c60c86e78d2585f005b54bc3730c1dcc",
+      "published_sha256": "6df823eb5ad069affaef6ed1395e20e27d920cf3b4a6f6d83725c33d5d6e1968",
+      "removed_top_level_fields": [],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/factorial_summary.md",
+      "source": "results/factorial_summary.md",
+      "source_sha256": "08194fb85170c64c3e1569943bf6942262209d8089a28de02280799c4f2b2686",
+      "published_sha256": "08194fb85170c64c3e1569943bf6942262209d8089a28de02280799c4f2b2686",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/luna_primary.json",
+      "source": "results/luna_primary.json",
+      "source_sha256": "f60fac8d91187aa65a16f206f79ae8224134aec3a69877daa5a069e2f964b6b9",
+      "published_sha256": "09350334f5c44681f1e7e9ca7115604fbfbe873b2f9f214fef00100a71cb04e7",
+      "removed_top_level_fields": [
+        "episodes"
+      ],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/luna_primary.md",
+      "source": "results/luna_primary.md",
+      "source_sha256": "494fa54a011937ce66110139424189fa51a99941b7f52dc7cd00a0ef52959777",
+      "published_sha256": "494fa54a011937ce66110139424189fa51a99941b7f52dc7cd00a0ef52959777",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/luna_secondary.json",
+      "source": "results/luna_secondary.json",
+      "source_sha256": "f8faf3427837752018faf5c5f853e97ec646a445b37722a6a3809b594a47bc83",
+      "published_sha256": "62d0639d9705ea9643889370f026d22d3bb37dfe0cdfc7fca0c9cbb0c57a4450",
+      "removed_top_level_fields": [
+        "episodes"
+      ],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/luna_secondary.md",
+      "source": "results/luna_secondary.md",
+      "source_sha256": "555bbd4f983a3b10b771f50625693b303d152c235a307db355442e54750431bd",
+      "published_sha256": "555bbd4f983a3b10b771f50625693b303d152c235a307db355442e54750431bd",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/neutral_primary.json",
+      "source": "results/neutral_primary.json",
+      "source_sha256": "1f1f24934dc9b8f04eac5dcdd7c2302001b47650b36fc5c3c50b5c6ad7d34cc3",
+      "published_sha256": "8a4c756f64c61a9ad7c84c95f497145b012a8c71ab8cba4f50a94993fb8ac1c2",
+      "removed_top_level_fields": [
+        "episodes"
+      ],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/neutral_primary.md",
+      "source": "results/neutral_primary.md",
+      "source_sha256": "5950d3d793eda49d05245661853e0b5765a2dd965b76974ab0c9eeeb674b2730",
+      "published_sha256": "5950d3d793eda49d05245661853e0b5765a2dd965b76974ab0c9eeeb674b2730",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/neutral_secondary.json",
+      "source": "results/neutral_secondary.json",
+      "source_sha256": "bc02a102021a5bceda5032a356bc31087b5ca9ca63e32df1f0c1886938504133",
+      "published_sha256": "832399a38a049f68a6171dae99f6ddfa952a0d8e51117bbab898c573e55cda9d",
+      "removed_top_level_fields": [
+        "episodes"
+      ],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/neutral_secondary.md",
+      "source": "results/neutral_secondary.md",
+      "source_sha256": "b1600777ac3eb3b4ad6e6b7d3dcc3b9f0ccce6f8856fcafae8dd171421cca34d",
+      "published_sha256": "b1600777ac3eb3b4ad6e6b7d3dcc3b9f0ccce6f8856fcafae8dd171421cca34d",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/p0_bd_summary.json",
+      "source": "results/p0_bd_summary.json",
+      "source_sha256": "28674114406d7c1786276e453b1c18247d6af52bb7383bbc0f580c20bfa1c5a6",
+      "published_sha256": "d9c96c9cea1911e0e47390bde82debaa6ed5514e0be373fcb1fc3192bec98391",
+      "removed_top_level_fields": [],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/p0_bd_summary.md",
+      "source": "results/p0_bd_summary.md",
+      "source_sha256": "460c41d7e6599db69fe4f7b0cdd8af9ccc21b3803b6ea580f8bbc2f0f102b6f6",
+      "published_sha256": "460c41d7e6599db69fe4f7b0cdd8af9ccc21b3803b6ea580f8bbc2f0f102b6f6",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/p0_ext_summary.json",
+      "source": "results/p0_ext_summary.json",
+      "source_sha256": "0c6bbbb2a98fdf81623f4823bb3a7a3add4225d95f6fe48d1dad246540c96067",
+      "published_sha256": "809def057961c276072b41869d13de80e678710f5e91127109629cf062b7dcbb",
+      "removed_top_level_fields": [],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/p0_ext_summary.md",
+      "source": "results/p0_ext_summary.md",
+      "source_sha256": "2c4d5fde37f476ae9b6a6d60e2976805d65d97c75ecd400ebb3511a5a371e067",
+      "published_sha256": "2c4d5fde37f476ae9b6a6d60e2976805d65d97c75ecd400ebb3511a5a371e067",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/p0_gate_summary.json",
+      "source": "results/p0_gate_summary.json",
+      "source_sha256": "cf81af0829e3b35659a1f71ef2d129978523f2925186aa1fd665ecc55a3764d6",
+      "published_sha256": "dd72ec9f6b5fde147c69ee5219bebe302fef8851c41e23345f7a59d5bbe1944b",
+      "removed_top_level_fields": [],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/p0_gate_summary.md",
+      "source": "results/p0_gate_summary.md",
+      "source_sha256": "adeea1ec3730c5e2019273502153138fb8bfe1e660b68ee51ec9e725b9709f63",
+      "published_sha256": "adeea1ec3730c5e2019273502153138fb8bfe1e660b68ee51ec9e725b9709f63",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/p0_rt_summary.json",
+      "source": "results/p0_rt_summary.json",
+      "source_sha256": "959a4c282c9469c6478ccedb616db809b6a3cfcf81a8f85c644ad6a0632136cb",
+      "published_sha256": "8c27c701f4c25eafc20357e964b0d841dc34248d3fb9769fe2825775b7312b93",
+      "removed_top_level_fields": [],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/p0_rt_summary.md",
+      "source": "results/p0_rt_summary.md",
+      "source_sha256": "7047247242ddba365d9e1b8c44f8d2a973c0d46cf4b4669e6708d9ed53d0226d",
+      "published_sha256": "7047247242ddba365d9e1b8c44f8d2a973c0d46cf4b4669e6708d9ed53d0226d",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/p0_s2_summary.json",
+      "source": "results/p0_s2_summary.json",
+      "source_sha256": "cebff3943164e0398566022e1a20642c48bd69f0002261535b9491534c264dad",
+      "published_sha256": "db9f9582267a52f3f7a0435faa462d1a23305d3c904b5e178e52e5056cbb3587",
+      "removed_top_level_fields": [],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/p0_s2_summary.md",
+      "source": "results/p0_s2_summary.md",
+      "source_sha256": "99a663f707992df217a58430cd8682d336c46cfbca1d6c2fb7d1f0a127e4074b",
+      "published_sha256": "99a663f707992df217a58430cd8682d336c46cfbca1d6c2fb7d1f0a127e4074b",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/rqc_summary.json",
+      "source": "results/rqc_summary.json",
+      "source_sha256": "7d07bc641606daba1254d6467fb4f7eaf8a6bbbe81d38faed4d6a9309a1572c6",
+      "published_sha256": "15b3b41bea420514d14a1024fc74741496e3bda0709cffd64818057d4722d27b",
+      "removed_top_level_fields": [],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/rqc_summary.md",
+      "source": "results/rqc_summary.md",
+      "source_sha256": "f3c00f4f55afa387429900cedef24d9ec518a1465b06a21e63431d562555cbe7",
+      "published_sha256": "f3c00f4f55afa387429900cedef24d9ec518a1465b06a21e63431d562555cbe7",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/tau_baselines_primary.json",
+      "source": "results/tau_baselines_primary.json",
+      "source_sha256": "01b41ea76acf49d463622eb8ff2ad12dd27b0ed92eb3d9ca66b3d9f4df68a05d",
+      "published_sha256": "d479ac1dc9b578562b57c191657749aaa600fc089611fed17cadc462dff9600f",
+      "removed_top_level_fields": [
+        "episodes"
+      ],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/tau_baselines_primary.md",
+      "source": "results/tau_baselines_primary.md",
+      "source_sha256": "ee888dbc8c7e7e60af30095791fb1b7103de0c7d7e9a82a047567db02bf6e19b",
+      "published_sha256": "ee888dbc8c7e7e60af30095791fb1b7103de0c7d7e9a82a047567db02bf6e19b",
+      "removed_top_level_fields": [],
+      "changes": []
+    },
+    {
+      "file": "supporting/results/tau_baselines_secondary.json",
+      "source": "results/tau_baselines_secondary.json",
+      "source_sha256": "cda415fce909e80d011ce89d7375e9528d714a5d0c2ddbbc0fd7f363c6d59e59",
+      "published_sha256": "595a4c59842fd772f8af764ed5a1f4a45e968061f050e9c0398670ef967c5e17",
+      "removed_top_level_fields": [
+        "episodes"
+      ],
+      "changes": [
+        "Omitted episode records when present; normalized two machine-local provenance paths. All retained statistics unchanged."
+      ]
+    },
+    {
+      "file": "supporting/results/tau_baselines_secondary.md",
+      "source": "results/tau_baselines_secondary.md",
+      "source_sha256": "f7297d401e57bdc9da52ea56b6405c54ac43dae7d129d5c9fa4ce55c547fe4a5",
+      "published_sha256": "f7297d401e57bdc9da52ea56b6405c54ac43dae7d129d5c9fa4ce55c547fe4a5",
+      "removed_top_level_fields": [],
+      "changes": []
+    }
+  ],
+  "validation": {
+    "proposal_research_text_preserved": true,
+    "markdown_result_files_byte_identical": true,
+    "retained_json_fields_equal_after_path_normalization": true
+  }
+}

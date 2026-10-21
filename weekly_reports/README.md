@@ -7,7 +7,7 @@ AgentMembrane program. New weekly reports are prepared, validated, and committed
 here; a staging or handoff copy does not count as published. See
 [PROCESS.md](./PROCESS.md) for the exact workflow and release checks.
 
-**Current research proposal (v2, from Week 10 on):** [AgentMembrane v2 research proposal](../docs/PROPOSAL_V2_20260927_zh.md) · per-RQ design, methods and latest results: [v2 design and per-RQ status](../docs/AGENTMEMBRANE_V2_DESIGN_AND_STATUS_zh.md).
+**Current materials (Week 14, published 2026-10-21; evidence through 2026-10-16):** [concise Proposal](./week14/docs/PROPOSAL_CURRENT_zh.md) · [RQ Detail](./week14/docs/RQ_DETAIL.md) · [20 result groups](./week14/supporting/results/README.md).
 
 | Week | Entry point | Scope |
 | --- | --- | --- |
@@ -22,8 +22,8 @@ here; a staging or handoff copy does not count as published. See
 | Week 9 | [week9/](./week9/) | Three-tier baseline, final 120-cell engineering results, medium-tier diagnosis, open issues, and next-week plan |
 | Week 10 | [week10/](./week10/) | Delegated-value falsification (new construct): RQ1 phenomenon, four preregistered controls, same-task grounding ablation, M1 provenance gate, scoring fixes |
 | Week 11 | [week11/](./week11/) | As of 2026-09-30: full-batch audit and corrections to Week 10, scorer v2, second-model pilot, τ³-bench integration with attack experiments (dev + confirm), RQ8 multi-round sessions (moved to appendix); [v2 proposal](../docs/PROPOSAL_V2_20260927_zh.md) and [per-RQ design](../docs/AGENTMEMBRANE_V2_DESIGN_AND_STATUS_zh.md) published |
-
 | Week 12 | [week12/](./week12/) | As of 2026-10-07: core experiment (check wording × exit) landed, the "not found" dilemma completion batch, independent audit, the witnessed-commit method with same-task ablations (laundering, AI judge, seal timing, LLM monitors), red team against the seal and the judge, 4-factor factorial with exit reason codes, full-text reading of 18 neighbouring papers, evaluation kit |
-User-facing naming follows the proposal: canonical RQ1 is the
-`authority_admission_boundary`; canonical RQ2 is
-`semantic_receptor_expressiveness`. Their evidence is reported separately.
+| Week 13 | [week13/](./week13/) | No standalone report on 2026-10-14; publication-status note points to Week 14 |
+| Week 14 | [week14/](./week14/) | Published 2026-10-21: concise grey-decision Proposal, per-RQ design and interfaces, and 20 result groups; material version 2026-10-16 |
+
+Current RQ-A–RQ-E and boundary questions follow the [current Proposal](./week14/docs/PROPOSAL_CURRENT_zh.md). Earlier construct names and weekly records retain their original scope.
