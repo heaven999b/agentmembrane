@@ -135,7 +135,7 @@ Week 15 把 4 个近期外部方法按原文移植到 τ 零售，与见证式�
 
 预注册主检验（J 差，单侧簇级符号检验，Holm 覆盖 5 项）中，见证式提交对 IGAC、PolicyGuard、PolicyGuard + 预演、实体绑定闸门、ToolGuard 的 ΔJ 分别为 +65、+69、+45、+43、+74pp，Holm p 均 < .05，都达到“差 ≥15pp 且 Holm p<.05”的标准。看不到“编号实际指向哪一款”的方法（IGAC、PolicyGuard、ToolGuard）与无防御无法区分；能看到执行端事实的方法都把攻击写入压到 0，但 PolicyGuard + 预演与实体绑定闸门同时挡掉了大部分正常任务。
 
-两点边界：与 More Rejective + 预演的 J 差为 +5pp [−12, 25]，打平，说明关键是把执行端事实交给判定方，而不是判官类型；luna 下见证式提交的正常成功 70%，未达方法自身 ≥80% 的标准；11 局失败中 9 局为 H 未写入、转人工或写入后未通过判定，2 局因封存多写属性而拦下真值。[结果](../supporting/results/bl_summary.md)、[预注册](../supporting/out_bl_PREREG.md)
+两点边界：与 More Rejective + 预演的 J 差为 +5pp [−12, 25]，打平，说明关键是把执行端事实交给判定方，而不是判官类型；luna 下见证式提交的正常成功 70%，未达方法自身 ≥80% 的标准；11 局失败中 8 局为 H 未写入、转人工或写入后未通过判定，3 局为真值被方法拦下（2 局封存多写属性，1 局一单两件商品而每类只能封存一份意图）。[结果](../supporting/results/bl_summary.md)、[预注册](../supporting/out_bl_PREREG.md)
 
 ## 4. 当前结论与边界
 
