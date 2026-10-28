@@ -7,7 +7,7 @@ AgentMembrane program. New weekly reports are prepared, validated, and committed
 here; a staging or handoff copy does not count as published. See
 [PROCESS.md](./PROCESS.md) for the exact workflow and release checks.
 
-**Current materials (Week 14, published 2026-10-21; evidence through 2026-10-16):** [concise Proposal](./week14/docs/PROPOSAL_CURRENT_zh.md) · [RQ Detail](./week14/docs/RQ_DETAIL.md) · [20 result groups](./week14/supporting/results/README.md).
+**Current materials (Week 15, 2026-10-28):** [Proposal](./week15/docs/PROPOSAL_CURRENT_zh.md) · [RQ Detail](./week15/docs/RQ_DETAIL.md) · [Week 15 results](./week15/supporting/results/README.md) · [20 earlier result groups](./week14/supporting/results/README.md).
 
 | Week | Entry point | Scope |
 | --- | --- | --- |
@@ -25,5 +25,6 @@ here; a staging or handoff copy does not count as published. See
 | Week 12 | [week12/](./week12/) | As of 2026-10-07: core experiment (check wording × exit) landed, the "not found" dilemma completion batch, independent audit, the witnessed-commit method with same-task ablations (laundering, AI judge, seal timing, LLM monitors), red team against the seal and the judge, 4-factor factorial with exit reason codes, full-text reading of 18 neighbouring papers, evaluation kit |
 | Week 13 | [week13/](./week13/) | No standalone report on 2026-10-14; publication-status note points to Week 14 |
 | Week 14 | [week14/](./week14/) | Published 2026-10-21: concise grey-decision Proposal, per-RQ design and interfaces, and 20 result groups; material version 2026-10-16 |
+| Week 15 | [week15/](./week15/) | 2026-10-28: same-batch comparison against four recent external methods (IGAC, PolicyGuard, entity-binding gate, ToolGuard; 918 episodes on gpt-5.6-luna after gpt-5.5 was retired), with the Proposal and RQ Detail updated |
 
-Current RQ-A–RQ-E and boundary questions follow the [current Proposal](./week14/docs/PROPOSAL_CURRENT_zh.md). Earlier construct names and weekly records retain their original scope.
+Current RQ-A–RQ-E and boundary questions follow the [current Proposal](./week15/docs/PROPOSAL_CURRENT_zh.md). Earlier construct names and weekly records retain their original scope.
