@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 STUDY_REGISTRY = ROOT / "studies" / "registry.json"
 MAX_TRACKED_BYTES = 10 * 1024 * 1024
 SAFE_TEXT_SUFFIXES = {
-    ".csv", ".html", ".json", ".md", ".py", ".sh", ".toml", ".txt",
+    ".csv", ".html", ".json", ".md", ".py", ".sh", ".svg", ".toml", ".txt",
     ".yaml", ".yml",
 }
 SAFE_TEXT_FILENAMES = {".gitignore"}

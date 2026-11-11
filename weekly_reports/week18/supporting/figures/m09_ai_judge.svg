@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" viewBox="0 0 680 116" role="img"><title>H 自己</title>
+<desc>左边是判定方看到的信息,中间是谁来判,右边是可能的结果。</desc>
+<style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;font-size:12px}
+.bg{fill:#FFFFFF}
+.kf{fill:#E1F5EE;stroke:#0F6E56}.kfx{fill:#085041}
+.kt{fill:#FAECE7;stroke:#993C1D}.ktx{fill:#712B13}
+.kn{fill:#F1EFE8;stroke:#888780}.knx{fill:#2C2C2A}
+.kj{fill:#EEEDFE;stroke:#534AB7}.jt{fill:#3C3489;font-size:14px;font-weight:500}.js{fill:#534AB7}
+.a{stroke:#73726C;stroke-width:1.2;fill:none}.mk{stroke:#73726C}
+.b{fill:#F1EFE8;stroke:#888780}.c{fill:#EEEDFE;stroke:#534AB7}
+.t{font-size:14px;font-weight:500;fill:#2C2C2A}.s{fill:#5F5E5A}
+.ct{font-size:14px;font-weight:500;fill:#3C3489}.cs{fill:#534AB7}
+@media (prefers-color-scheme:dark){
+.bg{fill:#1F1F1E}
+.kf{fill:#04342C;stroke:#5DCAA5}.kfx{fill:#9FE1CB}
+.kt{fill:#4A1B0C;stroke:#F0997B}.ktx{fill:#F5C4B3}
+.kn{fill:#2C2C2A;stroke:#888780}.knx{fill:#F1EFE8}
+.kj{fill:#26215C;stroke:#AFA9EC}.jt{fill:#CECBF6}.js{fill:#AFA9EC}
+.a{stroke:#9C9A92}.mk{stroke:#9C9A92}
+.b{fill:#2C2C2A;stroke:#888780}.c{fill:#3C3489;stroke:#AFA9EC}
+.t{fill:#F1EFE8}.s{fill:#B4B2A9}.ct{fill:#CECBF6}.cs{fill:#AFA9EC}
+}
+</style><rect class="bg" x="0" y="0" width="680" height="116"/><defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" class="mk" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect class="kf" x="20" y="24" width="220" height="34" rx="6" stroke-width="0.5"/>
+<text class="kfx" x="130" y="41" text-anchor="middle" dominant-baseline="central">预演:实际是哪一款</text>
+<line class="a" x1="240" y1="41" x2="286" y2="64" marker-end="url(#ar)"/>
+<rect class="kt" x="20" y="70" width="220" height="34" rx="6" stroke-width="0.5"/>
+<text class="ktx" x="130" y="87" text-anchor="middle" dominant-baseline="central">完整对话</text>
+<line class="a" x1="240" y1="87" x2="286" y2="64" marker-end="url(#ar)"/>
+<rect class="kj" x="290" y="36" width="150" height="56" rx="8" stroke-width="0.5"/>
+<text class="jt" x="365" y="55" text-anchor="middle" dominant-baseline="central">H 自己</text>
+<text class="js" x="365" y="75" text-anchor="middle" dominant-baseline="central">再发一次才执行</text>
+<line class="a" x1="440" y1="64" x2="486" y2="41" marker-end="url(#ar)"/>
+<rect class="kn" x="490" y="24" width="170" height="34" rx="6" stroke-width="0.5"/>
+<text class="knx" x="575" y="41" text-anchor="middle" dominant-baseline="central">再发一次:执行</text>
+<line class="a" x1="440" y1="64" x2="486" y2="87" marker-end="url(#ar)"/>
+<rect class="kn" x="490" y="70" width="170" height="34" rx="6" stroke-width="0.5"/>
+<text class="knx" x="575" y="87" text-anchor="middle" dominant-baseline="central">不再发:放弃</text>
+</svg>

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 680 540" role="img">
+<title>只核对 + trace 的方法流程</title>
+<desc>顾客原话、H 的查询结果、同伴的回复都进入平台;平台把查询结果记成事实、同伴的话记成说法,存在只能追加的 trace 里;H 提交写入时,平台查出编号是哪一款,对照顾客要求,用 trace 里的事实判对、不对或定不下来。</desc>
+<style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif}
+.bg{fill:#FFFFFF}
+.t{font-size:14px;font-weight:500;fill:#2C2C2A}
+.ts{font-size:12px;fill:#5F5E5A}
+.box{fill:#F1EFE8;stroke:#888780}
+.plat{fill:#E1F5EE;stroke:#0F6E56}
+.plat-t{font-size:14px;font-weight:500;fill:#085041}
+.tr{fill:#EEEDFE;stroke:#534AB7}
+.tr-t{font-size:14px;font-weight:500;fill:#3C3489}
+.tr-s{font-size:12px;fill:#534AB7}
+.arr{stroke:#73726C;stroke-width:1.5;fill:none}.mk{stroke:#73726C}
+@media (prefers-color-scheme:dark){
+.bg{fill:#1F1F1E}
+.t{fill:#F1EFE8}
+.ts{fill:#B4B2A9}
+.box{fill:#2C2C2A;stroke:#888780}
+.plat{fill:#04342C;stroke:#5DCAA5}
+.plat-t{fill:#9FE1CB}
+.tr{fill:#3C3489;stroke:#AFA9EC}
+.tr-t{fill:#CECBF6}
+.tr-s{fill:#AFA9EC}
+.arr{stroke:#9C9A92}.mk{stroke:#9C9A92}
+}
+</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" class="mk" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect class="bg" x="0" y="0" width="680" height="540"/>
+<rect class="plat" x="280" y="30" width="360" height="370" rx="20" stroke-width="0.5"/>
+<text class="plat-t" x="300" y="52" dominant-baseline="central">平台(只把关:不挑款、不给编号)</text>
+<rect class="box" x="40" y="70" width="180" height="56" rx="8" stroke-width="0.5"/>
+<text class="t" x="130" y="88" text-anchor="middle" dominant-baseline="central">顾客</text>
+<text class="ts" x="130" y="108" text-anchor="middle" dominant-baseline="central">开场一次说完需求</text>
+<rect class="box" x="40" y="160" width="180" height="56" rx="8" stroke-width="0.5"/>
+<text class="t" x="130" y="178" text-anchor="middle" dominant-baseline="central">商店查询工具</text>
+<text class="ts" x="130" y="198" text-anchor="middle" dominant-baseline="central">H 查商品、订单</text>
+<rect class="box" x="40" y="244" width="180" height="56" rx="8" stroke-width="0.5"/>
+<text class="t" x="130" y="262" text-anchor="middle" dominant-baseline="central">同伴(不可信)</text>
+<text class="ts" x="130" y="282" text-anchor="middle" dominant-baseline="central">给商品编号</text>
+<rect class="box" x="40" y="324" width="180" height="56" rx="8" stroke-width="0.5"/>
+<text class="t" x="130" y="342" text-anchor="middle" dominant-baseline="central">H 提交写入</text>
+<text class="ts" x="130" y="362" text-anchor="middle" dominant-baseline="central">或先预检</text>
+<rect class="box" x="300" y="70" width="320" height="56" rx="8" stroke-width="0.5"/>
+<text class="t" x="460" y="88" text-anchor="middle" dominant-baseline="central">顾客要求</text>
+<text class="ts" x="460" y="108" text-anchor="middle" dominant-baseline="central">只读顾客原话,读一次</text>
+<rect class="tr" x="300" y="150" width="320" height="150" rx="12" stroke-width="0.5"/>
+<text class="tr-t" x="320" y="176" dominant-baseline="central">trace:只能追加,改了会被发现</text>
+<text class="tr-s" x="320" y="208" dominant-baseline="central">事实:H 查到的商品、订单(代码解析)</text>
+<text class="tr-s" x="320" y="236" dominant-baseline="central">说法:同伴的话,只记录,不当事实</text>
+<text class="tr-s" x="320" y="264" dominant-baseline="central">另记:写入回执、发给同伴的内容</text>
+<rect class="box" x="300" y="324" width="320" height="56" rx="8" stroke-width="0.5"/>
+<text class="t" x="460" y="342" text-anchor="middle" dominant-baseline="central">核对</text>
+<text class="ts" x="460" y="362" text-anchor="middle" dominant-baseline="central">查出是哪一款,逐项对照要求</text>
+<line x1="220" y1="98" x2="298" y2="98" class="arr" marker-end="url(#arrow)"/>
+<line x1="220" y1="188" x2="298" y2="188" class="arr" marker-end="url(#arrow)"/>
+<line x1="220" y1="272" x2="298" y2="272" class="arr" marker-end="url(#arrow)"/>
+<line x1="220" y1="352" x2="298" y2="352" class="arr" marker-end="url(#arrow)"/>
+<line x1="460" y1="300" x2="460" y2="322" class="arr" marker-end="url(#arrow)"/>
+<path d="M620 98 L630 98 L630 352 L622 352" class="arr" marker-end="url(#arrow)"/>
+<line x1="460" y1="380" x2="460" y2="425" class="arr"/>
+<path d="M130 425 L550 425" class="arr"/>
+<line x1="130" y1="425" x2="130" y2="448" class="arr" marker-end="url(#arrow)"/>
+<line x1="340" y1="425" x2="340" y2="448" class="arr" marker-end="url(#arrow)"/>
+<line x1="550" y1="425" x2="550" y2="448" class="arr" marker-end="url(#arrow)"/>
+<rect class="box" x="40" y="450" width="180" height="56" rx="8" stroke-width="0.5"/>
+<text class="t" x="130" y="468" text-anchor="middle" dominant-baseline="central">对</text>
+<text class="ts" x="130" y="488" text-anchor="middle" dominant-baseline="central">执行,回执进 trace</text>
+<rect class="box" x="250" y="450" width="180" height="56" rx="8" stroke-width="0.5"/>
+<text class="t" x="340" y="468" text-anchor="middle" dominant-baseline="central">不对</text>
+<text class="ts" x="340" y="488" text-anchor="middle" dominant-baseline="central">拒绝,说明哪里不符</text>
+<rect class="box" x="460" y="450" width="180" height="56" rx="8" stroke-width="0.5"/>
+<text class="t" x="550" y="468" text-anchor="middle" dominant-baseline="central">定不下来</text>
+<text class="ts" x="550" y="488" text-anchor="middle" dominant-baseline="central">缺事实先查,再问顾客</text>
+</svg>

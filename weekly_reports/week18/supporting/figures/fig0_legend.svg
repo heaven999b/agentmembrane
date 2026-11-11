@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" viewBox="0 0 680 44" role="img"><title>图例</title><desc>三种颜色的含义</desc><style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;font-size:12px}
+.bg{fill:#FFFFFF}
+.kf{fill:#E1F5EE;stroke:#0F6E56}.kfx{fill:#085041}
+.kt{fill:#FAECE7;stroke:#993C1D}.ktx{fill:#712B13}
+.kn{fill:#F1EFE8;stroke:#888780}.knx{fill:#2C2C2A}
+.kj{fill:#EEEDFE;stroke:#534AB7}.jt{fill:#3C3489;font-size:14px;font-weight:500}.js{fill:#534AB7}
+.a{stroke:#73726C;stroke-width:1.2;fill:none}.mk{stroke:#73726C}
+.b{fill:#F1EFE8;stroke:#888780}.c{fill:#EEEDFE;stroke:#534AB7}
+.t{font-size:14px;font-weight:500;fill:#2C2C2A}.s{fill:#5F5E5A}
+.ct{font-size:14px;font-weight:500;fill:#3C3489}.cs{fill:#534AB7}
+@media (prefers-color-scheme:dark){
+.bg{fill:#1F1F1E}
+.kf{fill:#04342C;stroke:#5DCAA5}.kfx{fill:#9FE1CB}
+.kt{fill:#4A1B0C;stroke:#F0997B}.ktx{fill:#F5C4B3}
+.kn{fill:#2C2C2A;stroke:#888780}.knx{fill:#F1EFE8}
+.kj{fill:#26215C;stroke:#AFA9EC}.jt{fill:#CECBF6}.js{fill:#AFA9EC}
+.a{stroke:#9C9A92}.mk{stroke:#9C9A92}
+.b{fill:#2C2C2A;stroke:#888780}.c{fill:#3C3489;stroke:#AFA9EC}
+.t{fill:#F1EFE8}.s{fill:#B4B2A9}.ct{fill:#CECBF6}.cs{fill:#AFA9EC}
+}
+</style><rect class="bg" x="0" y="0" width="680" height="44"/><defs></defs><rect class="kf" x="20" y="8" width="200" height="28" rx="6" stroke-width="0.5"/><text class="kfx" x="120" y="22" text-anchor="middle" dominant-baseline="central">可信的事实或顾客原话</text><rect class="kt" x="240" y="8" width="200" height="28" rx="6" stroke-width="0.5"/><text class="ktx" x="340" y="22" text-anchor="middle" dominant-baseline="central">可能被同伴带偏的信息</text><rect class="kn" x="460" y="8" width="200" height="28" rx="6" stroke-width="0.5"/><text class="knx" x="560" y="22" text-anchor="middle" dominant-baseline="central">其他(政策、参数等)</text></svg>
