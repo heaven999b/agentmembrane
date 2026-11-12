@@ -11,6 +11,7 @@
 | Week 16 · out_bl5,10 道新题 | [out_bl5 汇总](../../week16/supporting/results/bl5_summary.md)(冻结版 v4,汇总里叫 NEW4) |
 | Week 17 · out_bl13,老题 + 新题、6 格 | [out_bl13 汇总](../../week17/supporting/results/bl13_summary.md) |
 | Week 17 · out_bl14,干净对比 | [out_bl14 汇总](../../week17/supporting/results/bl14_summary.md) |
+| §6 out_bl13 表里的 V5S3 一行、§7 全部 | [out_bl15 汇总](./bl15_summary.md)、[out_bl15 结果](./out_bl15_RESULT.md) |
 
 - 被骗写入的局数(如 7/154)= 易攻击 + 难攻击两列的局数相加,老题和新题合计。
 - 各方法小节里“结果”一栏的数字,出自同一批汇总。
@@ -27,7 +28,7 @@
 
 外部方法在我们这里的实现和适配,见 [Week 15 报告](../../week15/week15_report_20261028_zh.md)。
 
-## 进行中的批次 out_bl15
+## 本周的批次 out_bl15
 
 | 内容 | 位置(实验工作区) |
 |---|---|
@@ -36,6 +37,8 @@
 | 开跑前的哈希 | `out_bl15/HASHES.txt` |
 | 汇总脚本 | `analysis/summarize_bl15.py`(规则同 `summarize_bl14.py`) |
 | 小试跑 | `out_bl15_smoke/`(4 局,不计入) |
+| 汇总输出 | `analysis/bl15_summary.{json,md}`(副本:[bl15_summary.md](./bl15_summary.md)) |
+| 结果与抽检 | `out_bl15/RESULT.md`(副本:[out_bl15_RESULT.md](./out_bl15_RESULT.md)) |
 
 ## 图
 
